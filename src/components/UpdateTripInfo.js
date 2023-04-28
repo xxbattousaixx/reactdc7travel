@@ -36,7 +36,7 @@ function UpdateTripInfo(props) {
         'Content-Type': 'multipart/form-data'
     } });
       instance
-      .get(`https://18.216.129.102:3100/${id}`)
+      .get(`http://18.216.129.102:3100/${id}`)
       .then((res) => {
         setTrip({
           location: res.data.location,
@@ -74,7 +74,7 @@ function UpdateTripInfo(props) {
     };
 
     axios
-      .put(`httpss://18.216.129.102:3100/${id}`, data)
+      .put(`http://18.216.129.102:3100/${id}`, data)
       .then((res) => {
         navigate(`/show-trip/${id}`);
       })

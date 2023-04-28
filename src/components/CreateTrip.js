@@ -46,7 +46,7 @@ console.log(trip.photo);
   console.log(trip.photo);
 
   const instance = axios.create(
-    {  baseURL: "https://18.216.129.102:3100/",
+    {  baseURL: "http://18.216.129.102:3100/",
     headers: {
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   

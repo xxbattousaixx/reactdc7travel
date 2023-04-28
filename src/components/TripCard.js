@@ -5,7 +5,7 @@ import '../App.css';
 const TripCard = (props) => {
   
   const trip = props.trip;
-  const img = 'https://18.216.129.102:3100/images/'+trip.fileName
+  const img = 'http://18.216.129.102:3100/images/'+trip.fileName
 
   return (
     <div className='card-container'>
