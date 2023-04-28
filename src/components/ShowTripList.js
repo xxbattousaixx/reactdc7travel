@@ -3,21 +3,27 @@ import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TripCard from './TripCard';
-import https from 'https';
-const fs = require('fs').promises;
-const httpsAgent = new https.Agent({
-  rejectUnauthorized: false, // (NOTE: this will disable client verification)
-  cert: fs.readFileSync("./usercert.pem"),
-  key: fs.readFileSync("./key.pem"),
-  passphrase: "sayonara"
-})
+// import https from 'https';
+// const fs = require('fs').promises;
+// const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
+//   cert: fs.readFileSync("./usercert.pem"),
+//   key: fs.readFileSync("./key.pem"),
+//   passphrase: "sayonara"
+// })
 
 function ShowTripList() {
   const [trips, setTrips] = useState([]);
 
   useEffect(() => {
     const instance = axios.create(
-      { httpsAgent });
+{  baseURL: "https://3.137.136.231:3100/",
+withCredentials: false,
+headers: {
+  'Access-Control-Allow-Origin' : '*',
+  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+  'Content-Type': 'multipart/form-data'
+} });
       instance
       .get('/')
       .then((res) => {
