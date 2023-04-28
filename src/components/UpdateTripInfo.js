@@ -21,7 +21,7 @@ function UpdateTripInfo(props) {
   useEffect(() => {
     const instance = axios.create(
       {
-              baseURL: "http://localhost:8082",
+              baseURL: "http://3.137.136.231:3100",
               withCredentials: false,
               headers: {
                 'Access-Control-Allow-Origin' : '*',
@@ -31,7 +31,7 @@ function UpdateTripInfo(props) {
             }
         });
       instance
-      .get(`http://localhost:8082/${id}`)
+      .get(`http://3.137.136.231:3100/${id}`)
       .then((res) => {
         setTrip({
           location: res.data.location,
@@ -69,7 +69,7 @@ function UpdateTripInfo(props) {
     };
 
     axios
-      .put(`http://localhost:8082/${id}`, data)
+      .put(`http://3.137.136.231:3100/${id}`, data)
       .then((res) => {
         navigate(`/show-trip/${id}`);
       })

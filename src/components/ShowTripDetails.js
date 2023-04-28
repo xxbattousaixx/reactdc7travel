@@ -5,13 +5,13 @@ import axios from 'axios';
 
 function ShowTripDetails(props) {
   const [trip, setTrip] = useState({});
-  const img = 'http://localhost:8082/images/'+trip.fileName
+  const img = 'http://3.137.136.231:3100/images/'+trip.fileName
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8082/${id}`)
+      .get(`http://3.137.136.231:3100/${id}`)
       .then((res) => {
         setTrip(res.data);
       })
@@ -22,7 +22,7 @@ function ShowTripDetails(props) {
 
   const onDeleteClick = (id) => {
     axios
-      .delete(`http://localhost:8082/${id}`)
+      .delete(`http://3.137.136.231:3100/${id}`)
       .then((res) => {
         navigate('/');
       })
