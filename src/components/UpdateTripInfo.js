@@ -52,9 +52,9 @@ function UpdateTripInfo(props) {
   const onChange = (e) => {
     setTrip({ ...trip, [e.target.name]: e.target.value });
   };
- const handlePhoto = (e) => {
-    setTrip({ ...trip, photo: e.target.files[0] });
-  };
+//  const handlePhoto = (e) => {
+//     setTrip({ ...trip, photo: e.target.files[0] });
+//   };
   const onSubmit = (e) => {
     e.preventDefault();
 
