@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
+import https from 'https';
+const fs = require('fs').promises;
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false, // (NOTE: this will disable client verification)
+  cert: fs.readFileSync("./usercert.pem"),
+  key: fs.readFileSync("./key.pem"),
+  passphrase: "sayonara"
+})
 
 function UpdateTripInfo(props) {
   const [trip, setTrip] = useState({
@@ -20,16 +28,7 @@ function UpdateTripInfo(props) {
 
   useEffect(() => {
     const instance = axios.create(
-      {
-              baseURL: "httpss://3.137.136.231:3100",
-              withCredentials: false,
-              headers: {
-                'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',  
-              'Content-Type': 'multipart/form-data'
-
-            }
-        });
+      {httpsAgent });
       instance
       .get(`https://3.137.136.231:3100/${id}`)
       .then((res) => {

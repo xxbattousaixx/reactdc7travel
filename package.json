@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
     "axios": "^1.2.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "netlify": "^13.1.5",
     "netlify-cli": "^14.3.1",
     "path": "^0.12.7",
@@ -14,7 +16,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

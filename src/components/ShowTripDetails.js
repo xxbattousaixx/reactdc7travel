@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
+import https from 'https';
+const fs = require('fs').promises;
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false, // (NOTE: this will disable client verification)
+  cert: fs.readFileSync("./usercert.pem"),
+  key: fs.readFileSync("./key.pem"),
+  passphrase: "sayonara"
+})
 
 function ShowTripDetails(props) {
   const [trip, setTrip] = useState({});
