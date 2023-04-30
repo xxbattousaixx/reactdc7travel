@@ -1,31 +1,36 @@
+
+
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TripCard from './TripCard';
-// import https from 'https';
-// const fs = require('fs').promises;
-// const httpsAgent = new https.Agent({
-//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
-//   cert: fs.readFileSync("./usercert.pem"),
-//   key: fs.readFileSync("./key.pem"),
-//   passphrase: "sayonara"
-// })
-
+import * as https from "https";
+const url = "http://18.216.129.102:3100/"
+// let caCrt = '';
+// try {
+//     caCrt = fs.readFileSync('./ca.pem')
+// } catch(err) {
+//     console.log('Make sure that the CA cert file is named ca.pem', err);
+// }
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  cert: require('../ca.pem'),
+  key: require('../dc7.pem'),
+  passphrase: "sayonara" });
 function ShowTripList() {
   const [trips, setTrips] = useState([]);
 
   useEffect(() => {
-    const instance = axios.create(
-{  baseURL: "http://18.216.129.102:3100",
-withCredentials: false,
-headers: {
-  'Access-Control-Allow-Origin' : '*',
-  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  'Content-Type': 'multipart/form-data'
-} });
-      instance
-      .get('/')
+//     const instance = axios.create(
+// { baseURL: url, 
+//   httpsAgent: httpsAgent,
+// headers: {
+//   'Access-Control-Allow-Origin' : '*',
+//   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+//   'Content-Type': 'multipart/form-data'
+// }  });
+
+axios.get(url, {httpsAgent})
       .then((res) => {
         setTrips(res.data);
         console.log(res);
