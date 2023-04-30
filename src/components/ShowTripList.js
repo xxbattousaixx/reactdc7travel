@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TripCard from './TripCard';
 import * as https from "https";
-const url = "/"
+const url = "http://18.216.129.102:3100/"
 // let caCrt = '';
 // try {
 //     caCrt = fs.readFileSync('./ca.pem')
