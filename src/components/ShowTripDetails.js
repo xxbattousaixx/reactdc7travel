@@ -13,13 +13,13 @@ import axios from 'axios';
 
 function ShowTripDetails(props) {
   const [trip, setTrip] = useState({});
-  const img = 'http://18.216.129.102:3100/images/'+trip.fileName
+  const img = 'https://18.216.129.102:3100/images/'+trip.fileName
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`http://18.216.129.102:3100/${id}`)
+      .get(`/${id}`)
       .then((res) => {
         setTrip(res.data);
       })
@@ -30,7 +30,7 @@ function ShowTripDetails(props) {
 
   const onDeleteClick = (id) => {
     axios
-      .delete(`http://18.216.129.102:3100/${id}`)
+      .delete(`/${id}`)
       .then((res) => {
         navigate('/');
       })

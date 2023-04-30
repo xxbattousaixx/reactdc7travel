@@ -28,7 +28,7 @@ function UpdateTripInfo(props) {
 
   useEffect(() => {
     const instance = axios.create({
-      baseURL: "http://18.216.129.102:3100/",
+      baseURL: "/",
       withCredentials: false,
       headers: {
         'Access-Control-Allow-Origin' : '*',
@@ -36,7 +36,7 @@ function UpdateTripInfo(props) {
         'Content-Type': 'multipart/form-data'
     } });
       instance
-      .get(`http://18.216.129.102:3100/${id}`)
+      .get(`/${id}`)
       .then((res) => {
         setTrip({
           location: res.data.location,
@@ -74,7 +74,7 @@ function UpdateTripInfo(props) {
     };
 
     axios
-      .put(`http://18.216.129.102:3100/${id}`, data)
+      .put(`/${id}`, data)
       .then((res) => {
         navigate(`/show-trip/${id}`);
       })
