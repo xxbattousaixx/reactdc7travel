@@ -13,10 +13,7 @@ const url = "http://18.216.129.102:3100/"
 // } catch(err) {
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  cert: require('../ca.pem'),
-  key: require('../dc7.pem'),
-  passphrase: "sayonara" });
+const httpsAgent = new https.Agent({ rejectUnauthorized: false});
 function ShowTripList() {
   const [trips, setTrips] = useState([]);
 
@@ -30,7 +27,7 @@ function ShowTripList() {
 //   'Content-Type': 'multipart/form-data'
 // }  });
 
-axios.get(url, {httpsAgent})
+axios.get(url, {httpsAgent:httpsAgent})
       .then((res) => {
         setTrips(res.data);
         console.log(res);
