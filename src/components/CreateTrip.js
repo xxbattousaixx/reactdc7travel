@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
+import * as https from "https";
+const url = "http://18.216.129.102:3100";
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  ca: require('/src/ca.crt'),
+  passphrase: "sayonara",
+  keepAlive: false });
+
 // import https from 'https';
 // const fs = require('fs').promises;
 // const httpsAgent = new https.Agent({
@@ -45,14 +52,14 @@ console.log(trip.photo);
   formData.append('photo',trip.photo);
   console.log(trip.photo);
 
-  const instance = axios.create(
-    {  baseURL: "http://18.216.129.102:3100/",
-    headers: {
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-      'Content-Type': 'multipart/form-data'
-  } });
-    instance.post('/', formData)
+  // const instance = axios.create(
+  //   {  baseURL: url,
+  //   headers: {
+  //     'Access-Control-Allow-Origin' : '*',
+  //     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+  //     'Content-Type': 'multipart/form-data'
+  // } });
+    axios.post(url, formData, {httpsAgent:httpsAgent})
       .then((res) => {
         setTrip({
           location: '',

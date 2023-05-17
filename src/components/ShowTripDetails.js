@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-// import https from 'https';
-// const fs = require('fs').promises;
-// const httpsAgent = new https.Agent({
-//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
-//   cert: fs.readFileSync("./usercert.pem"),
-//   key: fs.readFileSync("./key.pem"),
-//   passphrase: "sayonara"
-// })
+
+
+import * as https from "https";
+const url = "http://18.216.129.102:3100";
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  cert: require('/src/ca.crt'),
+  keys:require('/src/ca.crt'),
+  passphrase: "sayonara",
+  keepAlive: false });
+
 
 function ShowTripDetails(props) {
   const [trip, setTrip] = useState({});
@@ -19,7 +21,7 @@ function ShowTripDetails(props) {
 
   useEffect(() => {
     axios
-      .get(`http://18.216.129.102:3100/${id}`)
+      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
       .then((res) => {
         setTrip(res.data);
       })
@@ -30,7 +32,7 @@ function ShowTripDetails(props) {
 
   const onDeleteClick = (id) => {
     axios
-      .delete(`http://18.216.129.102:3100/${id}`)
+      .delete(`${url}/${id}`, {httpsAgent:httpsAgent})
       .then((res) => {
         navigate('/');
       })
@@ -76,7 +78,12 @@ function ShowTripDetails(props) {
           <tr>
             <th scope='row'>7</th>
             <td>Photo</td>
-            <td><img src={img} height='200' alt='pic'></img></td>
+            <td> <img
+        src={img}
+        alt='travel pic'
+        width={300}
+        height={250}
+      /></td>
           </tr>
         </tbody>
       </table>

@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
+import * as https from "https";
+const url = "http://18.216.129.102:3100";
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  ca: require('/src/ca.crt'),
+  passphrase: "sayonara",
+  keepAlive: false });
+
 // import https from 'https';
 // const fs = require('fs').promises;
 // const httpsAgent = new https.Agent({
@@ -19,7 +26,7 @@ function UpdateTripInfo(props) {
     value: '',
     notes: '',
     departing: '',
-    photo:'',
+    // photo:'',
     fileName:''
   });
 
@@ -28,7 +35,7 @@ function UpdateTripInfo(props) {
 
   useEffect(() => {
     const instance = axios.create({
-      baseURL: "http://18.216.129.102:3100/",
+      baseURL: url,
       withCredentials: false,
       headers: {
         'Access-Control-Allow-Origin' : '*',
@@ -36,7 +43,7 @@ function UpdateTripInfo(props) {
         'Content-Type': 'multipart/form-data'
     } });
       instance
-      .get(`http://18.216.129.102:3100/${id}`)
+      .get(`/${id}`, {httpsAgent:httpsAgent})
       .then((res) => {
         setTrip({
           location: res.data.location,
@@ -70,11 +77,12 @@ function UpdateTripInfo(props) {
       quality: trip.quality,
       value: trip.value,
       departing: trip.departing,
+      // photo: trip.photo,
       fileName: trip.fileName
     };
 
     axios
-      .put(`http://18.216.129.102:3100/${id}`, data)
+      .put(`${url}/${id}`, data,  {httpsAgent:httpsAgent})
       .then((res) => {
         navigate(`/show-trip/${id}`);
       })

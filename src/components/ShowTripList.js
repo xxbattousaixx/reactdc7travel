@@ -6,14 +6,17 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TripCard from './TripCard';
 import * as https from "https";
-const url = "http://18.216.129.102:3100/"
+const url = "http://18.216.129.102:3100"
 // let caCrt = '';
 // try {
 //     caCrt = fs.readFileSync('./ca.pem')
 // } catch(err) {
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
-const httpsAgent = new https.Agent({ rejectUnauthorized: false});
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  ca: require('/src/ca.crt'),
+  passphrase: "sayonara",
+  keepAlive: false });
 function ShowTripList() {
   const [trips, setTrips] = useState([]);
 
