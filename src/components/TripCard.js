@@ -9,6 +9,7 @@ const TripCard = (props) => {
 
   return (
     <div className='card-container'>
+      <br/>
       <img
         src={img}
         alt='travel pic'
@@ -16,12 +17,17 @@ const TripCard = (props) => {
         height={250}
       />
       <div className='desc'>
-        <h2>
-          <Link to={`/show-trip/${trip._id}`}>{trip.location}</Link>
-        </h2>
+        
+          <Link to={`/show-trip/${trip._id}`}><h2>{trip.location}</h2></Link>
         <h3>{trip.date}</h3>
-        <p>{trip.quality}</p>
-        <p>{trip.notes}</p>
+
+    <Link to={`/edit-trip/${trip._id}`}><u>| Value:    <b>{trip.value}</b>   |   | Quality:    <b>{trip.quality} |</b></u></Link>
+    <div className="p2"> Departing from: {trip.departing}</div>
+     <p>{trip.notes}</p>
+
+
+
+
 
       </div>
     </div>

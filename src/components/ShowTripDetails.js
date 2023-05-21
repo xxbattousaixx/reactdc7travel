@@ -3,8 +3,19 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
+import Dashboard from './Dashboard';
 
 import * as https from "https";
+import { Amplify } from 'aws-amplify';
+//2.
+import awsExports from '../aws-exports';
+//3.
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+//4.
+Amplify.configure(awsExports)
+
 const url = "http://18.216.129.102:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   cert: require('/src/ca.crt'),
@@ -91,6 +102,7 @@ function ShowTripDetails(props) {
   );
 
   return (
+    <Authenticator>
     <div className='ShowTripDetails'>
       <div className='container'>
         <div className='row'>
@@ -128,7 +140,7 @@ function ShowTripDetails(props) {
           </div>
         </div>
       </div>
-    </div>
+    </div></Authenticator>
   );
 }
 

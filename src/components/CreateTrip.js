@@ -4,6 +4,16 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 import * as https from "https";
+import { Amplify } from 'aws-amplify';
+//2.
+import awsExports from '../aws-exports';
+//3.
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+//4.
+Amplify.configure(awsExports)
+
 const url = "http://18.216.129.102:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
@@ -29,7 +39,8 @@ const CreateTrip = (props) => {
     quality: '',
     value: '',
     departing: '',
-  photo:''  });
+  photo:'',
+fileName:''  });
 
   const onChange = (e) => {
     setTrip({ ...trip, [e.target.name]: e.target.value });
@@ -50,6 +61,8 @@ console.log(trip.photo);
   formData.append('value',trip.value);
   formData.append('departing',trip.departing);
   formData.append('photo',trip.photo);
+  formData.append('fileName',trip.fileName);
+
   console.log(trip.photo);
 
   // const instance = axios.create(
@@ -67,7 +80,9 @@ console.log(trip.photo);
           notes: '',
           quality: '',
           value: '',
-          photo:''
+          photo:'',
+          departing:'',
+          fileName:''
                });
 
           // Push to /
@@ -78,7 +93,13 @@ console.log(trip.photo);
         });
   }
   return (
-    <div className='CreateTrip'>
+    
+    <Authenticator>
+    {({ signOut, user }) => (
+
+
+
+<div className='CreateTrip'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-8 m-auto'>
@@ -172,10 +193,18 @@ console.log(trip.photo);
                 className='btn btn-outline-warning btn-block mt-4'
               />
             </form>
+            <br/>
+            <br/>
+            <br/>
           </div>
         </div>
       </div>
     </div>
+
+    )}
+  </Authenticator>
+
+   
     );
 };
 export default CreateTrip;

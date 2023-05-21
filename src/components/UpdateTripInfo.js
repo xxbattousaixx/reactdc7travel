@@ -3,6 +3,16 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 import * as https from "https";
+import { Amplify } from 'aws-amplify';
+//2.
+import awsExports from '../aws-exports';
+//3.
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+//4.
+Amplify.configure(awsExports)
+
 const url = "http://18.216.129.102:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
@@ -52,7 +62,7 @@ function UpdateTripInfo(props) {
           quality: res.data.quality,
           value: res.data.value,
           departing: res.data.departing,
-          photo: res.data.files[0],
+          // photo: res.data.files[0],
           fileName: res.data.files[0].fileName
         });
       })
@@ -64,9 +74,9 @@ function UpdateTripInfo(props) {
   const onChange = (e) => {
     setTrip({ ...trip, [e.target.name]: e.target.value });
   };
-//  const handlePhoto = (e) => {
-//     setTrip({ ...trip, photo: e.target.files[0] });
-//   };
+ const handlePhoto = (e) => {
+    setTrip({ ...trip, photo: e.target.files[0] });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -78,7 +88,7 @@ function UpdateTripInfo(props) {
       value: trip.value,
       departing: trip.departing,
       // photo: trip.photo,
-      fileName: trip.fileName
+      fileName: trip.photo.fileName
     };
 
     axios
@@ -92,13 +102,17 @@ function UpdateTripInfo(props) {
   };
 
   return (
-    <div className='UpdateTripInfo'>
+
+
+    <Authenticator>
+      {({ signOut, user }) => (
+           <div className='UpdateTripInfo'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
             <Link to='/' className='btn btn-outline-warning float-left'>
-              Show BooK List
+              Show Trips List
             </Link>
           </div>
           <div className='col-md-8 m-auto'>
@@ -187,7 +201,7 @@ function UpdateTripInfo(props) {
             </div>
             <br />
 
-            {/* <div className='form-group'>
+            <div className='form-group'>
               <label htmlFor='departing'>Photo</label>
               <input
                 type='file'
@@ -196,7 +210,7 @@ function UpdateTripInfo(props) {
                 className='form-control'
                 onChange={handlePhoto}
               />
-            </div> */}
+            </div>
             <br />
 
 
@@ -210,6 +224,9 @@ function UpdateTripInfo(props) {
         </div>
       </div>
     </div>
+      )}
+    </Authenticator>
+   
   );
 }
 

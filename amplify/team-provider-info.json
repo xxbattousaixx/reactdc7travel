@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reactdc7travel-dev-115205-authRole",
+      "UnauthRoleArn": "arn:aws:iam::367203264884:role/amplify-reactdc7travel-dev-115205-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::367203264884:role/amplify-reactdc7travel-dev-115205-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-reactdc7travel-dev-115205-deployment",
+      "UnauthRoleName": "amplify-reactdc7travel-dev-115205-unauthRole",
+      "StackName": "amplify-reactdc7travel-dev-115205",
+      "StackId": "arn:aws:cloudformation:us-east-1:367203264884:stack/amplify-reactdc7travel-dev-115205/f13f2b80-f593-11ed-ac57-12c38fd27f51",
+      "AmplifyAppId": "d2fd3fzswt8omu"
+    },
+    "categories": {
+      "auth": {
+        "dc7travelauth": {}
+      }
+    }
+  }
+}

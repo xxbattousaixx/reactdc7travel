@@ -1,0 +1,17 @@
+{
+  "projectName": "reactdc7travel",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "build",
+      "BuildCommand": "react-app-rewired build",
+      "StartCommand": "react-app-rewired start"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
