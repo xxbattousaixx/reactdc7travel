@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,9 +10,11 @@ import awsExports from '../aws-exports';
 //3.
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
+import { Auth } from 'aws-amplify';
 //4.
 Amplify.configure(awsExports)
+
+
 
 const url = "http://18.216.129.102:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
@@ -30,10 +32,18 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 // })
 
 const CreateTrip = (props) => {
+
+  const [userInfo, setUserInfo] = useState("");
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
+  }
   const navigate = useNavigate();
   // Define the state with useState hook
   const [trip, setTrip] = useState({
     location: '',
+    user: '',
     date: '',
     notes: '',
     quality: '',
@@ -52,9 +62,11 @@ console.log(trip.photo);
   };
 
   const onSubmit = (e) => {
+    
     e.preventDefault();
   const formData = new FormData();
   formData.append('location',trip.location);
+  formData.append('user',userInfo.email);
   formData.append('date',trip.date);
   formData.append('notes',trip.notes);
   formData.append('quality',trip.quality);
@@ -76,6 +88,7 @@ console.log(trip.photo);
       .then((res) => {
         setTrip({
           location: '',
+          user: '',
           date: '',
           notes: '',
           quality: '',
@@ -92,6 +105,9 @@ console.log(trip.photo);
           console.log('Error in CreateBook!');
         });
   }
+  useEffect(() => {
+    getUserInfo();
+      }, []);
   return (
     
     <Authenticator>

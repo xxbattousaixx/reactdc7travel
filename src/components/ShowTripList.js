@@ -148,7 +148,7 @@ axios.get(url, {httpsAgent:httpsAgent})
 
 <div className='row'>
 
-<div className='col-md-6'>
+<div className='col-md-5'>
             <button className='btn btn-outline-warning float-left' onClick={signOut}>Sign out</button>
 </div>
 <br/>
@@ -156,7 +156,13 @@ axios.get(url, {httpsAgent:httpsAgent})
 <br/>
 <br/>
 <br/>
-<div className='col-md-6'>
+<div className='col-md-2'> <Link
+              to='/login'
+              className='btn btn-outline-warning float-right'
+            >
+              My Trips
+            </Link></div>
+<div className='col-md-5'>
 
 
           <Link
