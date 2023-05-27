@@ -15,12 +15,12 @@ module.exports = function override(config, env) {
         
         
     };
-    config.plugins.push(
-        new webpack.ProvidePlugin({
-            process: 'process/browser',
-            Buffer: ['buffer', 'Buffer'],
-        }),
-    );
+    // config.plugins.push(
+    //     new webpack.ProvidePlugin({
+    //         process: 'process/browser',
+    //         Buffer: ['buffer', 'Buffer'],
+    //     }),
+    // );
     config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
     
     

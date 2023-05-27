@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import TripCard from './TripCard';
+import TripCard2 from './TripCard2';
 import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
@@ -135,12 +135,45 @@ function Dashboard() {
       }
     )
     .slice(offset, offset + PER_PAGE)
-    .map((trip, k) => <TripCard trip={trip} key={k} />);
+    .map((trip, k) => <TripCard2 trip={trip} key={k} />);
  return(
+
     <Authenticator>
 
 {({ signOut, user}) => (
+
+  
         <div>
+
+<div className='row'>
+
+<div className='col-md-5'>
+<Link
+              to='/create-trip'
+              className='btn btn-outline-warning float-left'
+            >
+              + Add New Trip
+            </Link>
+            
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div className='col-md-2'>  
+<Link to='/' className='btn btn-outline-warning'>
+              Show Travel List
+            </Link>
+           
+
+</div>
+<div className='col-md-5'>
+
+
+<button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
+
+</div>
+</div>
           <h1>Hello {user.attributes.email}</h1>
 
 <br/><br/>
@@ -178,10 +211,7 @@ function Dashboard() {
 
 
 
-<br/>
-<br/>
 
-          <button onClick={signOut}>Sign out</button>
         </div>
 
 )}

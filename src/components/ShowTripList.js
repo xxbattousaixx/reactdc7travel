@@ -9,7 +9,6 @@ import { Amplify } from 'aws-amplify';
 //2.
 import awsExports from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 //4.
@@ -130,48 +129,32 @@ axios.get(url, {httpsAgent:httpsAgent})
 
   return (
 <div>
+      
+    <div className='ShowTripList'>
+      <div className='container'>
+       
 <div className='col-md-12'>
             <br />
             <h2 className='display-4 text-center'>DC7 TRAVEL BLOG</h2>
           </div>
 <br/>
-      
-    <Authenticator>
-    {({ signOut, user }) => (
-    <div className='ShowTripList'>
-      <div className='container'>
-       
-         <br/>
-         <br/>
-         <br/>
-
 
 <div className='row'>
 
-<div className='col-md-5'>
-            <button className='btn btn-outline-warning float-left' onClick={signOut}>Sign out</button>
-</div>
+
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div className='col-md-2'> <Link
+
+<div className='col-md-12 center'>
+
+
+<Link
               to='/login'
-              className='btn btn-outline-warning float-right'
+              className='btn btn-outline-warning'
             >
               My Trips
-            </Link></div>
-<div className='col-md-5'>
-
-
-          <Link
-              to='/create-trip'
-              className='btn btn-outline-warning float-right'
-            >
-              + Add New Trip
             </Link>
-</div></div>
+</div>
+</div>
 
 
             <hr />
@@ -206,8 +189,7 @@ axios.get(url, {httpsAgent:httpsAgent})
         
       </div>
     </div>
-  )}
-</Authenticator></div>
+</div>
   );
 }
 

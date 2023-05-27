@@ -117,6 +117,11 @@ console.log(trip.photo);
 
 <div className='CreateTrip'>
       <div className='container'>
+      <div className='col-md-12'>
+            <br />
+            <h2 className='display-4 text-center'>DC7 TRAVEL BLOG</h2>
+          </div>
+        <br/>
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />

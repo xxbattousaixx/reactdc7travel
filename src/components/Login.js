@@ -16,16 +16,18 @@ Amplify.configure(awsExports)
 function Login() {
     
   return (
+    
     <div className='ShowTripList'>
       <div className='container'>
+      <div className='col-md-12'>
+            <br />
+            <h2 className='display-4 text-center'>DC7 TRAVEL BLOG</h2>
+          </div>
         <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+    <Authenticator>
+
       <Dashboard/>
+      </Authenticator>
     
       </div>
   

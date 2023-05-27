@@ -25,6 +25,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 
 
 function ShowTripDetails(props) {
+  
   const [trip, setTrip] = useState({});
   const img = 'http://18.216.129.102:3100/images/'+trip.fileName
   const { id } = useParams();
@@ -105,6 +106,11 @@ function ShowTripDetails(props) {
     <Authenticator>
     <div className='ShowTripDetails'>
       <div className='container'>
+      <div className='col-md-12'>
+            <br />
+            <h2 className='display-4 text-center'>DC7 TRAVEL BLOG</h2>
+          </div>
+        <br/>
         <div className='row'>
           <div className='col-md-10 m-auto'>
             <br /> <br />
@@ -139,6 +145,8 @@ function ShowTripDetails(props) {
             </Link>
           </div>
         </div>
+      <br/>
+      <br/>
       </div>
     </div></Authenticator>
   );

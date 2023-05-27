@@ -10,6 +10,7 @@ import awsExports from '../aws-exports';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
+import { Auth } from 'aws-amplify';
 //4.
 Amplify.configure(awsExports)
 
@@ -28,15 +29,22 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 //   passphrase: "sayonara"
 // })
 
-function UpdateTripInfo(props) {
+const UpdateTripInfo = (props) => {
+  const [userInfo, setUserInfo] = useState("");
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
+  }
   const [trip, setTrip] = useState({
     location: '',
+    user:'',
     date: '',
     quality: '',
     value: '',
     notes: '',
     departing: '',
-    // photo:'',
+    photo:'',
     fileName:''
   });
 
@@ -44,6 +52,9 @@ function UpdateTripInfo(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    getUserInfo();
+
     const instance = axios.create({
       baseURL: url,
       withCredentials: false,
@@ -57,13 +68,14 @@ function UpdateTripInfo(props) {
       .then((res) => {
         setTrip({
           location: res.data.location,
+          user: res.data.user,
           date: res.data.date,
           notes: res.data.notes,
           quality: res.data.quality,
           value: res.data.value,
           departing: res.data.departing,
-          // photo: res.data.files[0],
-          fileName: res.data.files[0].fileName
+          photo: res.data.photo,
+          fileName: res.data.fileName
         });
       })
       .catch((err) => {
@@ -75,25 +87,43 @@ function UpdateTripInfo(props) {
     setTrip({ ...trip, [e.target.name]: e.target.value });
   };
  const handlePhoto = (e) => {
-    setTrip({ ...trip, photo: e.target.files[0] });
+  
+  setTrip({ ...trip, photo: e.target.files[0] });
+
+console.log(trip);
+
+
   };
   const onSubmit = (e) => {
     e.preventDefault();
+  const formData = new FormData();
+  formData.append('location',trip.location);
+  formData.append('user',userInfo.email);
+  formData.append('date',trip.date);
+  formData.append('notes',trip.notes);
+  formData.append('quality',trip.quality);
+  formData.append('value',trip.value);
+  formData.append('departing',trip.departing);
+  formData.append('photo',trip.photo);
+  formData.append('fileName',trip.fileName);
 
-    const data = {
-      location: trip.location,
-      date: trip.date,
-      notes: trip.notes,
-      quality: trip.quality,
-      value: trip.value,
-      departing: trip.departing,
-      // photo: trip.photo,
-      fileName: trip.photo.fileName
-    };
+  
+    console.log(formData);
 
     axios
-      .put(`${url}/${id}`, data,  {httpsAgent:httpsAgent})
+      .put(`${url}/${id}`, formData,  {httpsAgent:httpsAgent})
       .then((res) => {
+        setTrip({
+          location: '',
+          user: '',
+          date: '',
+          notes: '',
+          quality: '',
+          value: '',
+          photo:'',
+          departing:'',
+          fileName:''
+               });
         navigate(`/show-trip/${id}`);
       })
       .catch((err) => {
@@ -108,6 +138,11 @@ function UpdateTripInfo(props) {
       {({ signOut, user }) => (
            <div className='UpdateTripInfo'>
       <div className='container'>
+      <div className='col-md-12'>
+            <br />
+            <h2 className='display-4 text-center'>DC7 TRAVEL BLOG</h2>
+          </div>
+        <br/>
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
@@ -205,10 +240,11 @@ function UpdateTripInfo(props) {
               <label htmlFor='departing'>Photo</label>
               <input
                 type='file'
-                placeholder='Picture'
-                name='photo'
-                className='form-control'
-                onChange={handlePhoto}
+                defaultValue={trip.photo}
+                  accept='.png, .jpg, .jpeg'
+                  name='photo'
+                  className='form-control'
+                  onChange={handlePhoto}
               />
             </div>
             <br />

@@ -130,8 +130,12 @@
 }
 .p2 {
   font-weight: 300;
+  color: white;
+}
+.p3 {
   color: yellow;
 }
+
 
 .pagination {
   display: flex;
