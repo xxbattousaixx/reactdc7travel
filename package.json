@@ -23,6 +23,7 @@
     "react-scripts": "5.0.1",
     "react-search": "^2.1.1",
     "styled-components": "^6.0.0-rc.1",
+    "surge": "^0.23.1",
     "typescript": "^5.0.4",
     "web-vitals": "^2.1.0",
     "webpack": "^5.81.0"
@@ -34,7 +35,6 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
-
   "browserslist": {
     "production": [
       ">0.2%",
