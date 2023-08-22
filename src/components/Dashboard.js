@@ -18,7 +18,7 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 3;
-const url = "http://18.216.129.102:3100"
+const url = "http://18.204.199.85:3100"
 // let caCrt = '';
 // try {
 //     caCrt = fs.readFileSync('./ca.pem')
@@ -143,7 +143,7 @@ function Dashboard() {
 {({ signOut, user}) => (
 
   
-        <div>
+        <div >
 
 <div className='row'>
 
@@ -175,9 +175,8 @@ function Dashboard() {
 </div>
 </div>
           <h1>Hello {user.attributes.email}</h1>
-
-<br/><br/>
-<h2>Your added trips:</h2>
+Edit trips here.
+<br/>
 
 
 <hr />
@@ -188,7 +187,8 @@ function Dashboard() {
           onChange = {handleChange}
         />
             <hr />
-
+           Your added trips:
+<br/>
         {searchList()}
         <div></div>
         <hr />

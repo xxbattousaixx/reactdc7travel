@@ -61,25 +61,26 @@
 }
 
 .CreateTrip {
-  background-color: #2c3e50;
+  background-color: #537188;
   min-height: 100vh;
   color: white;
 }
 
 .ShowTripDetails {
-  background-color: #2c3e50;
+  background-color: #537188;
   min-height: 100vh;
   color: white;
 }
 
 .UpdateTripInfo {
-  background-color: #2c3e50;
+  background-color: #537188;
   min-height: 100vh;
   color: white;
 }
 
 .ShowTripList {
-  background-color: #2c3e50;
+  background-color: #537188;
+  
   height: 100%;
   width: 100%;
   min-height: 100vh;
@@ -98,6 +99,7 @@
 
 .card-container {
   width: 25vw;
+  background-color:#EEEEEE;
   height: auto;
   border: 1px solid rgba(0,0,.125);
   margin: 0 auto;
@@ -109,18 +111,20 @@
 .desc {
   height: 130px;
   padding: 10px;
+  background-color:#CBB279;
 }
 
 .desc h2 {
   font-size: 1em;
   font-weight: 400;
-  color: greenyellow !important; 
+  color: black !important; 
 
 }
 
 .desc h3, p {
   font-weight: 300;
-  color: whitesmoke;
+  color: blue;
+  background-color: #E1D4BB;
 }
 
 .desc h3 {
@@ -130,10 +134,10 @@
 }
 .p2 {
   font-weight: 300;
-  color: white;
+  color: black;
 }
 .p3 {
-  color: yellow;
+  color: black;
 }
 
 

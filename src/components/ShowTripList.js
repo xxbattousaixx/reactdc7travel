@@ -10,7 +10,7 @@ import { Amplify } from 'aws-amplify';
 import awsExports from '../aws-exports';
 //3.
 import '@aws-amplify/ui-react/styles.css';
-
+const img777 = "/src/img/bg3.jpg"
 //4.
 Amplify.configure(awsExports)
 
@@ -18,7 +18,7 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 3;
-const url = "http://18.216.129.102:3100"
+const url = "http://18.204.199.85:3100"
 // let caCrt = '';
 // try {
 //     caCrt = fs.readFileSync('./ca.pem')
@@ -128,9 +128,11 @@ axios.get(url, {httpsAgent:httpsAgent})
 
 
   return (
-<div>
+<div >
       
-    <div className='ShowTripList'>
+    <div className='ShowTripList' style={{
+          backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
+        }} >
       <div className='container'>
        
 <div className='col-md-12'>
@@ -165,7 +167,8 @@ axios.get(url, {httpsAgent:httpsAgent})
           onChange = {handleChange}
         />
             <hr />
-
+Recently added trips:
+<br/>
         {searchList()}
         <div></div>
         <hr />

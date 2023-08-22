@@ -16,7 +16,7 @@ Amplify.configure(awsExports)
 
 
 
-const url = "http://18.216.129.102:3100";
+const url = "http://18.204.199.85:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
   passphrase: "sayonara",
@@ -115,7 +115,9 @@ console.log(trip.photo);
 
 
 
-<div className='CreateTrip'>
+<div className='CreateTrip' style={{
+          backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
+        }}>
       <div className='container'>
       <div className='col-md-12'>
             <br />

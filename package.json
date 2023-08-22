@@ -1,7 +1,6 @@
 {
   "name": "dc7travel",
   "version": "0.1.0",
-  "homepage": "http://xxbattousaixx.github.io/reactdc7travel",
   "private": true,
   "dependencies": {
     "@aws-amplify/cli": "^12.0.0",

@@ -16,7 +16,7 @@ import '@aws-amplify/ui-react/styles.css';
 //4.
 Amplify.configure(awsExports)
 
-const url = "http://18.216.129.102:3100";
+const url = "http://18.204.199.85:3100";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   cert: require('/src/ca.crt'),
   keys:require('/src/ca.crt'),
@@ -27,7 +27,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 function ShowTripDetails(props) {
   
   const [trip, setTrip] = useState({});
-  const img = 'http://18.216.129.102:3100/images/'+trip.fileName
+  const img = 'http://18.204.199.85:3100/images/'+trip.fileName
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -104,7 +104,9 @@ function ShowTripDetails(props) {
 
   return (
     <Authenticator>
-    <div className='ShowTripDetails'>
+    <div className='ShowTripDetails' style={{
+      backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+    }}>
       <div className='container'>
       <div className='col-md-12'>
             <br />

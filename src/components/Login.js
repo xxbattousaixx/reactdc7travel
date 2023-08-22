@@ -17,7 +17,9 @@ function Login() {
     
   return (
     
-    <div className='ShowTripList'>
+    <div className='ShowTripList' style={{
+      backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+    }}>
       <div className='container'>
       <div className='col-md-12'>
             <br />
