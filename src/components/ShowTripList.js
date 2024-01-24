@@ -132,6 +132,9 @@ axios.get(url, {httpsAgent:httpsAgent})
       
     <div className='ShowTripList' style={{
           backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
+          backgroundSize:"cover",
+          backgroundRepeat:"no-repeat",
+          backgroundPosition:"center"
         }} >
       <div className='container'>
        

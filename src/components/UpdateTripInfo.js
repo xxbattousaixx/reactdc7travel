@@ -75,7 +75,7 @@ const UpdateTripInfo = (props) => {
           value: res.data.value,
           departing: res.data.departing,
           photo: res.data.photo,
-          fileName: res.data.fileName
+          fileName: res.file.filename
         });
       })
       .catch((err) => {
@@ -138,6 +138,9 @@ console.log(trip);
       {({ signOut, user }) => (
            <div className='UpdateTripInfo' style={{
             backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+            backgroundSize:"cover",
+            backgroundRepeat:"no-repeat",
+            backgroundPosition:"center"
           }}>
       <div className='container'>
       <div className='col-md-12'>
