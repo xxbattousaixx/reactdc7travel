@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import TripCard2 from './TripCard2';
 import * as https from "https";
 import ReactPaginate from "react-paginate";
@@ -17,8 +17,12 @@ Amplify.configure(awsExports)
 
 
 
-const PER_PAGE = 3;
-const url = "http://18.204.199.85:3100"
+const PER_PAGE = 9;
+// const url = "http://18.204.199.85:3100/trips"
+const url = "http://localhost:3100/trips";
+const url2 = "http://localhost:3100/profiles";
+
+
 // let caCrt = '';
 // try {
 //     caCrt = fs.readFileSync('./ca.pem')
@@ -34,9 +38,12 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 
 function Dashboard() {
   const [trips, setTrips] = useState([]);
+
   const [searchField, setSearchField] = useState("");
   const [searchShow, setSearchShow] = useState(true); 
   const [userInfo, setUserInfo] = useState("");
+  const { id } = useParams();
+
 
   async function getUserInfo() {
     const user = await Auth.currentAuthenticatedUser();
@@ -49,14 +56,9 @@ function Dashboard() {
       setSearchShow(true);
     }
   };
-
-  
-    const [currentPage, setCurrentPage] = useState(0);
-    const offset = currentPage * PER_PAGE;
     
    
   
-    console.log(trips);
     // getUserInfo().then(result=>
     //   setUserInfo(result) );
   
@@ -64,8 +66,33 @@ function Dashboard() {
     // const tripList =
     //   trips.length === 0
     //     ? 'there is no trip record!'
-    //     : trips.map((trip, k) => <TripCard trip={trip} key={k} />);
-  
+    //     : trips.map((trip, k) => <TripCard2 trip={trip} key={k} />);
+
+
+
+
+    
+    const [trip, setTrip] = useState({});
+    const [profile, setProfile] = useState({});
+    const instance2 = axios.create(
+      { baseURL: url2, 
+        httpsAgent: httpsAgent,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+        'Content-Type': 'multipart/form-data'
+      }  });
+
+    instance2.get(url2, {httpsAgent:httpsAgent})
+        .then((res) => {
+          setProfile(res.data[1]);
+          console.log(profile);
+
+        })
+        .catch((err) => {
+          console.log('Error from ShowTripList');
+        });
+
         const pageCount = Math.ceil(trips.filter(
           trip => {
             return (
@@ -85,28 +112,30 @@ function Dashboard() {
       setCurrentPage(selectedPage);
     }
   
+    const instance = axios.create(
+      { baseURL: url, 
+        httpsAgent: httpsAgent,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+        'Content-Type': 'multipart/form-data'
+      }  });
   
-
     
     useEffect(() => {
-  //     const instance = axios.create(
-  // { baseURL: url, 
-  //   httpsAgent: httpsAgent,
-  // headers: {
-  //   'Access-Control-Allow-Origin' : '*',
-  //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  //   'Content-Type': 'multipart/form-data'
-  // }  });
+ 
   getUserInfo();
-  axios.get(url, {httpsAgent:httpsAgent})
+  instance.get(url, {httpsAgent:httpsAgent})
         .then((res) => {
-          setTrips(res.data);
+          setTrips(res.data.reverse());
           console.log(res);
         })
         .catch((err) => {
           console.log('Error from ShowTripList');
         });
     }, []);
+
+    
     
     function searchList() {
       if (searchShow) {
@@ -119,6 +148,9 @@ function Dashboard() {
       }
     }
    
+  const [currentPage, setCurrentPage] = useState(0);
+  const offset = currentPage * PER_PAGE;
+ 
     const currentPageData = trips.filter(
       trip => {
         return (
@@ -147,7 +179,7 @@ function Dashboard() {
 
 <div className='row'>
 
-<div className='col-md-5'>
+<div className='col-md-4'>
 <Link
               to='/create-trip'
               className='btn btn-outline-warning float-left'
@@ -160,7 +192,7 @@ function Dashboard() {
 <br/>
 <br/>
 <br/>
-<div className='col-md-2'>  
+<div className='col-md-3'>  
 <Link to='/' className='btn btn-outline-warning'>
               Show Travel List
             </Link>
@@ -168,26 +200,33 @@ function Dashboard() {
 
 </div>
 <div className='col-md-5'>
-
+<Link to='/create-profile' className='btn btn-outline-warning float-right'>
+              Profile create
+            </Link>
+            <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
+              Profile view
+            </Link>
 
 <button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
 
 </div>
 </div>
-          <h1>Hello {user.attributes.email}</h1>
-Edit trips here.
-<br/>
-
-
-<hr />
-        <input 
-          className="pa3 bb br3 grow b--none bg-lightest-blue ma3"
+<hr/>
+<div className='row'>
+<div className='col-md-8'>
+        <h1 style={{color:'red'}}>Hello, {user.attributes.email}</h1></div>
+        <div className='col-md-4'>
+            <input 
+          className="pa3 bb btn1 br3 grow b--none bg-lightest-blue ma3"
           type = "search" 
           placeholder = "Search Trips" 
           onChange = {handleChange}
         />
+</div></div>
+
+      
             <hr />
-           Your added trips:
+           <b>Edit added trips by clicking their picture:</b>
 <br/>
         {searchList()}
         <div></div>

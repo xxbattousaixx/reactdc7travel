@@ -1,142 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import TripCard from './TripCard';
+import '../App.css';
 import * as https from "https";
-import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
-
 import awsExports from '../aws-exports';
 //3.
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+
+import { Auth } from 'aws-amplify';
+//4.
+Amplify.configure(awsExports)
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-const img777 = "/src/img/bg3.jpg"
-//4.
+// const url = "http://18.204.199.85:3100";
+const url = "http://localhost:3100";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
   passphrase: "sayonara",
   keepAlive: false });
 
-Amplify.configure(awsExports)
+// import https from 'https';
+// const fs = require('fs').promises;
+// const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
+//   cert: fs.readFileSync("./usercert.pem"),
+//   key: fs.readFileSync("./key.pem"),
+//   passphrase: "sayonara"
+// })
 
-
-
-
-const PER_PAGE = 9;
-// const url = "http://18.204.199.85:3100/trips"
-const url = "http://localhost:3100/trips";
-
-// let caCrt = '';
-// try {
-//     caCrt = fs.readFileSync('./ca.pem')
-// } catch(err) {
-//     console.log('Make sure that the CA cert file is named ca.pem', err);
-// }
-// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-//   ca: require('/src/ca.crt'),
-//   passphrase: "sayonara",
-//   keepAlive: false });
-function ShowTripList() {
-
-  const [trips, setTrips] = useState([]);
-const [searchField, setSearchField] = useState("");
-
-const [searchShow, setSearchShow] = useState(true); 
-
-const handleChange = e => {
-  setSearchField(e.target.value);
-  if(e.target.value===""){
-    setSearchShow(true);
-  }
-};
-function searchList() {
-  if (searchShow) {
-    return (
-    <div className='list'>
-
-        {currentPageData}
-        </div>
-    );
-  }
-}
-
-
-  const [currentPage, setCurrentPage] = useState(0);
-  const offset = currentPage * PER_PAGE;
- 
-  
-  const currentPageData = trips.filter(
-    trip => {
-      return (
-        trip
-        .location
-        .toLowerCase()
-        .includes(searchField.toLowerCase()) ||
-        trip
-        .departing
-        .toLowerCase()
-        .includes(searchField.toLowerCase())
-      );
-    }
-  )
-  .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard trip={trip} key={k} />);
-  useEffect(() => {
-    const instance = axios.create(
-{ baseURL: url, 
-  httpsAgent: httpsAgent,
-headers: {
-  'Access-Control-Allow-Origin' : '*',
-  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded, '
-}  });
-
-instance.get(url)
-      .then((res) => {
-        setTrips(res.data.reverse());
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log('Error from ShowTripList');
-      });
-  }, []);
-
-
- 
-
-  
-
-
-
-  const tripList =
-    trips.length === 0
-      ? 'there is no trip record!'
-      : trips.map((trip, k) => <TripCard trip={trip} key={k} />);
-
-      const pageCount = Math.ceil(trips.filter(
-        trip => {
-          return (
-            trip
-            .location
-            .toLowerCase()
-            .includes(searchField.toLowerCase()) ||
-            trip
-            .departing
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-          );
-        }
-      ).length / PER_PAGE);  
-  function handlePageClick({ selected: selectedPage }) {
-    setCurrentPage(selectedPage);
-  }
-
+const UpdateProfileInfo = (props) => {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -147,28 +45,128 @@ instance.get(url)
     }),
     [open]
   )
-
   if (!open){
     window.scrollTo({ top: 0, behavior:"smooth"});
   }
+  const [userInfo, setUserInfo] = useState("");
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
+  }
+  const [profile, setProfile] = useState({
+    location: '',
+    user:'',
+    date: '',
+    quality: '',
+    value: '',
+    notes: '',
+    departing: '',
+    photo:'',
+    fileName:''
+  });
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    getUserInfo();
+
+    const instance = axios.create({
+      baseURL: url,
+      withCredentials: false,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+        'Content-Type': 'multipart/form-data'
+    } });
+      instance
+      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .then((res) => {
+        setProfile({
+          location: res.data.location,
+          user: res.data.user,
+          date: res.data.date,
+          notes: res.data.notes,
+          quality: res.data.quality,
+          value: res.data.value,
+          departing: res.data.departing,
+          photo: res.data.photo,
+          fileName: res.file.filename
+        });
+      })
+      .catch((err) => {
+        console.log('Error from UpdateProfileInfo');
+      });
+  }, [id]);
+
+  const onChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+ const handlePhoto = (e) => {
+  
+  setProfile({ ...profile, photo: e.target.files[0] });
+
+console.log(profile);
+
+
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+  const formData = new FormData();
+  formData.append('userid',7);
+  formData.append('username',userInfo.email);
+  formData.append('age',profile.age);
+  formData.append('bio',profile.bio);
+  formData.append('gender',profile.gender);
+  formData.append('location',profile.location);
+  formData.append('photo',profile.photo);
+formData.append('fileName',profile.fileName);
+
+  
+    console.log(formData);
+
+    axios
+      .put(`${url}/${id}`, formData,  {httpsAgent:httpsAgent})
+      .then((res) => {
+        setProfile({
+            location: '',
+            userid: '',
+            username: '',
+            bio: '',
+            gender: '',
+            age: '',
+          photo:'',
+          fileName:''
+               });
+        navigate(`/show-profile/${id}`);
+      })
+      .catch((err) => {
+        console.log('Error in UpdateProfileInfo!');
+      });
+  };
 
   return (
-<div>
-      
-    <div className='ShowTripList' style={{
-          backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
-          backgroundSize:"cover",
-          backgroundRepeat:"no-repeat",
-          backgroundPosition:"center",
-           }} >
-          <div className="vert"></div>
+
+
+    <Authenticator>
+      {({ signOut, user }) => (
+           <div className='UpdateTripInfo' style={{
+            backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+            backgroundSize:"cover",
+            backgroundRepeat:"no-repeat",
+            backgroundPosition:"center",
+
+          }}>
+      <div className="vert"></div>
           <div className='row'>
 <div className='col-md-2'>
        </div>
 <div className='col-md-8'>
             <h4 className='text-center' style={{color:'#FFC000'}}> 
             <div onClick={()=>window.scrollTo({ top: 400, behavior:"smooth" })}>
-              <div className='container' onClick={() => toggle(!open)}>
+              <div  onClick={() => toggle(!open)}>
       <animated.svg className='svg' style={{ scale, opacity }} viewBox="0 0 1278 446">
         <defs>
           <filter id="water">
@@ -195,64 +193,127 @@ instance.get(url)
     <div className='col-md-2'>
        </div>
       </div>
-
-<div className='row'>
-
-
-<br/>
-
-<div className='col-md-6 ml-4'>
-
-
-<Link
-              to='/login'
-              className='btn btn1 btn-outline-warning'
-            >
-              My Trips
+        <br/>
+        <div className='row'>
+          <div className='col-md-8 m-auto'>
+            <br />
+            <Link to='/' className='btn btn-outline-warning float-left'>
+              Show Profiles List
             </Link>
+          </div>
+          <div className='col-md-8 m-auto'>
+            <h1 className='display-4 text-center' style={{color:'#FFC000'}}>Edit Profile</h1>
+            <p className='lead text-center'>Update Profile's Info</p>
+          </div>
+        </div>
+
+        <div className='col-md-8 m-auto'>
+          <form  onSubmit={onSubmit} encType='multipart/form-data'>
+            <div className='form-group'>
+              <label htmlFor='location'>Location</label>
+              <input
+                type='text'
+                placeholder='Location of the trip'
+                name='location'
+                className='form-control'
+                value={profile.location}
+                onChange={onChange}
+              />
             </div>
+            <br />
 
-<div className='col-md-2'>
-            <input 
-          className="pa3 btn1 bb br3 grow b--none bg-lightest-blue ma3"
-          type = "search" 
-          placeholder = "Search Trips" 
-          onChange = {handleChange}
-        />
-</div>
-</div>
+            <div className='form-group'>
+              <label htmlFor='date'>Travel Date</label>
+              <input
+                type='date'
+                placeholder='Date'
+                name='date'
+                className='form-control'
+                value={profile.date}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='notes'>Notes</label>
+              <textarea
+                type='text'
+                placeholder='Notes'
+                name='notes'
+                className='form-control'
+                value={profile.notes}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='quality'>Quality</label>
+              <input
+                type='number'
+                placeholder='Quality rating'
+                name='quality'
+                className='form-control'
+                value={profile.quality}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='value'>Value rating</label>
+              <input
+                type='number'
+                placeholder='Value rating'
+                name='value'
+                className='form-control'
+                value={profile.value}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='departing'>Departing</label>
+              <input
+                type='text'
+                placeholder='Departing city of the profile'
+                name='departing'
+                className='form-control'
+                value={profile.departing}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='departing'>Photo</label>
+              <input
+                type='file'
+                defaultValue={profile.photo}
+                  accept='.png, .jpg, .jpeg'
+                  name='photo'
+                  className='form-control'
+                  onChange={handlePhoto}
+              />
+            </div>
+            <br />
 
 
-            <hr />
-       
-            <hr />
-<b>These are the most recently added trips by the community:</b>
-<br/>
-        {searchList()}
-        <div></div>
-        <hr />
-
-        <ReactPaginate
-        previousLabel={"← Previous"}
-        nextLabel={"Next →"}
-        pageCount={pageCount}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        previousLinkClassName={"pagination__link"}
-        nextLinkClassName={"pagination__link"}
-        disabledClassName={"pagination__link--disabled"}
-        activeClassName={"pagination__link--active"}
-      />
-
-
-            <hr />
-      
+            <button
+              type='submit'
+              className='btn btn-outline-info btn-lg btn-block'
+            >
+              Update profile
+            </button>
+          </form>
+        </div>
     </div>
-        
-      </div>
-
-
+      )}
+    </Authenticator>
+   
   );
 }
 
-export default ShowTripList;
+export default UpdateProfileInfo;

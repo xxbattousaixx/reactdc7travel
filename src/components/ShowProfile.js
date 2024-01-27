@@ -1,142 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Profiler } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import TripCard from './TripCard';
+
+
 import * as https from "https";
-import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
+import { Auth } from 'aws-amplify';
 
 import awsExports from '../aws-exports';
 //3.
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-const img777 = "/src/img/bg3.jpg"
 //4.
 
+// const url = "http://18.204.199.85:3100/profiles";
+const url = "http://localhost:3100/profiles";
+
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('/src/ca.crt'),
+  cert: require('/src/ca.crt'),
+  keys:require('/src/ca.crt'),
   passphrase: "sayonara",
   keepAlive: false });
 
-Amplify.configure(awsExports)
+Amplify.configure(awsExports);
 
 
-
-
-const PER_PAGE = 9;
-// const url = "http://18.204.199.85:3100/trips"
-const url = "http://localhost:3100/trips";
-
-// let caCrt = '';
-// try {
-//     caCrt = fs.readFileSync('./ca.pem')
-// } catch(err) {
-//     console.log('Make sure that the CA cert file is named ca.pem', err);
-// }
-// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-//   ca: require('/src/ca.crt'),
-//   passphrase: "sayonara",
-//   keepAlive: false });
-function ShowTripList() {
-
-  const [trips, setTrips] = useState([]);
-const [searchField, setSearchField] = useState("");
-
-const [searchShow, setSearchShow] = useState(true); 
-
-const handleChange = e => {
-  setSearchField(e.target.value);
-  if(e.target.value===""){
-    setSearchShow(true);
-  }
-};
-function searchList() {
-  if (searchShow) {
-    return (
-    <div className='list'>
-
-        {currentPageData}
-        </div>
-    );
-  }
-}
-
-
-  const [currentPage, setCurrentPage] = useState(0);
-  const offset = currentPage * PER_PAGE;
- 
-  
-  const currentPageData = trips.filter(
-    trip => {
-      return (
-        trip
-        .location
-        .toLowerCase()
-        .includes(searchField.toLowerCase()) ||
-        trip
-        .departing
-        .toLowerCase()
-        .includes(searchField.toLowerCase())
-      );
-    }
-  )
-  .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard trip={trip} key={k} />);
-  useEffect(() => {
-    const instance = axios.create(
-{ baseURL: url, 
-  httpsAgent: httpsAgent,
-headers: {
-  'Access-Control-Allow-Origin' : '*',
-  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded, '
-}  });
-
-instance.get(url)
-      .then((res) => {
-        setTrips(res.data.reverse());
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log('Error from ShowTripList');
-      });
-  }, []);
-
-
- 
-
-  
-
-
-
-  const tripList =
-    trips.length === 0
-      ? 'there is no trip record!'
-      : trips.map((trip, k) => <TripCard trip={trip} key={k} />);
-
-      const pageCount = Math.ceil(trips.filter(
-        trip => {
-          return (
-            trip
-            .location
-            .toLowerCase()
-            .includes(searchField.toLowerCase()) ||
-            trip
-            .departing
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-          );
-        }
-      ).length / PER_PAGE);  
-  function handlePageClick({ selected: selectedPage }) {
-    setCurrentPage(selectedPage);
-  }
-
+function ShowProfile(props) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -147,28 +42,111 @@ instance.get(url)
     }),
     [open]
   )
-
   if (!open){
     window.scrollTo({ top: 0, behavior:"smooth"});
   }
+  const [userInfo, setUserInfo] = useState("");
 
-  return (
-<div>
+  const [profile, setProfile] = useState({});
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
+  }
+
+  
+  // const img = 'http://18.204.199.85:3100/images/'+profile.fileName
+  const img = 'http://localhost:3100/images/'+profile.fileName
+
+  const { id } = useParams();
+
+
+  const instance = axios.create(
+    {  baseURL: url,
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+      'Content-Type': 'multipart/form-data'
+  } });
+ 
+
+  const ProfileItem = (
+    <div>
+      <table className='table table-hover table-dark'>
+        <tbody>
+          <tr>
+            <th scope='row'>1</th>
+            <td>User Id#</td>
+            <td>{profile._id}</td>
+          </tr>
+          <tr>
+            <th scope='row'>2</th>
+            <td>Username</td>
+            <td>{profile.username}</td>
+          </tr>
+          <tr>
+            <th scope='row'>3</th>
+            <td>Age</td>
+            <td>{profile.age}</td>
+          </tr>
+          <tr>
+            <th scope='row'>4</th>
+            <td>Gender</td>
+            <td>{profile.gender}</td>
+          </tr>
+          <tr>
+            <th scope='row'>5</th>
+            <td>Location</td>
+            <td>{profile.location}</td>
+          </tr>
+          <tr>
+            <th scope='row'>6</th>
+            <td>Bio</td>
+            <td>{profile.bio}</td>
+          </tr>
+          <tr>
+            <th scope='row'>7</th>
+            <td>Photo</td>
+            <td> <img
+        src={img}
+        alt='travel pic'
+        width={300}
+        height={250}
+      /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+
+  useEffect(() => {
+    instance
+      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .then((res) => {
+        setProfile(res.data);
+      })
+      .catch((err) => {
+        console.log('Error from ShowTripDetails');
+      });
       
-    <div className='ShowTripList' style={{
-          backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
-          backgroundSize:"cover",
-          backgroundRepeat:"no-repeat",
-          backgroundPosition:"center",
-           }} >
-          <div className="vert"></div>
+  }, [id]);
+
+  return (<div>
+    <Authenticator>
+    <div className='ShowTripDetails' style={{
+      backgroundImage: "url(" + require("/src/img/bg1.jpg") + ")",
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
+      backgroundPosition:"center",
+    }}>
+      <div className="vert"></div>
           <div className='row'>
 <div className='col-md-2'>
        </div>
 <div className='col-md-8'>
             <h4 className='text-center' style={{color:'#FFC000'}}> 
             <div onClick={()=>window.scrollTo({ top: 400, behavior:"smooth" })}>
-              <div className='container' onClick={() => toggle(!open)}>
+              <div onClick={() => toggle(!open)}>
       <animated.svg className='svg' style={{ scale, opacity }} viewBox="0 0 1278 446">
         <defs>
           <filter id="water">
@@ -195,64 +173,35 @@ instance.get(url)
     <div className='col-md-2'>
        </div>
       </div>
-
-<div className='row'>
-
-
-<br/>
-
-<div className='col-md-6 ml-4'>
-
-
-<Link
-              to='/login'
-              className='btn btn1 btn-outline-warning'
-            >
-              My Trips
+        <div className='row'>
+          <div className='col-md-10 m-auto'>
+            <Link to='/' className='btn btn1 btn-outline-warning float-left'>
+              Show Profile List
             </Link>
-            </div>
-
-<div className='col-md-2'>
-            <input 
-          className="pa3 btn1 bb br3 grow b--none bg-lightest-blue ma3"
-          type = "search" 
-          placeholder = "Search Trips" 
-          onChange = {handleChange}
-        />
-</div>
-</div>
-
-
-            <hr />
+          </div>
+          <br />
+          <div className='col-md-8 m-auto'>
+            <h1 className='display-4 text-center' style={{color:'#FFC000'}}>Profile's Record</h1>
+            <p className='lead text-center'>View Profile's Info</p>
+            <hr /> <br />
+          </div>
+          <div className='col-md-10 m-auto'>{ProfileItem}</div>
+          <div className='col-md-6 m-auto'>
        
-            <hr />
-<b>These are the most recently added trips by the community:</b>
-<br/>
-        {searchList()}
-        <div></div>
-        <hr />
-
-        <ReactPaginate
-        previousLabel={"← Previous"}
-        nextLabel={"Next →"}
-        pageCount={pageCount}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        previousLinkClassName={"pagination__link"}
-        nextLinkClassName={"pagination__link"}
-        disabledClassName={"pagination__link--disabled"}
-        activeClassName={"pagination__link--active"}
-      />
-
-
-            <hr />
-      
-    </div>
-        
-      </div>
-
-
+          </div>
+          <div className='col-md-12 m-auto'>
+            <Link
+              to={`/edit-profile/${profile._id}`}
+              className='btn btn1 btn-outline-info btn-lg btn-block'
+            >
+              Edit Profile
+            </Link>
+          </div>
+        </div>
+      <br/>
+      <br/>
+    </div></Authenticator></div>
   );
 }
 
-export default ShowTripList;
+export default ShowProfile;

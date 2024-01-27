@@ -2,6 +2,7 @@
 .App {
   text-align: center;
 }
+.body{background-color: #537188;}
 .wrapper {
   display: flex;
   padding: 10px 20px;
@@ -62,22 +63,73 @@
 
 .CreateTrip {
   background-color: #537188;
+  height: 100%;
+  width: 100%;
   min-height: 100vh;
+  min-width: 100%;
   color: white;
 }
-
-.ShowTripDetails {
+.ShowTripList {
   background-color: #537188;
+  height: 100%;
+  width: 100%;
   min-height: 100vh;
+  min-width: 100%;
   color: white;
+}
+.ShowTripDetails {
+    background-color: #537188;
+    
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    min-width: 100%;
+    color: white;
 }
 
 .UpdateTripInfo {
-  background-color: #537188;
-  min-height: 100vh;
-  color: white;
+    background-color: #537188;
+    
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    min-width: 100%;
+    color: white;
+}
+.ml11 {
+  font-weight: 700;
+  font-size: 3.5em;
+}
+.svg {
+  width: 80vw;
+}
+.ml11 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.1em;
+  padding-right: 0.05em;
+  padding-bottom: 0.15em;
 }
 
+.ml11 .line {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #fff;
+  transform-origin: 0 50%;
+}
+
+.ml11 .line1 { 
+  top: 0; 
+  left: 0;
+}
+
+.ml11 .letter {
+  display: inline-block;
+  line-height: 1em;
+}
 .ShowTripList {
   background-color: #537188;
   
@@ -87,7 +139,6 @@
   min-width: 100%;
   color: white;
 }
-
 /* TripList Styles */
 .list {
   display: grid;
@@ -96,18 +147,38 @@
   grid-auto-rows: 1fr;
   grid-gap: 2em;
 }
+.btn{
+  font-weight: bold;
+  color: rgb(133, 125, 125);
+  box-shadow: 0 8px 19px rgba(249, 83, 22, 0.4);
+  background-color: #eef183;
+}
+.btn1{
+  font-weight: bold;
+  box-shadow: 0 8px 19px rgba(249, 83, 22, 0.4);
 
+}
 .card-container {
   width: 25vw;
   background-color:#EEEEEE;
   height: auto;
-  border: 1px solid rgba(0,0,.125);
+  border: 2px solid #FFC000;
   margin: 0 auto;
   border-radius: 5px;
   overflow:scroll;
   text-align: center;
 }
-
+.Login{
+  background-color: #537188;
+  
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  min-width: 100%;
+}
+.vert{
+  height:10vh
+}
 .desc {
   height: 130px;
   padding: 10px;
@@ -123,18 +194,20 @@
 
 .desc h3, p {
   font-weight: 300;
-  color: blue;
+  color: rgb(227, 59, 9);
   background-color: #E1D4BB;
 }
 
 .desc h3 {
-  color: #6c757d;
+  color: #0a3cf2;
   font-size: 1em;
+  
   padding: 10px 0 10px 0;
 }
 .p2 {
   font-weight: 300;
   color: black;
+  
 }
 .p3 {
   color: black;
@@ -151,8 +224,8 @@
 .pagination a {
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #6c7ac9;
-  color: #6c7ac9;
+  border: 1px solid #f2c604;
+  color: #d76031;
 }
 
 .pagination__link {
@@ -161,10 +234,10 @@
 
 .pagination__link--active a {
   color: #fff;
-  background: #6c7ac9;
+  background: #ee6204;
 }
 
 .pagination__link--disabled a {
-  color: rgb(198, 197, 202);
+  color: #fff;
   border: 1px solid rgb(198, 197, 202);
 }

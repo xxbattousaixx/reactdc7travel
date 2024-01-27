@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
+import {Card} from 'reactstrap';
 
 const TripCard = (props) => {
   
@@ -9,31 +10,35 @@ const TripCard = (props) => {
 
   return (
     <div className='card-container'>
-      <br/>
+      <Card>
       <img
         src={img}
         alt='travel pic'
-        width={300}
-        height={250}
+        width='100%'
+        height='100%'
       />
       <div className='desc'>
         
           {/* <Link to={`/show-trip/${trip._id}`}> */}
-            <h2>{trip.location}</h2>
+            <h3>To: {trip.location}</h3>
+    <div className="p2"> <b>Departing from: {trip.departing}</b></div>
+
             {/* </Link> */}
-        <h3>{trip.date}</h3>
+        {trip.date}
 <div className='p3'>
     {/* <Link to={`/edit-trip/${trip._id}`}> */}
-      | Value:    <b>{trip.value}</b>   |   | Quality:    <b>{trip.quality} |</b>
       {/* </Link> */}</div>
-    <div className="p2"> Departing from: {trip.departing}</div>
-     <p>{trip.notes}</p>
+     <p>{trip.notes}
+     
+     </p>
+     <div className="p2"> 
+| Value:    <b>{trip.value}</b>   |   | Quality:    <b>{trip.quality} </b>|
 
-
-
-
+</div>
 
       </div>
+
+      </Card>
     </div>
   );
 };
