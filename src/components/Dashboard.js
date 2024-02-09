@@ -19,6 +19,8 @@ Amplify.configure(awsExports)
 
 const PER_PAGE = 9;
 // const url = "http://18.204.199.85:3100/trips"
+// const url2 = "http://18.204.199.85:3100/profiles"
+
 const url = "http://localhost:3100/trips";
 const url2 = "http://localhost:3100/profiles";
 
@@ -42,7 +44,6 @@ function Dashboard() {
   const [searchField, setSearchField] = useState("");
   const [searchShow, setSearchShow] = useState(true); 
   const [userInfo, setUserInfo] = useState("");
-  const { id } = useParams();
 
 
   async function getUserInfo() {
@@ -74,24 +75,7 @@ function Dashboard() {
     
     const [trip, setTrip] = useState({});
     const [profile, setProfile] = useState({});
-    const instance2 = axios.create(
-      { baseURL: url2, 
-        httpsAgent: httpsAgent,
-      headers: {
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-        'Content-Type': 'multipart/form-data'
-      }  });
-
-    instance2.get(url2, {httpsAgent:httpsAgent})
-        .then((res) => {
-          setProfile(res.data[1]);
-          console.log(profile);
-
-        })
-        .catch((err) => {
-          console.log('Error from ShowTripList');
-        });
+ 
 
         const pageCount = Math.ceil(trips.filter(
           trip => {
@@ -118,22 +102,55 @@ function Dashboard() {
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-        'Content-Type': 'multipart/form-data'
-      }  });
-  
+        'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+      } 
     
+    });
+  
+      const instance2 = axios.create(
+        { baseURL: url2, 
+          httpsAgent: httpsAgent,
+        headers: {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+          'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+        } 
+      
+      });
+  
+  const { id } = useParams();
+
     useEffect(() => {
  
   getUserInfo();
+
   instance.get(url, {httpsAgent:httpsAgent})
         .then((res) => {
           setTrips(res.data.reverse());
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
           console.log('Error from ShowTripList');
         });
-    }, []);
+
+ instance2.get(url2, {httpsAgent:httpsAgent})
+        .then((res) => {
+        
+            for(var i = 0; i < res.data.length; i++)
+{
+  if(res.data[i].username === userInfo.email)
+  {
+    setProfile(res.data[i]);
+    console.log(res.data[i]);
+}
+};
+
+        })
+        .catch((err) => {
+          console.log('Error from ShowProfileList');
+        });
+
+    });
 
     
     
@@ -200,9 +217,9 @@ function Dashboard() {
 
 </div>
 <div className='col-md-5'>
-<Link to='/create-profile' className='btn btn-outline-warning float-right'>
+{/* <Link to='/create-profile' className='btn btn-outline-warning float-right'>
               Profile create
-            </Link>
+            </Link> */}
             <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
               Profile view
             </Link>

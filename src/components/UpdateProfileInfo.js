@@ -17,8 +17,8 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-// const url = "http://18.204.199.85:3100";
-const url = "http://localhost:3100";
+// const url = "http://18.204.199.85:3100/profiles";
+const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
@@ -45,28 +45,23 @@ const UpdateProfileInfo = (props) => {
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
-  const [userInfo, setUserInfo] = useState("");
 
+  const [userInfo, setUserInfo] = useState("");
+  const {id}=useParams();
   async function getUserInfo() {
     const user = await Auth.currentAuthenticatedUser();
     setUserInfo(user.attributes);
   }
   const [profile, setProfile] = useState({
     location: '',
-    user:'',
-    date: '',
-    quality: '',
-    value: '',
-    notes: '',
-    departing: '',
+    username: '',
+    gender: '',
+    age: '',
+    bio: '',
     photo:'',
     fileName:''
   });
 
-  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,12 +81,10 @@ const UpdateProfileInfo = (props) => {
       .then((res) => {
         setProfile({
           location: res.data.location,
-          user: res.data.user,
-          date: res.data.date,
-          notes: res.data.notes,
-          quality: res.data.quality,
-          value: res.data.value,
-          departing: res.data.departing,
+          age: res.data.age,
+          bio: res.data.bio,
+          gender: res.data.gender,
+          username: res.data.username,
           photo: res.data.photo,
           fileName: res.file.filename
         });
@@ -115,7 +108,6 @@ console.log(profile);
   const onSubmit = (e) => {
     e.preventDefault();
   const formData = new FormData();
-  formData.append('userid',7);
   formData.append('username',userInfo.email);
   formData.append('age',profile.age);
   formData.append('bio',profile.bio);
@@ -132,7 +124,6 @@ formData.append('fileName',profile.fileName);
       .then((res) => {
         setProfile({
             location: '',
-            userid: '',
             username: '',
             bio: '',
             gender: '',
@@ -140,7 +131,7 @@ formData.append('fileName',profile.fileName);
           photo:'',
           fileName:''
                });
-        navigate(`/show-profile/${id}`);
+               navigate('/login')
       })
       .catch((err) => {
         console.log('Error in UpdateProfileInfo!');
@@ -153,7 +144,7 @@ formData.append('fileName',profile.fileName);
     <Authenticator>
       {({ signOut, user }) => (
            <div className='UpdateTripInfo' style={{
-            backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+            backgroundImage: "url(" + require("/src/img/bg1.jpg") + ")",
             backgroundSize:"cover",
             backgroundRepeat:"no-repeat",
             backgroundPosition:"center",
@@ -197,8 +188,8 @@ formData.append('fileName',profile.fileName);
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
-            <Link to='/' className='btn btn-outline-warning float-left'>
-              Show Profiles List
+            <Link to={`/show-profile/${userInfo._id}`} className='btn btn-outline-warning float-left'>
+              My profile
             </Link>
           </div>
           <div className='col-md-8 m-auto'>
@@ -210,10 +201,49 @@ formData.append('fileName',profile.fileName);
         <div className='col-md-8 m-auto'>
           <form  onSubmit={onSubmit} encType='multipart/form-data'>
             <div className='form-group'>
-              <label htmlFor='location'>Location</label>
+              <label htmlFor='location'>Bio</label>
+              <textarea
+                type='text'
+                placeholder='Bio'
+                name='bio'
+                className='form-control'
+                value={profile.bio}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='date'>Your age</label>
+              <input
+                type='number'
+                placeholder='Age'
+                name='age'
+                className='form-control'
+                value={profile.age}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='notes'>Gender</label>
               <input
                 type='text'
-                placeholder='Location of the trip'
+                placeholder='Gender'
+                name='gender'
+                className='form-control'
+                value={profile.gender}
+                onChange={onChange}
+              />
+            </div>
+            <br />
+
+            <div className='form-group'>
+              <label htmlFor='quality'>Location</label>
+              <input
+                type='text'
+                placeholder='Location of residence'
                 name='location'
                 className='form-control'
                 value={profile.location}
@@ -222,70 +252,7 @@ formData.append('fileName',profile.fileName);
             </div>
             <br />
 
-            <div className='form-group'>
-              <label htmlFor='date'>Travel Date</label>
-              <input
-                type='date'
-                placeholder='Date'
-                name='date'
-                className='form-control'
-                value={profile.date}
-                onChange={onChange}
-              />
-            </div>
-            <br />
-
-            <div className='form-group'>
-              <label htmlFor='notes'>Notes</label>
-              <textarea
-                type='text'
-                placeholder='Notes'
-                name='notes'
-                className='form-control'
-                value={profile.notes}
-                onChange={onChange}
-              />
-            </div>
-            <br />
-
-            <div className='form-group'>
-              <label htmlFor='quality'>Quality</label>
-              <input
-                type='number'
-                placeholder='Quality rating'
-                name='quality'
-                className='form-control'
-                value={profile.quality}
-                onChange={onChange}
-              />
-            </div>
-            <br />
-
-            <div className='form-group'>
-              <label htmlFor='value'>Value rating</label>
-              <input
-                type='number'
-                placeholder='Value rating'
-                name='value'
-                className='form-control'
-                value={profile.value}
-                onChange={onChange}
-              />
-            </div>
-            <br />
-
-            <div className='form-group'>
-              <label htmlFor='departing'>Departing</label>
-              <input
-                type='text'
-                placeholder='Departing city of the profile'
-                name='departing'
-                className='form-control'
-                value={profile.departing}
-                onChange={onChange}
-              />
-            </div>
-            <br />
+           
 
             <div className='form-group'>
               <label htmlFor='departing'>Photo</label>

@@ -105,6 +105,7 @@ console.log(profile.photo);
 instance.post(url, formData, {httpsAgent:httpsAgent})
       .then((res) => {
         setProfile({
+          userid:'',
             location: '',
             username: '',
             bio: '',

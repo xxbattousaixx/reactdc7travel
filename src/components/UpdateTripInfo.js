@@ -45,9 +45,7 @@ const UpdateTripInfo = (props) => {
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
+ 
   const [userInfo, setUserInfo] = useState("");
 
   async function getUserInfo() {
