@@ -150,7 +150,7 @@ function Dashboard() {
           console.log('Error from ShowProfileList');
         });
 
-    });
+    },[]);
 
     
     
@@ -221,7 +221,7 @@ function Dashboard() {
               Profile create
             </Link> */}
             <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
-              Profile view
+              Profile
             </Link>
 
 <button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
