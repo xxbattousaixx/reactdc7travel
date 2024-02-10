@@ -29,8 +29,8 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 9;
-// const url = "http://18.204.199.85:3100/trips"
-const url = "http://localhost:3100/trips";
+const url = "http://18.204.199.85:3100/trips"
+// const url = "http://localhost:3100/trips";
 
 // let caCrt = '';
 // try {

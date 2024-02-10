@@ -19,8 +19,8 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-// const url = "http://18.204.199.85:3100/trips";
-const url = "http://localhost:3100/trips";
+const url = "http://18.204.199.85:3100/trips";
+// const url = "http://localhost:3100/trips";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   cert: require('/src/ca.crt'),
@@ -47,8 +47,8 @@ function ShowTripDetails(props) {
   }
 
   const [trip, setTrip] = useState({});
-  // const img = 'http://18.204.199.85:3100/images/'+trip.fileName
-  const img = 'http://localhost:3100/images/'+trip.fileName
+  const img = 'http://18.204.199.85:3100/images/'+trip.fileName
+  // const img = 'http://localhost:3100/images/'+trip.fileName
 
   const { id } = useParams();
   const navigate = useNavigate();

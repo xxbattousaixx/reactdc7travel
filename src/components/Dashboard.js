@@ -18,11 +18,11 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 9;
-// const url = "http://18.204.199.85:3100/trips"
-// const url2 = "http://18.204.199.85:3100/profiles"
+const url = "http://18.204.199.85:3100/trips"
+const url2 = "http://18.204.199.85:3100/profiles"
 
-const url = "http://localhost:3100/trips";
-const url2 = "http://localhost:3100/profiles";
+// const url = "http://localhost:3100/trips";
+// const url2 = "http://localhost:3100/profiles";
 
 
 // let caCrt = '';
@@ -120,9 +120,10 @@ function Dashboard() {
   
   const { id } = useParams();
 
-    useEffect(() => {
  
-  getUserInfo();
+    useEffect(() => {
+      getUserInfo();
+ 
 
   instance.get(url, {httpsAgent:httpsAgent})
         .then((res) => {
@@ -133,26 +134,24 @@ function Dashboard() {
           console.log('Error from ShowTripList');
         });
 
- instance2.get(url2, {httpsAgent:httpsAgent})
-        .then((res) => {
-        
-            for(var i = 0; i < res.data.length; i++)
-{
+
+    },[id]);
+
+    instance2.get(url2, {httpsAgent:httpsAgent})
+    .then((res) => {
+    
+        for(var i = 0; i < res.data.length; i++)
+  {
   if(res.data[i].username === userInfo.email)
   {
-    setProfile(res.data[i]);
-    console.log(res.data[i]);
-}
-};
-
-        })
-        .catch((err) => {
-          console.log('Error from ShowProfileList');
-        });
-
-    },[]);
-
-    
+  setProfile(res.data[i]);
+  }
+  };
+  
+    })
+    .catch((err) => {
+      console.log('Error from ShowProfileList');
+    });
     
     function searchList() {
       if (searchShow) {
@@ -185,6 +184,7 @@ function Dashboard() {
     )
     .slice(offset, offset + PER_PAGE)
     .map((trip, k) => <TripCard2 trip={trip} key={k} />);
+    
  return(
 
     <Authenticator>
@@ -196,35 +196,34 @@ function Dashboard() {
 
 <div className='row'>
 
-<div className='col-md-4'>
+<div className='col-md-5'>
 <Link
               to='/create-trip'
-              className='btn btn-outline-warning float-left'
+              className='btn btn-outline-warning center'
             >
               + Add New Trip
             </Link>
             
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<div className='col-md-3'>  
+<div className='col-md-4'>  
 <Link to='/' className='btn btn-outline-warning'>
               Show Travel List
             </Link>
            
 
 </div>
-<div className='col-md-5'>
+<div className='col-md-3'>
+<button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
+
 {/* <Link to='/create-profile' className='btn btn-outline-warning float-right'>
               Profile create
             </Link> */}
-            <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
+            {profile.username==user.attributes.email?<Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
               Profile
-            </Link>
+            </Link>:<Link to={`/create-profile`} className='btn btn-outline-warning float-right'>
+              Profile
+            </Link>}
 
-<button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
 
 </div>
 </div>

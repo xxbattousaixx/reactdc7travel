@@ -6,8 +6,8 @@ import {Card} from 'reactstrap';
 const TripCard2 = (props) => {
   
   const trip = props.trip;
-  // const img = 'http://18.204.199.85:3100/images/'+trip.fileName
-  const img = 'http://localhost:3100/images/'+trip.fileName
+  const img = 'http://18.204.199.85:3100/images/'+trip.fileName
+  // const img = 'http://localhost:3100/images/'+trip.fileName
 
 
   return (

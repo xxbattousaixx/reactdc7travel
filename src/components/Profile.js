@@ -20,8 +20,8 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-// const url = "http://18.204.199.85:3100/profiles";
-const url = "http://localhost:3100/profiles";
+const url = "http://18.204.199.85:3100/profiles";
+// const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   cert: require('/src/ca.crt'),
@@ -53,9 +53,9 @@ fileName:''  });
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
+  // if (!open){
+  //   window.scrollTo({ top: 0, behavior:"smooth"});
+  // }
  
 
   async function getUserInfo() {
@@ -64,8 +64,8 @@ fileName:''  });
   }
 
   
-  // const img = 'http://18.204.199.85:3100/images/'+profile.fileName
-  const img = 'http://localhost:3100/images/'+profile.fileName
+  const img = 'http://18.204.199.85:3100/images/'+profile.fileName
+  // const img = 'http://localhost:3100/images/'+profile.fileName
 
 
   const onChange = (e) => {

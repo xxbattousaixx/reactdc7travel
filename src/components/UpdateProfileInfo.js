@@ -17,8 +17,8 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-// const url = "http://18.204.199.85:3100/profiles";
-const url = "http://localhost:3100/profiles";
+const url = "http://18.204.199.85:3100/profiles";
+// const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   ca: require('/src/ca.crt'),
