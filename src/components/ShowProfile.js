@@ -19,13 +19,14 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "http://18.204.199.85:3100/profiles";
+const url = "https://18.204.199.85:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  cert: require('/src/ca.crt'),
-  keys:require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/da7.pem'),
+  cert: require('../../src/ca7.crt'),
+
   keepAlive: false });
 
 Amplify.configure(awsExports);
@@ -55,7 +56,7 @@ function ShowProfile(props) {
   }
 
   
-  const img = 'http://18.204.199.85:3100/images/'+profile.fileName
+  const img = 'https://18.204.199.85:3100/images/'+profile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
   const { id } = useParams();
@@ -108,6 +109,7 @@ function ShowProfile(props) {
             <th scope='row'>7</th>
             <td>Photo</td>
             <td> <img
+            className='img7'
         src={img}
         alt='travel pic'
         width={300}
@@ -175,20 +177,29 @@ function ShowProfile(props) {
       </div>
         <div className='row'>
           <div className='col-md-10 m-auto'>
-            <Link to='/' className='btn btn1 btn-outline-warning float-left'>
-              Show Profile List
+            <Link to='/dashboard' className='btn btn1 btn-outline-warning float-left'>
+              Show Trips
             </Link>
           </div>
+          </div>
           <br />
+
+        <div className='row'>
+
           <div className='col-md-8 m-auto'>
             <h1 className='display-4 text-center' style={{color:'#FFC000'}}>Profile's Record</h1>
             <p className='lead text-center'>View Profile's Info</p>
             <hr /> <br />
           </div>
-          <div className='col-md-10 m-auto'>{ProfileItem}</div>
-          <div className='col-md-6 m-auto'>
-       
           </div>
+          <br />
+
+        <div className='row'>
+          <div className='col-md-10 m-auto'>{ProfileItem}</div>
+          </div>
+          <br />
+
+        <div className='row'>
           <div className='col-md-12 m-auto'>
             <Link
               to={`/edit-profile/${profile._id}`}

@@ -20,14 +20,16 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "http://18.204.199.85:3100/profiles";
+const url = "https://18.204.199.85:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  cert: require('/src/ca.crt'),
-  keys:require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/da7.pem'),
+  cert: require('../../src/ca7.crt'),
+
   keepAlive: false });
+
 
 Amplify.configure(awsExports);
 
@@ -64,7 +66,7 @@ fileName:''  });
   }
 
   
-  const img = 'http://18.204.199.85:3100/images/'+profile.fileName
+  const img = 'https://18.204.199.85:3100/images/'+profile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
 
@@ -114,7 +116,7 @@ instance.post(url, formData, {httpsAgent:httpsAgent})
           photo:'',
           fileName:''
                });
-               navigate('/');
+               navigate('/dashboard');
 
             })
             .catch((err) => {
@@ -175,8 +177,8 @@ instance.post(url, formData, {httpsAgent:httpsAgent})
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
-            <Link to='/' className='btn btn-outline-warning float-left'>
-              Show Travel List
+            <Link to='/dashboard' className='btn btn-outline-warning float-left'>
+              Show Dashboard
             </Link>
           </div>
           <div className='col-md-8 m-auto'>

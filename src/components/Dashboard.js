@@ -18,8 +18,8 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 9;
-const url = "http://18.204.199.85:3100/trips"
-const url2 = "http://18.204.199.85:3100/profiles"
+const url = "https://18.204.199.85:3100/trips"
+const url2 = "https://18.204.199.85:3100/profiles"
 
 // const url = "http://localhost:3100/trips";
 // const url2 = "http://localhost:3100/profiles";
@@ -32,8 +32,10 @@ const url2 = "http://18.204.199.85:3100/profiles"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/da7.pem'),
+  cert: require('../../src/ca7.crt'),
+
   keepAlive: false });
 
 
@@ -117,10 +119,12 @@ function Dashboard() {
         } 
       
       });
+
   
   const { id } = useParams();
 
  
+
     useEffect(() => {
       getUserInfo();
  
@@ -137,8 +141,10 @@ function Dashboard() {
 
     },[id]);
 
+
     instance2.get(url2, {httpsAgent:httpsAgent})
     .then((res) => {
+      getUserInfo();
     
         for(var i = 0; i < res.data.length; i++)
   {
@@ -152,6 +158,11 @@ function Dashboard() {
     .catch((err) => {
       console.log('Error from ShowProfileList');
     });
+  
+
+
+  
+  
     
     function searchList() {
       if (searchShow) {
@@ -227,10 +238,11 @@ function Dashboard() {
 
 </div>
 </div>
+
 <hr/>
 <div className='row'>
 <div className='col-md-8'>
-        <h1 style={{color:'red'}}>Hello, {user.attributes.email}</h1></div>
+        <h2 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {user.attributes.email}</b></h2></div>
         <div className='col-md-4'>
             <input 
           className="pa3 bb btn1 br3 grow b--none bg-lightest-blue ma3"

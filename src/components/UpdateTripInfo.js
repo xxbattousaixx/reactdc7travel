@@ -17,12 +17,14 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-const url = "http://18.204.199.85:3100/trips";
+const url = "https://18.204.199.85:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/da7.pem'),
+  cert: require('../../src/ca7.crt'),
+
   keepAlive: false });
 
 // import https from 'https';
@@ -84,6 +86,7 @@ const UpdateTripInfo = (props) => {
       .then((res) => {
         setTrip({
           location: res.data.location,
+
           user: res.data.user,
           date: res.data.date,
           notes: res.data.notes,
@@ -115,6 +118,7 @@ console.log(trip);
   const formData = new FormData();
   formData.append('location',trip.location);
   formData.append('user',userInfo.email);
+
   formData.append('date',trip.date);
   formData.append('notes',trip.notes);
   formData.append('quality',trip.quality);
@@ -131,6 +135,7 @@ console.log(trip);
       .then((res) => {
         setTrip({
           location: '',
+          userid:'',
           user: '',
           date: '',
           notes: '',
@@ -197,9 +202,10 @@ console.log(trip);
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
-            <Link to='/' className='btn btn-outline-warning float-left'>
-              Show Trips List
+            <Link to='/dashboard' className='btn btn-outline-warning float-left'>
+              Show My Trips
             </Link>
+            
           </div>
           <div className='col-md-8 m-auto'>
             <h1 className='display-4 text-center' style={{color:'#FFC000'}}>Edit Trip</h1>

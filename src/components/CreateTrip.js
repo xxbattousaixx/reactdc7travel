@@ -21,12 +21,15 @@ Amplify.configure(awsExports)
 
 
 
-const url = "http://18.204.199.85:3100/trips";
-// const url = "http://localhost:3100/trips";
+const url = "https://18.204.199.85:3100/trips";
+const url2 = "https://18.204.199.85:3100/profiles";
 
+// const url = "http://localhost:3100/trips";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/da7.pem'),
+  cert: require('../../src/ca7.crt'),
+
   keepAlive: false });
 
 // import https from 'https';
@@ -37,6 +40,16 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 //   key: fs.readFileSync("./key.pem"),
 //   passphrase: "sayonara"
 // })
+const instance2 = axios.create(
+  { baseURL: url2, 
+    httpsAgent: httpsAgent,
+  headers: {
+    'Access-Control-Allow-Origin' : '*',
+    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+    'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+  } 
+
+});
 
 const CreateTrip = (props) => {
   const [open, toggle] = useState(false)
@@ -56,11 +69,18 @@ const CreateTrip = (props) => {
     const user = await Auth.currentAuthenticatedUser();
     setUserInfo(user.attributes);
   }
+
   const navigate = useNavigate();
   // Define the state with useState hook
+
+
+  const [profile, setProfile] = useState({});
+
   const [trip, setTrip] = useState({
     location: '',
     user: '',
+    userid: '',
+
     date: '',
     notes: '',
     quality: '',
@@ -84,6 +104,8 @@ console.log(trip.photo);
   const formData = new FormData();
   formData.append('location',trip.location);
   formData.append('user',userInfo.email);
+  formData.append('userid',profile._id);
+
   formData.append('date',trip.date);
   formData.append('notes',trip.notes);
   formData.append('quality',trip.quality);
@@ -106,6 +128,8 @@ console.log(trip.photo);
         setTrip({
           location: '',
           user: '',
+          userid: '',
+
           date: '',
           notes: '',
           quality: '',
@@ -116,7 +140,7 @@ console.log(trip.photo);
                });
 
           // Push to /
-          navigate('/');
+          navigate('/dashboard');
         })
         .catch((err) => {
           console.log('Error in CreateBook!');
@@ -124,7 +148,25 @@ console.log(trip.photo);
   }
   useEffect(() => {
     getUserInfo();
+    
+  
+
       }, []);
+      instance2.get(url2, {httpsAgent:httpsAgent})
+    .then((res) => {
+    
+        for(var i = 0; i < res.data.length; i++)
+  {
+  if(res.data[i].username === userInfo.email)
+  {
+  setProfile(res.data[i]);
+  }
+  };
+  
+    })
+    .catch((err) => {
+      console.log('Error from ShowProfileList');
+    });
   return (
     <div>
     <Authenticator>

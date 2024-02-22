@@ -7,29 +7,24 @@ import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
-
 import awsExports from '../aws-exports';
 //3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
+
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const img777 = "/src/img/bg3.jpg"
 //4.
-
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('/src/ca.crt'),
-  passphrase: "sayonara",
-  keepAlive: false });
 
 Amplify.configure(awsExports)
 
 
 
 
-const PER_PAGE = 9;
-const url = "http://18.204.199.85:3100/trips"
+const PER_PAGE = 6;
+const url = "https://18.204.199.85:3100/trips"
 // const url = "http://localhost:3100/trips";
 
 // let caCrt = '';
@@ -38,10 +33,9 @@ const url = "http://18.204.199.85:3100/trips"
 // } catch(err) {
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
-// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-//   ca: require('/src/ca.crt'),
-//   passphrase: "sayonara",
-//   keepAlive: false });
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+  ca: require('../dc7.pem'),
+  keepAlive: false });
 function ShowTripList() {
 
   const [trips, setTrips] = useState([]);
@@ -55,6 +49,7 @@ const handleChange = e => {
     setSearchShow(true);
   }
 };
+
 function searchList() {
   if (searchShow) {
     return (
@@ -90,17 +85,17 @@ function searchList() {
   useEffect(() => {
     const instance = axios.create(
 { baseURL: url, 
-  httpsAgent: httpsAgent,
 headers: {
+  
   'Access-Control-Allow-Origin' : '*',
   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded, '
+  'Content-Type': 'multipart/form-data, '
 }  });
 
-instance.get(url)
+instance.get(url, {httpsAgent:httpsAgent})
       .then((res) => {
         setTrips(res.data.reverse());
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log('Error from ShowTripList');
@@ -156,7 +151,7 @@ instance.get(url)
 <div>
       
     <div className='ShowTripList' style={{
-          backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
+          backgroundImage:"url(" + require("/src/img/bg.jpeg") + ")",
           backgroundSize:"cover",
           backgroundRepeat:"no-repeat",
           backgroundPosition:"center",
@@ -196,6 +191,7 @@ instance.get(url)
        </div>
       </div>
 
+
 <div className='row'>
 
 
@@ -203,13 +199,13 @@ instance.get(url)
 
 <div className='col-md-6 ml-4'>
 
-
+<nav>
 <Link
-              to='/login'
+              to='/dashboard'
               className='btn btn1 btn-outline-warning'
             >
               My Trips
-            </Link>
+            </Link></nav>
             </div>
 
 <div className='col-md-2'>
@@ -228,6 +224,7 @@ instance.get(url)
             <hr />
 <b>These are the most recently added trips by the community:</b>
 <br/>
+
         {searchList()}
         <div></div>
         <hr />

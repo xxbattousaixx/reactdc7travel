@@ -1,0 +1,61 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reactdc7travel-dev-115205-authRole",
+      "UnauthRoleArn": "arn:aws:iam::367203264884:role/amplify-reactdc7travel-dev-115205-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::367203264884:role/amplify-reactdc7travel-dev-115205-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-reactdc7travel-dev-115205-deployment",
+      "UnauthRoleName": "amplify-reactdc7travel-dev-115205-unauthRole",
+      "StackName": "amplify-reactdc7travel-dev-115205",
+      "StackId": "arn:aws:cloudformation:us-east-1:367203264884:stack/amplify-reactdc7travel-dev-115205/f13f2b80-f593-11ed-ac57-12c38fd27f51",
+      "AmplifyAppId": "d2fd3fzswt8omu"
+    }
+  },
+  "auth": {
+    "dc7travelauth": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": "8",
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactdc7travel-dev-115205-deployment/amplify-cfn-templates/auth/dc7travelauth-cloudformation-template.json",
+        "logicalId": "authdc7travelauth"
+      },
+      "lastPushTimeStamp": "2023-05-18T15:58:36.670Z",
+      "output": {
+        "UserPoolId": "us-east-1_19Rvpp9vk",
+        "AppClientIDWeb": "7g56bihq600qjtsghl6i8laend",
+        "AppClientID": "3etde625pb8m2ojgb5tndq28c",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:367203264884:userpool/us-east-1_19Rvpp9vk",
+        "UserPoolName": "amplify_cognito_user_pool"
+      },
+      "lastPushDirHash": "UQ+WJm3JI5rEK/T03dmdvUClh1k="
+    }
+  }
+}

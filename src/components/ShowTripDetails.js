@@ -19,14 +19,15 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "http://18.204.199.85:3100/trips";
+const url = "https://18.204.199.85:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  cert: require('/src/ca.crt'),
-  keys:require('/src/ca.crt'),
-  passphrase: "sayonara",
+  requestCert: true,
+  key: require('../../src/dc7.pem'),
+
   keepAlive: false });
+
 
 Amplify.configure(awsExports);
 
@@ -47,7 +48,7 @@ function ShowTripDetails(props) {
   }
 
   const [trip, setTrip] = useState({});
-  const img = 'http://18.204.199.85:3100/images/'+trip.fileName
+  const img = 'https://18.204.199.85:3100/images/'+trip.fileName
   // const img = 'http://localhost:3100/images/'+trip.fileName
 
   const { id } = useParams();
@@ -68,7 +69,7 @@ function ShowTripDetails(props) {
     axios
       .delete(`${url}/${id}`, {httpsAgent:httpsAgent})
       .then((res) => {
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch((err) => {
         console.log('Error form ShowTripDetails_deleteClick');
@@ -114,6 +115,8 @@ function ShowTripDetails(props) {
             <td>Photo</td>
             <td> <img
         src={img}
+        className='img7'
+
         alt='travel pic'
         width={300}
         height={250}
@@ -167,7 +170,7 @@ function ShowTripDetails(props) {
       </div>
         <div className='row'>
           <div className='col-md-10 m-auto'>
-            <Link to='/' className='btn btn1 btn-outline-warning float-left'>
+            <Link to='/dashboard' className='btn btn1 btn-outline-warning float-left'>
               Show Trip List
             </Link>
           </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../App.css';
 import Dashboard from './Dashboard';
 import { Amplify } from 'aws-amplify';
 //2.
@@ -7,14 +6,13 @@ import { useSpring, animated } from '@react-spring/web'
 
 import awsExports from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
+import '../App.css';
 
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 
-var exit = false;
 Amplify.configure(awsExports)
 
 
@@ -30,13 +28,11 @@ function Login() {
     }),
     [open]
   )
-if (!open){
-  window.scrollTo({ top: 0, behavior:"smooth"});
-}
+
   return (<div>
     
     <div className='Login' style={{
-      backgroundImage: "url(" + require("/src/img/bg7.jpg") + ")",
+      backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
       backgroundSize:"cover",
       backgroundRepeat:"no-repeat",
       backgroundPosition:"center",
@@ -76,10 +72,8 @@ if (!open){
     <div className='col-md-2'>
        </div>
       </div>
-    <Authenticator>
 
       <Dashboard/>
-      </Authenticator>
     
       </div>
       </div>

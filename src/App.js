@@ -4,6 +4,10 @@ import './App.css';
 import CreateTrip from './components/CreateTrip';
 import ShowTripList from './components/ShowTripList';
 import ShowTripDetails from './components/ShowTripDetails';
+import ShowPublicTrip from './components/ShowPublicTrip';
+import ShowPublicProfile from './components/ShowPublicProfile';
+
+
 import UpdateTripInfo from './components/UpdateTripInfo';
 import UpdateProfileInfo from './components/UpdateProfileInfo';
 import ShowProfile from './components/ShowProfile';
@@ -23,12 +27,16 @@ const App = () => {
           <Route path='/create-profile' element={<Profile />} />
           <Route path='/edit-profile/:id' element={<UpdateProfileInfo />} />
 
-          <Route path='/login' element={<Login />} />
+          <Route path='/dashboard' element={<Login />} />
 
           <Route path='/edit-trip/:id' element={<UpdateTripInfo />} />
           <Route path='/show-profile/:id' element={<ShowProfile />} />
+          <Route path='/show-profileinfo/:id' element={<ShowPublicProfile />} />
+
 
           <Route path='/show-trip/:id' element={<ShowTripDetails />} />
+          <Route path='/show-tripinfo/:id' element={<ShowPublicTrip />} />
+
         </Routes>
       </div>
     </Router>
