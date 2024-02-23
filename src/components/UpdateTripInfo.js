@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import * as https from "https";
 import { Amplify } from 'aws-amplify';
 //2.
 import awsExports from '../aws-exports';
 //3.
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import * as https from "https";
 
 import { Auth } from 'aws-amplify';
 //4.
@@ -19,6 +19,7 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
+
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   key: require('../../src/key.pem'),

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import * as https from "https";
 
 import TripCard from './TripCard';
-import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
@@ -128,29 +128,31 @@ function searchList() {
 );
 })
 } trip={trip} key={k} />);
-  useEffect(() => {
 
+useEffect(() => {
 
 instance.get(url, {httpsAgent:httpsAgent})
-      .then((res) => {
-        setTrips(res.data.reverse());
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log('Error from ShowTripList');
-      });
-  }, []);
-
-
- 
-
-  instance2.get(url2, {httpsAgent:httpsAgent})
 .then((res) => {
-setProfiles(res.data);
+  setTrips(res.data.reverse());
+  // console.log(res);
 })
 .catch((err) => {
-  console.log('Error from ShowProfileList');
+  console.log('Error from ShowTripList');
 });
+}, []);
+
+
+    instance2.get(url2, {httpsAgent:httpsAgent})
+    .then((res) => {
+    setProfiles(res.data);
+    })
+    .catch((err) => {
+      console.log('Error from ShowProfileList');
+    });
+    
+
+
+
 
 
 
@@ -193,9 +195,7 @@ setProfiles(res.data);
     [open]
   )
 
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
+ 
 
   return (
 <div>

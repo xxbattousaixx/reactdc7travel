@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
-
 import * as https from "https";
+
 import { Amplify } from 'aws-amplify';
 //2.
 import { Auth } from 'aws-amplify';
@@ -71,7 +71,26 @@ function ShowProfile(props) {
 
   const ProfileItem = (
     <div>
-      <table className='table table-hover table-dark'>
+      <div class="minip">
+  <div class="mg">
+    <div class="clr"></div>
+    <div class="group">
+      <span>membergroup</span>
+    </div>
+  </div>
+  <div class="av" style="background-image: url('https://pbs.twimg.com/media/DjfSp1BVAAAiEyV.jpg');"></div>
+  <div class="info">
+    <name>jinkyu do</name>
+    <deets>
+      369 › he/him<br/>
+      soccer player
+    </deets>
+  </div>
+  <a class="plot" title="plot with jinkyu" href="/">
+    view plots →
+  </a>
+</div>
+      {/* <table className='table table-hover table-dark'>
         <tbody>
           <tr>
             <th scope='row'>1</th>
@@ -115,7 +134,7 @@ function ShowProfile(props) {
       /></td>
           </tr>
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 
@@ -176,7 +195,10 @@ function ShowProfile(props) {
         <div className='row'>
           <div className='col-md-10 m-auto'>
             <Link to='/dashboard' className='btn btn1 btn-outline-warning float-left'>
-              Show Trips
+              Show My Trips
+            </Link>
+            <Link to='/' className='btn btn1 btn-outline-warning float-right'>
+              Show All Trips
             </Link>
           </div>
           </div>

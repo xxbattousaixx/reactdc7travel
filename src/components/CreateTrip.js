@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-import { useNavigate } from 'react-router-dom';
 import * as https from "https";
+import { useNavigate } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
 //2.
 import awsExports from '../aws-exports';
@@ -16,7 +15,6 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-
 Amplify.configure(awsExports)
 
 
@@ -147,10 +145,7 @@ console.log(trip.photo);
   useEffect(() => {
     getUserInfo();
     
-  
-
-      }, []);
-      instance2.get(url2, {httpsAgent:httpsAgent})
+    instance2.get(url2, {httpsAgent:httpsAgent})
     .then((res) => {
     
         for(var i = 0; i < res.data.length; i++)
@@ -158,7 +153,6 @@ console.log(trip.photo);
   if(res.data[i].username === userInfo.email)
   {
   setProfile(res.data[i]);
-  break;
   }
   };
   
@@ -166,6 +160,9 @@ console.log(trip.photo);
     .catch((err) => {
       console.log('Error from ShowProfileList');
     });
+
+      }, []);
+  
   return (
     <div>
     <Authenticator>

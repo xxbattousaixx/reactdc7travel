@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-
-import Dashboard from './Dashboard';
-
 import * as https from "https";
+
+
 import { Amplify } from 'aws-amplify';
 //2.
 
@@ -18,7 +17,6 @@ import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
-
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
 
@@ -50,7 +48,7 @@ function ShowPublicTrip(props) {
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName
   // const img = 'http://localhost:3100/images/'+trip.fileName
 
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,18 +60,18 @@ function ShowPublicTrip(props) {
       .catch((err) => {
         console.log('Error from ShowTripDetails');
       });
-  }, [id]);
+  }, []);
 
-  const onDeleteClick = (id) => {
-    axios
-      .delete(`${url}/${id}`, {httpsAgent:httpsAgent})
-      .then((res) => {
-        navigate('/');
-      })
-      .catch((err) => {
-        console.log('Error form ShowTripDetails_deleteClick');
-      });
-  };
+  // const onDeleteClick = (id) => {
+  //   axios
+  //     .delete(`${url}/${id}`, {httpsAgent:httpsAgent})
+  //     .then((res) => {
+  //       navigate('/');
+  //     })
+  //     .catch((err) => {
+  //       console.log('Error form ShowTripDetails_deleteClick');
+  //     });
+  // };
 
   const TripItem = (
     <div>
@@ -170,7 +168,7 @@ function ShowPublicTrip(props) {
         <div className='row'>
           <div className='col-md-10 m-auto'>
             <Link to='/' className='btn btn1 btn-outline-warning float-left'>
-              Show Trip List
+              Show All Trips
             </Link>
           </div>
           <br />

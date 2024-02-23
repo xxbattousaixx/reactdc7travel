@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-
 import * as https from "https";
+
+
 import { Amplify } from 'aws-amplify';
 //2.
 import { Auth } from 'aws-amplify';

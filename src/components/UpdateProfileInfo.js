@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import * as https from "https";
 import { Amplify } from 'aws-amplify';
 //2.
 import awsExports from '../aws-exports';
 //3.
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import * as https from "https";
 
 import { Auth } from 'aws-amplify';
 //4.
@@ -19,6 +19,8 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
+const navigate = useNavigate();
+
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
   key: require('../../src/key.pem'),
@@ -63,23 +65,23 @@ const UpdateProfileInfo = (props) => {
     fileName:''
   });
 
-  const navigate = useNavigate();
 
+  const instance = axios.create({
+    baseURL: url,
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+      'Content-Type': 'multipart/form-data'
+  } });
   useEffect(() => {
-
     getUserInfo();
 
-    const instance = axios.create({
-      baseURL: url,
-      withCredentials: false,
-      headers: {
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-        'Content-Type': 'multipart/form-data'
-    } });
+
       instance
       .get(`${url}/${id}`, {httpsAgent:httpsAgent})
       .then((res) => {
+
         setProfile({
           location: res.data.location,
           age: res.data.age,
@@ -102,7 +104,6 @@ const UpdateProfileInfo = (props) => {
   
   setProfile({ ...profile, photo: e.target.files[0] });
 
-console.log(profile);
 
 
   };
@@ -189,7 +190,7 @@ formData.append('fileName',profile.fileName);
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
-            <Link to={`/show-profile/${userInfo._id}`} className='btn btn-outline-warning float-left'>
+            <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-left'>
               My profile
             </Link>
           </div>

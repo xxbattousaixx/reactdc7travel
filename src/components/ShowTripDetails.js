@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
+import * as https from "https";
 
 import Dashboard from './Dashboard';
 
-import * as https from "https";
 import { Amplify } from 'aws-amplify';
 //2.
 
@@ -17,7 +17,7 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-//4.
+
 
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
@@ -179,7 +179,70 @@ function ShowTripDetails(props) {
             <p className='lead text-center'>View Trip's Info</p>
             <hr /> <br />
           </div>
-          <div className='col-md-10 m-auto'>{TripItem}</div>
+          <div className='col-md-6 m-auto'><div class="containero">
+  <div class="cardo cardo0">
+    <div class="border">
+      <h2>Al Pacino</h2>
+      <div class="icons">
+        <i class="fa fa-codepen" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i>
+        <i class="fa fa-dribbble" aria-hidden="true"></i>
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  {/* <div class="cardo cardo1">
+    <div class="border">
+      <h2>Ben Stiller</h2>
+      <div class="icons">
+        <i class="fa fa-codepen" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i>
+        <i class="fa fa-dribbble" aria-hidden="true"></i>
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="cardo cardo2">
+    <div class="border">
+      <h2>Patrick Stewart</h2>
+      <div class="icons">
+        <i class="fa fa-codepen" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i>
+        <i class="fa fa-dribbble" aria-hidden="true"></i>
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div> */}
+</div>
+
+{/* {TripItem} */}
+
+</div>
+<div className='col-md-6 m-auto'>
+
+<div class="cardy-container">
+  <div class="cardy">
+    <h3>Hover me</h3><br/>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores sapiente non asperiores deleniti, quos eos placeat corrupti id consequatur ullam accusantium, nesciunt aut fugiat at ipsam harum eveniet dolore.</p>
+    <div class="layers">
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>   
+    </div>
+  </div> 
+</div>
+</div>
+
           <div className='col-md-6 m-auto'>
             <button
               type='button'

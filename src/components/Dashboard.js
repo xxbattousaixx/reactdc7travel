@@ -3,7 +3,6 @@ import '../App.css';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import TripCard2 from './TripCard2';
-
 import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
@@ -18,7 +17,8 @@ Amplify.configure(awsExports)
 
 
 
-const PER_PAGE = 9;
+
+const PER_PAGE = 6;
 const url = "http://35.171.2.96:3100/trips"
 const url2 = "http://35.171.2.96:3100/profiles"
 
@@ -33,8 +33,8 @@ const url2 = "http://35.171.2.96:3100/profiles"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
+  // key: require('../../src/key.pem'),
+  // ca: require('../../src/ca.pem')
 });
 
 
@@ -125,12 +125,13 @@ function Dashboard() {
 
  
 
-    useEffect(() => {
-      getUserInfo();
- 
+  getUserInfo();
 
-  instance.get(url, {httpsAgent:httpsAgent})
+
+  
+    instance.get(url, {httpsAgent:httpsAgent})
         .then((res) => {
+
           setTrips(res.data.reverse());
           // console.log(res);
         })
@@ -139,29 +140,27 @@ function Dashboard() {
         });
 
 
-    },[id]);
-
-
-    instance2.get(url2, {httpsAgent:httpsAgent})
-    .then((res) => {
-      getUserInfo();
-    setProfiles(res.data);
-        for(var i = 0; i < res.data.length; i++)
-  {
-  if(res.data[i].username === userInfo.email)
-  {
-  setProfile(res.data[i]);
-  break;
-  }
-
-  };
+        instance2.get(url2, {httpsAgent:httpsAgent})
+        .then((res) => {
+    
+        setProfiles(res.data);
+            for(var i = 0; i < res.data.length; i++)
+      {
+      if(res.data[i].username === userInfo.email)
+      {
+      setProfile(res.data[i]);
+      }
+    
+      };
+      
+        })
+        .catch((err) => {
+          console.log('Error from ShowProfileList');
+        });
   
-    })
-    .catch((err) => {
-      console.log('Error from ShowProfileList');
-    });
   
-
+  
+  
 
   
   
@@ -242,17 +241,24 @@ function Dashboard() {
 
 </div>
 <div className='col-md-3'>
-<button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
+{profile._id 
 
-{/* <Link to='/create-profile' className='btn btn-outline-warning float-right'>
-              Profile create
-            </Link> */}
-            {profile.username==user.attributes.email?<Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-right'>
+?
+
+<Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-left'>
               Profile
-            </Link>:<Link to={`/create-profile`} className='btn btn-outline-warning float-right'>
+            </Link>
+            
+            :
+            
+            <Link to={`/create-profile`} className='btn btn-outline-warning float-left'>
               Profile
             </Link>}
 
+<button className='btn btn-outline-warning float-right' onClick={signOut}>Sign out</button>
+
+
+    
 
 </div>
 </div>

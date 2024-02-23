@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
-
 import * as https from "https";
+
 import { Amplify } from 'aws-amplify';
 //2.
 import { Auth } from 'aws-amplify';
@@ -153,11 +153,11 @@ function ShowProfile(props) {
       </div>
         <div className='row'>
           <div className='col-md-10 m-auto'>
-            <Link to='/dashboard' className='btn btn1 btn-outline-warning float-left'>
-              Show My Trips
-            </Link>
-            <Link to='/' className='btn btn1 btn-outline-warning float-right'>
+            <Link to='/' className='btn btn1 btn-outline-warning float-left'>
               Show All Trips
+            </Link>
+            <Link to={`/show-profile/${profile._id}`} className='btn btn1 btn-outline-warning float-right'>
+              My profile
             </Link>
           </div>
           </div>
