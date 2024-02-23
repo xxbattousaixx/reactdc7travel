@@ -3,6 +3,7 @@ import '../App.css';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import TripCard2 from './TripCard2';
+
 import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
@@ -18,8 +19,8 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 9;
-const url = "https://18.204.199.85:3100/trips"
-const url2 = "https://18.204.199.85:3100/profiles"
+const url = "http://35.171.2.96:3100/trips"
+const url2 = "http://35.171.2.96:3100/profiles"
 
 // const url = "http://localhost:3100/trips";
 // const url2 = "http://localhost:3100/profiles";
@@ -32,21 +33,20 @@ const url2 = "https://18.204.199.85:3100/profiles"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  requestCert: true,
-  key: require('../../src/da7.pem'),
-  cert: require('../../src/ca7.crt'),
-
-  keepAlive: false });
-
+  key: require('../../src/key.pem'),
+  ca: require('../../src/ca.pem')
+});
 
 
 function Dashboard() {
   const [trips, setTrips] = useState([]);
+  const [profiles, setProfiles] = useState([]);
 
   const [searchField, setSearchField] = useState("");
   const [searchShow, setSearchShow] = useState(true); 
   const [userInfo, setUserInfo] = useState("");
 
+  const [profile, setProfile] = useState({});
 
   async function getUserInfo() {
     const user = await Auth.currentAuthenticatedUser();
@@ -75,8 +75,8 @@ function Dashboard() {
 
 
     
-    const [trip, setTrip] = useState({});
-    const [profile, setProfile] = useState({});
+    
+
  
 
         const pageCount = Math.ceil(trips.filter(
@@ -145,13 +145,15 @@ function Dashboard() {
     instance2.get(url2, {httpsAgent:httpsAgent})
     .then((res) => {
       getUserInfo();
-    
+    setProfiles(res.data);
         for(var i = 0; i < res.data.length; i++)
   {
   if(res.data[i].username === userInfo.email)
   {
   setProfile(res.data[i]);
+  break;
   }
+
   };
   
     })
@@ -174,12 +176,19 @@ function Dashboard() {
         );
       }
     }
-   
+  
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * PER_PAGE;
- 
+  
+
+
+
+
     const currentPageData = trips.filter(
       trip => {
+       
+        
+        
         return (
           trip.user.toLowerCase().includes(userInfo.email) &&
           (trip
@@ -189,13 +198,22 @@ function Dashboard() {
           trip
           .departing
           .toLowerCase()
-          .includes(searchField.toLowerCase()))
+          .includes(searchField.toLowerCase())
+          
+          )
         );
       }
     )
     .slice(offset, offset + PER_PAGE)
-    .map((trip, k) => <TripCard2 trip={trip} key={k} />);
+    .map((trip, k) => 
     
+    <TripCard2 profile={profiles.filter( profile => {
+            return (
+              profile.username.includes(trip.user)
+        );
+    })
+  } trip={trip} key={k} />);
+  
  return(
 
     <Authenticator>

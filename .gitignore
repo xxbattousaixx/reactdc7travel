@@ -2,8 +2,8 @@
 
 # dependencies
 /node_modules
-/src/dc7.pem
-/src/ca.crt
+/src/ca.pem
+/src/key.pem
 
 # testing
 /coverage

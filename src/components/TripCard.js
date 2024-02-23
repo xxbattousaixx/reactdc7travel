@@ -1,24 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import {Card} from 'reactstrap';
 import logo from '/src/img/dc7logo.png';
 const TripCard = (props) => {
   
-  const trip = props.trip;
-  const img = 'https://18.204.199.85:3100/images/'+trip.fileName
+   const trip = props.trip;
+  const profile = props.profile;
+  const img = 'http://35.171.2.96:3100/images/'+trip.fileName;
+  const img2 = 'http://35.171.2.96:3100/images/'+profile[0].fileName;
+
+
+
   // const img = 'http://localhost:3100/images/'+trip.fileName
 
 
   return (
 
 
-<div className='container2'>
-  
-    <div class="bg">
+    <div className='container2'>
+      
+    <div className="bg">
   </div>
-  <div class="nft">
-    <div class='main'>
+  <div className="nft">
+    <div className='main'>
     <Link to={`/show-tripinfo/${trip._id}`}>
 
           <img
@@ -35,21 +39,22 @@ const TripCard = (props) => {
 </div>
 <hr />
 
-      <div class='tokenInfo'>
-        <div class="price">
+      <div className='tokenInfo'>
+        <div className="price">
           <ins>◘Value</ins>
           <p>{trip.value}</p>
         </div>
-        <div class="duration">
+        <div className="duration">
           <ins>◷Quality</ins>
           <p>{trip.quality}</p>
         </div>
       </div>
-      <div class='creator'>
-        <div class='wrapper'>
-          <img src={logo} alt="Creator" />
+      <div className='creator'>
+        <div className='wrapper'>
+          <img src={img2} alt="Creator" />
         </div>
         <Link to={`/show-profileinfo/${trip.userid}`}>   Posted by: {trip.user}</Link>
+
         
       </div>
 

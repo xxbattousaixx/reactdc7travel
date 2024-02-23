@@ -19,16 +19,12 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "https://18.204.199.85:3100/profiles";
+const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
-
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  requestCert: true,
-  key: require('../../src/da7.pem'),
-  cert: require('../../src/ca7.crt'),
-
-  keepAlive: false });
-
+  key: require('../../src/key.pem'),
+  ca: require('../../src/ca.pem')
+});
 
 Amplify.configure(awsExports);
 
@@ -57,7 +53,7 @@ function ShowProfile(props) {
   }
 
   
-  const img = 'https://18.204.199.85:3100/images/'+profile.fileName
+  const img = 'http://35.171.2.96:3100/images/'+profile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
   const { id } = useParams();
@@ -74,25 +70,25 @@ function ShowProfile(props) {
 
   const ProfileItem = (
     <>
-<div class="cardi">
-        <div class="cardi-img">
+<div className="cardi">
+        <div className="cardi-img">
         <img
         src={img}
       />
         </div>
-        <div class="desci">
-            <h6 class="primary-text">{profile.username}</h6>
-            <h6 class="secondary-text">{profile.location}</h6>
+        <div className="desci">
+            <h6 className="primary-text">{profile.username}</h6>
+            <h6 className="secondary-text">{profile.location}</h6>
         </div>
-        <div style={{fontFamily:'Lucida Handwriting'}}class="buttoni primary-text">{profile.bio}</div>
-        <div class="details">
-            <div class="rating">
-                <h6 class="primary-text"> {profile.age} </h6>
-                <h6 class="secondary-text"> Age </h6>
+        <div style={{fontFamily:'Lucida Handwriting'}}className="buttoni primary-text">{profile.bio}</div>
+        <div className="details">
+            <div className="rating">
+                <h6 className="primary-text"> {profile.age} </h6>
+                <h6 className="secondary-text"> Age </h6>
             </div>
-            <div class="activity">
-                <h6 class="primary-text"> {profile.gender} </h6>
-                <h6 class="secondary-text"> Gender </h6>
+            <div className="activity">
+                <h6 className="primary-text"> {profile.gender} </h6>
+                <h6 className="secondary-text"> Gender </h6>
             </div>
         </div>
 </div>

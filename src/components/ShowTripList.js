@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import TripCard from './TripCard';
 import * as https from "https";
 import ReactPaginate from "react-paginate";
@@ -24,7 +25,9 @@ Amplify.configure(awsExports)
 
 
 const PER_PAGE = 6;
-const url = "https://18.204.199.85:3100/trips"
+const url = "http://35.171.2.96:3100/trips"
+const url2 = "http://35.171.2.96:3100/profiles"
+
 // const url = "http://localhost:3100/trips";
 
 // let caCrt = '';
@@ -34,11 +37,19 @@ const url = "https://18.204.199.85:3100/trips"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  ca: require('../dc7.pem'),
-  keepAlive: false });
+  key: require('../../src/key.pem'),
+  cert: require('../../src/ca.pem')
+});
+
+
 function ShowTripList() {
 
   const [trips, setTrips] = useState([]);
+  const [profiles, setProfiles] = useState([]);
+
+  const [trip, setTrip] = useState({});
+  const [profile, setProfile] = useState({});
+
 const [searchField, setSearchField] = useState("");
 
 const [searchShow, setSearchShow] = useState(true); 
@@ -49,6 +60,35 @@ const handleChange = e => {
     setSearchShow(true);
   }
 };
+const instance = axios.create(
+  { baseURL: url, 
+    httpsAgent: httpsAgent,
+  headers: {
+    'Access-Control-Allow-Origin' : '*',
+    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+    'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+  } 
+
+});
+const instance2 = axios.create(
+  { baseURL: url2, 
+    httpsAgent: httpsAgent,
+  headers: {
+    'Access-Control-Allow-Origin' : '*',
+    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+    'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+  } 
+
+});
+
+
+const { id } = useParams();
+
+
+
+
+
+
 
 function searchList() {
   if (searchShow) {
@@ -60,6 +100,7 @@ function searchList() {
     );
   }
 }
+
 
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -81,16 +122,14 @@ function searchList() {
     }
   )
   .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard trip={trip} key={k} />);
+  .map((trip, k) => <TripCard profile={profiles.filter( profile => {
+    return (
+      profile.username.includes(trip.user)
+);
+})
+} trip={trip} key={k} />);
   useEffect(() => {
-    const instance = axios.create(
-{ baseURL: url, 
-headers: {
-  
-  'Access-Control-Allow-Origin' : '*',
-  'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-  'Content-Type': 'multipart/form-data, '
-}  });
+
 
 instance.get(url, {httpsAgent:httpsAgent})
       .then((res) => {
@@ -105,14 +144,25 @@ instance.get(url, {httpsAgent:httpsAgent})
 
  
 
-  
+  instance2.get(url2, {httpsAgent:httpsAgent})
+.then((res) => {
+setProfiles(res.data);
+})
+.catch((err) => {
+  console.log('Error from ShowProfileList');
+});
 
 
 
   const tripList =
     trips.length === 0
       ? 'there is no trip record!'
-      : trips.map((trip, k) => <TripCard trip={trip} key={k} />);
+      : trips.map((trip, k) => <TripCard profile={profiles.filter( profile => {
+        return (
+          profile.username.includes(trip.user)
+    );
+})
+} trip={trip} key={k} />);
 
       const pageCount = Math.ceil(trips.filter(
         trip => {

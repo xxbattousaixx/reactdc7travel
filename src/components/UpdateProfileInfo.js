@@ -17,14 +17,13 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-const url = "https://18.204.199.85:3100/profiles";
+const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  requestCert: true,
-  key: require('../../src/dc7.pem'),
-
-  keepAlive: false });
+  key: require('../../src/key.pem'),
+  ca: require('../../src/ca.pem')
+});
 
 
 // import https from 'https';

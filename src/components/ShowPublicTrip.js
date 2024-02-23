@@ -19,14 +19,13 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "https://18.204.199.85:3100/trips";
+const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  requestCert: true,
-  key: require('../../src/dc7.pem'),
-
-  keepAlive: false });
+  key: require('../../src/key.pem'),
+  ca: require('../../src/ca.pem')
+});
 
 
 Amplify.configure(awsExports);
@@ -48,7 +47,7 @@ function ShowPublicTrip(props) {
   }
 
   const [trip, setTrip] = useState({});
-  const img = 'https://18.204.199.85:3100/images/'+trip.fileName
+  const img = 'http://35.171.2.96:3100/images/'+trip.fileName
   // const img = 'http://localhost:3100/images/'+trip.fileName
 
   const { id } = useParams();
