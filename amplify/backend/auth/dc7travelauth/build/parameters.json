@@ -13,13 +13,8 @@
   "emailVerificationSubject": "Your verification code",
   "emailVerificationMessage": "Your verification code is {####}",
   "defaultPasswordPolicy": true,
-  "passwordPolicyMinLength": "8",
-  "passwordPolicyCharacters": [
-    "Requires Lowercase",
-    "Requires Uppercase",
-    "Requires Numbers",
-    "Requires Symbols"
-  ],
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [],
   "requiredAttributes": [
     "email"
   ],
@@ -37,7 +32,7 @@
   "sharedId": "c3e42e7d",
   "resourceName": "dc7travelauth",
   "authSelections": "userPoolOnly",
-  "useDefault": "manual",
+  "useDefault": "default",
   "usernameAttributes": [
     "email"
   ],
@@ -45,7 +40,9 @@
   "adminQueries": false,
   "triggers": "{}",
   "hostedUI": false,
-  "userPoolGroupList": [],
+  "userPoolGroupList": [
+    "cogtravel"
+  ],
   "serviceName": "Cognito",
   "usernameCaseSensitive": false,
   "useEnabledMfas": true,
@@ -62,5 +59,10 @@
     ]
   },
   "breakCircularDependency": true,
-  "dependsOn": []
+  "dependsOn": [],
+  "authProviders": [],
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": []
 }

@@ -27,13 +27,8 @@
           "EMAIL"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyMinLength": "8",
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE",
-            "REQUIRES_UPPERCASE",
-            "REQUIRES_NUMBERS",
-            "REQUIRES_SYMBOLS"
-          ]
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
         },
         "mfaConfiguration": "OFF",
         "mfaTypes": [
@@ -47,7 +42,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactdc7travel-dev-115205-deployment/amplify-cfn-templates/auth/dc7travelauth-cloudformation-template.json",
         "logicalId": "authdc7travelauth"
       },
-      "lastPushTimeStamp": "2023-05-18T15:58:36.670Z",
+      "lastPushTimeStamp": "2024-02-24T10:46:44.114Z",
       "output": {
         "UserPoolId": "us-east-1_19Rvpp9vk",
         "AppClientIDWeb": "7g56bihq600qjtsghl6i8laend",
@@ -55,7 +50,29 @@
         "UserPoolArn": "arn:aws:cognito-idp:us-east-1:367203264884:userpool/us-east-1_19Rvpp9vk",
         "UserPoolName": "amplify_cognito_user_pool"
       },
-      "lastPushDirHash": "UQ+WJm3JI5rEK/T03dmdvUClh1k="
+      "lastPushDirHash": "3zyy8xWOt23ss1SYr6TTHNcU0pY="
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "dc7travelauth",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2024-02-24T10:46:44.114Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactdc7travel-dev-115205-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
+        "logicalId": "authuserPoolGroups"
+      },
+      "output": {},
+      "lastPushDirHash": "RYo8vvQYgG6n+l3DfCBc0v7eM/k="
     }
   }
 }

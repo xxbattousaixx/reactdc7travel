@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 import { Amplify } from 'aws-amplify';
-//2.
-import awsExports from '../aws-exports';
-//3.
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import * as https from "https";
 
-import { Auth } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsmobile from '../aws-exports';
+Amplify.configure(awsmobile);
 //4.
-Amplify.configure(awsExports)
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
-const navigate = useNavigate();
 
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
 
 // import https from 'https';
@@ -36,8 +32,9 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 //   key: fs.readFileSync("./key.pem"),
 //   passphrase: "sayonara"
 // })
+Amplify.configure(awsmobile);
 
-const UpdateProfileInfo = (props) => {
+function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -55,6 +52,8 @@ const UpdateProfileInfo = (props) => {
     const user = await Auth.currentAuthenticatedUser();
     setUserInfo(user.attributes);
   }
+
+  
   const [profile, setProfile] = useState({
     location: '',
     username: '',
@@ -79,7 +78,7 @@ const UpdateProfileInfo = (props) => {
 
 
       instance
-      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .get(`${url}/${id}`)
       .then((res) => {
 
         setProfile({
@@ -122,7 +121,7 @@ formData.append('fileName',profile.fileName);
     console.log(formData);
 
     axios
-      .put(`${url}/${id}`, formData,  {httpsAgent:httpsAgent})
+      .put(`${url}/${id}`, formData)
       .then((res) => {
         setProfile({
             location: '',
@@ -133,7 +132,7 @@ formData.append('fileName',profile.fileName);
           photo:'',
           fileName:''
                });
-               navigate('/dashboard')
+              //  navigate('/dashboard')
       })
       .catch((err) => {
         console.log('Error in UpdateProfileInfo!');
@@ -143,8 +142,7 @@ formData.append('fileName',profile.fileName);
   return (
 
 
-    <Authenticator>
-      {({ signOut, user }) => (
+    
            <div className='UpdateTripInfo' style={{
             backgroundImage: "url(" + require("/src/img/bg1.jpg") + ")",
             backgroundSize:"cover",
@@ -279,10 +277,15 @@ formData.append('fileName',profile.fileName);
           </form>
         </div>
     </div>
-      )}
-    </Authenticator>
+ 
    
   );
 }
 
-export default UpdateProfileInfo;
+export default withAuthenticator(UpdateProfileInfo);
+export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };}

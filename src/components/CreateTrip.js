@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import * as https from "https";
 import { useNavigate } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
-//2.
-import awsExports from '../aws-exports';
+
+import awsmobile from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
 //4.
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-Amplify.configure(awsExports)
+Amplify.configure(awsmobile)
 
 
 
@@ -23,10 +21,7 @@ const url = "http://35.171.2.96:3100/trips";
 const url2 = "http://35.171.2.96:3100/profiles";
 
 // const url = "http://localhost:3100/trips";
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+
 
 // import https from 'https';
 // const fs = require('fs').promises;
@@ -38,7 +33,6 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 // })
 const instance2 = axios.create(
   { baseURL: url2, 
-    httpsAgent: httpsAgent,
   headers: {
     'Access-Control-Allow-Origin' : '*',
     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
@@ -47,7 +41,10 @@ const instance2 = axios.create(
 
 });
 
-const CreateTrip = (props) => {
+function CreateTrip({ isPassedToWithAuthenticator, signOut, user }) {
+  if (!isPassedToWithAuthenticator) {
+    throw new Error(`isPassedToWithAuthenticator was not provided`);
+  }
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -165,9 +162,7 @@ console.log(trip.photo);
   
   return (
     <div>
-    <Authenticator>
-    {({ signOut, user }) => (
-
+    
 
 
 <div className='CreateTrip' style={{
@@ -310,10 +305,14 @@ console.log(trip.photo);
         </div>
     </div>
 
-    )}
-  </Authenticator>
 </div>
    
     );
 };
-export default CreateTrip;
+export default withAuthenticator(CreateTrip);
+export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };}

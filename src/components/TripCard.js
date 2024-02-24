@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import logo from '/src/img/dc7logo.png';
@@ -29,7 +28,7 @@ const TripCard = (props) => {
             src={img}
             alt='travel pic'
             width='100%'
-            height='100%' />
+            height='200vh' />
         </Link>
 
      <div style={{color:'#CBB279'}}>To: {trip.location}</div>

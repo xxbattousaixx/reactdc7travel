@@ -8,7 +8,15 @@ module.exports = {
     filename: 'index_bundle.js',
   },
   module: {
+   
     rules: [
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },]
+        },
       {
         test: /\.?js$/,
         exclude: /node_modules/,

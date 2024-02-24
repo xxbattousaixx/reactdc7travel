@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import * as https from "https";
 
-import Dashboard from './Dashboard';
 
 import { Amplify } from 'aws-amplify';
 //2.
 
-import awsExports from '../aws-exports';
+import awsmobile from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
@@ -22,16 +20,16 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
 
-Amplify.configure(awsExports);
+Amplify.configure(awsmobile);
 
 
-function ShowTripDetails(props) {
+function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -55,7 +53,7 @@ function ShowTripDetails(props) {
 
   useEffect(() => {
     axios
-      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .get(`${url}/${id}`)
       .then((res) => {
         setTrip(res.data);
       })
@@ -66,7 +64,7 @@ function ShowTripDetails(props) {
 
   const onDeleteClick = (id) => {
     axios
-      .delete(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .delete(`${url}/${id}`)
       .then((res) => {
         navigate('/dashboard');
       })
@@ -126,7 +124,6 @@ function ShowTripDetails(props) {
     </div>
   );
   return (<div>
-    <Authenticator>
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
       backgroundSize:"cover",
@@ -265,8 +262,14 @@ function ShowTripDetails(props) {
         </div>
       <br/>
       <br/>
-    </div></Authenticator></div>
+    </div></div>
   );
 }
 
-export default ShowTripDetails;
+export default withAuthenticator(ShowTripDetails); 
+ export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };}

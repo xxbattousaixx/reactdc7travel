@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import * as https from "https";
 
 
 import { Amplify } from 'aws-amplify';
@@ -20,10 +19,10 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
 
 Amplify.configure(awsExports);

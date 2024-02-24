@@ -1,0 +1,106 @@
+Arguments: 
+  /usr/local/bin/node /Users/admin/.cache/node/corepack/yarn/1.22.19/bin/yarn.js install
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/admin/.cargo/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, unlink '/Users/admin/Desktop/code/dc7travel/reactdc7travel/node_modules/.yarn-integrity'
+
+npm manifest: 
+  {
+    "name": "dc7travel",
+    "version": "0.23.777",
+    "dependencies": {
+      "@aws-amplify/cli": "^12.10.1",
+      "@aws-amplify/ui-react": "^6.1.4",
+      "@babel/core": "^7.23.9",
+      "@react-spring/web": "*",
+      "@types/react": "^18.2.58",
+      "@types/react-dom": "^18.2.19",
+      "aws-amplify": "^6.0.17",
+      "axios": "^1.6.7",
+      "babel-loader": "8.1.0",
+      "babel-preset-react-app": "^10.0.1",
+      "browserify-zlib": "^0.2.0",
+      "classnames": "2.3.1",
+      "history": "^5.3.0",
+      "html-webpack-plugin": "^5.5.0",
+      "https": "^1.0.0",
+      "https-browserify": "^1.0.0",
+      "jwt-decode": "^3.1.2",
+      "lodash": "^4.17.5",
+      "mini-css-extract-plugin": "^2.6.1",
+      "moment": "2.29.1",
+      "nouislider": "15.1.0",
+      "password-validator": "^5.3.0",
+      "path": "^0.12.7",
+      "path-browserify": "^1.0.1",
+      "prop-types": "^15.8.1",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-paginate": "^8.2.0",
+      "react-router-dom": "^6.22.1",
+      "react-scripts": "^5.0.1",
+      "react-search": "^2.1.1",
+      "reactstrap": "^9.2.2",
+      "resolve-url-loader": "5.0.0-beta.1",
+      "sass": "^1.45.1",
+      "sass-loader": "^12.4.0",
+      "stream-http": "^3.2.0",
+      "style-loader": "^3.3.1",
+      "styled-components": "^6.1.8",
+      "surge": "^0.23.1",
+      "tsparticles": "^2.0.6",
+      "typescript": "^5.3.3",
+      "url": "^0.11.0",
+      "web-vitals": "^2.1.0"
+    },
+    "scripts": {
+      "start": "react-app-rewired start",
+      "build": "react-app-rewired build",
+      "deploy": " gh-pages -d build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    },
+    "devDependencies": {
+      "@babel/cli": "^7.16.7",
+      "@babel/core": "7.16.7",
+      "@babel/preset-env": "7.16.7",
+      "@babel/preset-react": "7.16.7",
+      "assert": "^2.0.0",
+      "buffer": "^6.0.3",
+      "css-loader": "^6.5.1",
+      "react-app-rewired": "^2.2.1",
+      "webpack": "^5.90.3",
+      "webpack-cli": "^4.9.1",
+      "webpack-dev-server": "^4.7.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

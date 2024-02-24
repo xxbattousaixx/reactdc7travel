@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "dc7travelauth": {}
+        "dc7travelauth": {},
+        "userPoolGroups": {}
       }
     }
   }

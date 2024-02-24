@@ -3,16 +3,15 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 import { Amplify } from 'aws-amplify';
-//2.
-import awsExports from '../aws-exports';
-//3.
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import * as https from "https";
 
-import { Auth } from 'aws-amplify';
+//2.
+import awsmobile from '../aws-exports';
+//3.
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
 //4.
-Amplify.configure(awsExports)
+Amplify.configure(awsmobile)
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
@@ -21,10 +20,10 @@ const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
 // import https from 'https';
 // const fs = require('fs').promises;
@@ -35,7 +34,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false,
 //   passphrase: "sayonara"
 // })
 
-const UpdateTripInfo = (props) => {
+function UpdateTripInfo({ isPassedToWithAuthenticator, signOut, user }) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -49,10 +48,15 @@ const UpdateTripInfo = (props) => {
  
   const [userInfo, setUserInfo] = useState("");
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+
+
+
+
+  // async function getUserInfo() {
+  //   Auth.currentUserInfo().catch(err => console.log(err));
+  //   setUserInfo(user.attributes);
+  // }
+
   const [trip, setTrip] = useState({
     location: '',
     user:'',
@@ -70,7 +74,7 @@ const UpdateTripInfo = (props) => {
 
   useEffect(() => {
 
-    getUserInfo();
+    // getUserInfo();
 
     // const instance = axios.create({
     //   baseURL: url,
@@ -81,7 +85,7 @@ const UpdateTripInfo = (props) => {
     //     'Content-Type': 'multipart/form-data'
     // } });
       axios
-      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .get(`${url}/${id}`)
       .then((res) => {
         setTrip({
           location: res.data.location,
@@ -130,7 +134,7 @@ console.log(trip);
     console.log(formData);
 
     axios
-      .put(`${url}/${id}`, formData,  {httpsAgent:httpsAgent})
+      .put(`${url}/${id}`, formData)
       .then((res) => {
         setTrip({
           location: '',
@@ -154,8 +158,6 @@ console.log(trip);
   return (
 
 
-    <Authenticator>
-      {({ signOut, user }) => (
            <div className='UpdateTripInfo' style={{
             backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
             backgroundSize:"cover",
@@ -316,9 +318,12 @@ console.log(trip);
         </div>
     </div>
       )}
-    </Authenticator>
    
-  );
-}
 
-export default UpdateTripInfo;
+export default withAuthenticator(UpdateTripInfo);
+export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };}

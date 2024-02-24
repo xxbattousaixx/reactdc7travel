@@ -1,45 +1,45 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+
 import './App.css';
-
-import CreateTrip from './components/CreateTrip';
-import ShowTripList from './components/ShowTripList';
-import ShowTripDetails from './components/ShowTripDetails';
-import ShowPublicTrip from './components/ShowPublicTrip';
-import ShowPublicProfile from './components/ShowPublicProfile';
-
-
-import UpdateTripInfo from './components/UpdateTripInfo';
-import UpdateProfileInfo from './components/UpdateProfileInfo';
-import ShowProfile from './components/ShowProfile';
+import React from 'react';
+import CreateTrip from './components/CreateTrip.js';
+import ShowTripList from './components/ShowTripList.js';
+import ShowTripDetails from './components/ShowTripDetails.js';
+import ShowPublicTrip from './components/ShowPublicTrip.js';
+import ShowPublicProfile from './components/ShowPublicProfile.js';
 
 
-import Profile from './components/Profile';
+import UpdateTripInfo from './components/UpdateTripInfo.js';
+import UpdateProfileInfo from './components/UpdateProfileInfo.js';
+import ShowProfile from './components/ShowProfile.js';
 
-import Login from './components/Login';
 
+import Profile from './components/Profile.js';
+
+import Login from './components/Login.js';
+// import MyComponent
 const App = () => {
-  return (
+  return (<>
     <Router>
-      <div>
         <Routes>
-          <Route exact path='/' element={<ShowTripList />} />
-          <Route path='/create-trip' element={<CreateTrip />} />
-          <Route path='/create-profile' element={<Profile />} />
-          <Route path='/edit-profile/:id' element={<UpdateProfileInfo />} />
+      
+          <Route exact  path='/' element={(props) => <ShowTripList {...props} />}/>
+          <Route exact path='/create-trip' element={(props)=><CreateTrip {...props}/>}/>
+          <Route exact path='/create-profile' element={(props)=><Profile {...props}/>}/>
+          <Route exact path='/edit-profile/:id' element={(props)=><UpdateProfileInfo {...props}/>}/>
 
-          <Route path='/dashboard' element={<Login />} />
+          <Route exact path='/dashboard' element={(props)=><Login {...props}/>}/>
 
-          <Route path='/edit-trip/:id' element={<UpdateTripInfo />} />
-          <Route path='/show-profile/:id' element={<ShowProfile />} />
-          <Route path='/show-profileinfo/:id' element={<ShowPublicProfile />} />
+          <Route exact path='/edit-trip/:id' element={(props)=><UpdateTripInfo {...props}/>}/>
+          <Route exact path='/show-profile/:id' element={(props)=><ShowProfile {...props}/>}/>
+          <Route exact path='/show-profileinfo/:id' element={(props)=><ShowPublicProfile {...props}/>}/>
 
 
-          <Route path='/show-trip/:id' element={<ShowTripDetails />} />
-          <Route path='/show-tripinfo/:id' element={<ShowPublicTrip />} />
+          <Route exact path='/show-trip/:id' element={(props)=><ShowTripDetails {...props}/>}/>
+          <Route exact path='/show-tripinfo/:id' element={(props)=><ShowPublicTrip {...props}/>}/>
 
         </Routes>
-      </div>
-    </Router>
+    </Router></>
   );
 };
 

@@ -1,17 +1,15 @@
-import React, { useState, useEffect, Profiler } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
-import * as https from "https";
 
-import { Amplify } from 'aws-amplify';
-//2.
-import { Auth } from 'aws-amplify';
+// import { Amplify } from 'aws-amplify';
 
-import awsExports from '../aws-exports';
+
+// import awsmobile from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
+// import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
@@ -21,15 +19,15 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 
 const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
-Amplify.configure(awsExports);
+// Amplify.configure(awsmobile);
 
 
-function ShowProfile(props) {
+function ShowPublicProfile(props) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -40,17 +38,15 @@ function ShowProfile(props) {
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
+ 
   const [userInfo, setUserInfo] = useState("");
 
   const [profile, setProfile] = useState({});
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+  // async function getUserInfo() {
+  //   const user = await Auth.currentAuthenticatedUser();
+  //   setUserInfo(user.attributes);
+  // }
 
   
   const img = 'http://35.171.2.96:3100/images/'+profile.fileName
@@ -99,7 +95,7 @@ function ShowProfile(props) {
 
   useEffect(() => {
     instance
-      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .get(`${url}/${id}`)
       .then((res) => {
         setProfile(res.data);
       })
@@ -110,7 +106,6 @@ function ShowProfile(props) {
   }, [id]);
 
   return (<div>
-    <Authenticator>
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg1.jpg") + ")",
       backgroundSize:"cover",
@@ -185,8 +180,8 @@ function ShowProfile(props) {
         </div>
       <br/>
       <br/>
-    </div></Authenticator></div>
+    </div></div>
   );
 }
 
-export default ShowProfile;
+export default ShowPublicProfile;

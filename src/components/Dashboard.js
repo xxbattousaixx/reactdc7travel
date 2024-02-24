@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import TripCard2 from './TripCard2';
-import * as https from "https";
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
-import awsExports from '../aws-exports';
+import awsmobile from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
 //4.
-Amplify.configure(awsExports)
+Amplify.configure(awsmobile)
 
 
 
@@ -32,13 +30,13 @@ const url2 = "http://35.171.2.96:3100/profiles"
 // } catch(err) {
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  // key: require('../../src/key.pem'),
-  // ca: require('../../src/ca.pem')
-});
 
 
-function Dashboard() {
+
+function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
+  if (!isPassedToWithAuthenticator) {
+    throw new Error(`isPassedToWithAuthenticator was not provided`);
+  }
   const [trips, setTrips] = useState([]);
   const [profiles, setProfiles] = useState([]);
 
@@ -48,10 +46,10 @@ function Dashboard() {
 
   const [profile, setProfile] = useState({});
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+  // async function getUserInfo() {
+  //   const user = await Auth.currentAuthenticatedUser();
+  //   setUserInfo(user.attributes);
+  // }
   
   const handleChange = e => {
     setSearchField(e.target.value);
@@ -100,7 +98,6 @@ function Dashboard() {
   
     const instance = axios.create(
       { baseURL: url, 
-        httpsAgent: httpsAgent,
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
@@ -111,7 +108,6 @@ function Dashboard() {
   
       const instance2 = axios.create(
         { baseURL: url2, 
-          httpsAgent: httpsAgent,
         headers: {
           'Access-Control-Allow-Origin' : '*',
           'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
@@ -125,11 +121,11 @@ function Dashboard() {
 
  
 
-  getUserInfo();
+  // getUserInfo();
 
 
   
-    instance.get(url, {httpsAgent:httpsAgent})
+    instance.get(url)
         .then((res) => {
 
           setTrips(res.data.reverse());
@@ -140,7 +136,7 @@ function Dashboard() {
         });
 
 
-        instance2.get(url2, {httpsAgent:httpsAgent})
+        instance2.get(url2)
         .then((res) => {
     
         setProfiles(res.data);
@@ -189,7 +185,7 @@ function Dashboard() {
         
         
         return (
-          trip.user.toLowerCase().includes(userInfo.email) &&
+          trip.user.toLowerCase().includes(profile.username) &&
           (trip
           .location
           .toLowerCase()
@@ -215,9 +211,7 @@ function Dashboard() {
   
  return(
 
-    <Authenticator>
-
-{({ signOut, user}) => (
+  
 
   
         <div >
@@ -266,7 +260,7 @@ function Dashboard() {
 <hr/>
 <div className='row'>
 <div className='col-md-8'>
-        <h2 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {user.attributes.email}</b></h2></div>
+        <h2 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {profile.username}</b></h2></div>
         <div className='col-md-4'>
             <input 
           className="pa3 bb btn1 br3 grow b--none bg-lightest-blue ma3"
@@ -306,9 +300,14 @@ function Dashboard() {
         </div>
 
 )}
-    </Authenticator>
- )
-}
 
 //6.
-export default Dashboard
+export default withAuthenticator(Dashboard, {
+  socialProviders: ['apple', 'facebook', 'google']
+});
+export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };}

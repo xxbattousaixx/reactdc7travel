@@ -1,0 +1,50 @@
+{
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.10.1\",\"stackType\":\"auth-Cognito-UserPool-Groups\",\"metadata\":{}}",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "AuthRoleArn": {
+      "Type": "String"
+    },
+    "UnauthRoleArn": {
+      "Type": "String"
+    },
+    "authdc7travelauthUserPoolId": {
+      "Type": "String",
+      "Default": "authdc7travelauthUserPoolId"
+    },
+    "authdc7travelauthAppClientID": {
+      "Type": "String",
+      "Default": "authdc7travelauthAppClientID"
+    },
+    "authdc7travelauthAppClientIDWeb": {
+      "Type": "String",
+      "Default": "authdc7travelauthAppClientIDWeb"
+    }
+  },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    }
+  },
+  "Resources": {
+    "cogtravelGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "authdc7travelauthUserPoolId"
+        },
+        "Description": "override success",
+        "GroupName": "cogtravel",
+        "Precedence": 1
+      }
+    }
+  }
+}

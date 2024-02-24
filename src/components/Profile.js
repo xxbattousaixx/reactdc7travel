@@ -3,12 +3,10 @@ import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import * as https from "https";
 
 
 import { Amplify } from 'aws-amplify';
 //2.
-import { Auth } from 'aws-amplify';
 
 import awsExports from '../aws-exports';
 //3.
@@ -23,10 +21,10 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  ca: require('../../src/ca.pem')
-});
+// const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
+//   key: require('../../src/key.pem'),
+//   ca: require('../../src/ca.pem')
+// });
 
 
 Amplify.configure(awsExports);
@@ -102,7 +100,7 @@ console.log(profile.photo);
       'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded, '
   } });
     
-instance.post(url, formData, {httpsAgent:httpsAgent})
+instance.post(url, formData)
       .then((res) => {
         setProfile({
           userid:'',

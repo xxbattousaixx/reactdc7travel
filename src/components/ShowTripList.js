@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import * as https from "https";
+import { Link, useNavigate } from 'react-router-dom';
 
 import TripCard from './TripCard';
 import ReactPaginate from "react-paginate";
 import { Amplify } from 'aws-amplify';
 //2.
-import awsExports from '../aws-exports';
+import awsmobile from '../aws-exports';
 //3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
@@ -18,8 +17,6 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const img777 = "/src/img/bg3.jpg"
 //4.
-
-Amplify.configure(awsExports)
 
 
 
@@ -36,22 +33,17 @@ const url2 = "http://35.171.2.96:3100/profiles"
 // } catch(err) {
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
-const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
-  key: require('../../src/key.pem'),
-  cert: require('../../src/ca.pem')
-});
+
+Amplify.configure(awsmobile)
 
 
 function ShowTripList() {
 
   const [trips, setTrips] = useState([]);
   const [profiles, setProfiles] = useState([]);
-
   const [trip, setTrip] = useState({});
   const [profile, setProfile] = useState({});
-
 const [searchField, setSearchField] = useState("");
-
 const [searchShow, setSearchShow] = useState(true); 
 
 const handleChange = e => {
@@ -62,7 +54,6 @@ const handleChange = e => {
 };
 const instance = axios.create(
   { baseURL: url, 
-    httpsAgent: httpsAgent,
   headers: {
     'Access-Control-Allow-Origin' : '*',
     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
@@ -72,7 +63,6 @@ const instance = axios.create(
 });
 const instance2 = axios.create(
   { baseURL: url2, 
-    httpsAgent: httpsAgent,
   headers: {
     'Access-Control-Allow-Origin' : '*',
     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
@@ -82,11 +72,40 @@ const instance2 = axios.create(
 });
 
 
-const { id } = useParams();
 
 
+useEffect(() => {
+
+instance.get(url)
+.then((res) => {
+  setTrips(res.data.reverse());
+  // console.log(res);
+})
+.catch((err) => {
+  console.log('Error from ShowTripList');
+});
+}, []);
 
 
+    instance2.get(url2)
+    .then((res) => {
+    setProfiles(res.data);
+    })
+    .catch((err) => {
+      console.log('Error from ShowProfileList');
+    });
+    
+
+
+//  const tripList =
+//     trips.length === 0
+//       ? 'there is no trip record!'
+//       : trips.map((trip, k) => <TripCard     profile={profiles.filter( profile => {
+//         return (
+//           profile.username.includes(trip.user)
+//     );
+//   })
+//   } trip={trip} key={k} />);
 
 
 
@@ -122,50 +141,20 @@ function searchList() {
     }
   )
   .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard profile={profiles.filter( profile => {
+  .map((trip, k) => <TripCard     profile={profiles.filter( profile => {
     return (
       profile.username.includes(trip.user)
 );
 })
 } trip={trip} key={k} />);
 
-useEffect(() => {
-
-instance.get(url, {httpsAgent:httpsAgent})
-.then((res) => {
-  setTrips(res.data.reverse());
-  // console.log(res);
-})
-.catch((err) => {
-  console.log('Error from ShowTripList');
-});
-}, []);
-
-
-    instance2.get(url2, {httpsAgent:httpsAgent})
-    .then((res) => {
-    setProfiles(res.data);
-    })
-    .catch((err) => {
-      console.log('Error from ShowProfileList');
-    });
-    
 
 
 
 
 
 
-  const tripList =
-    trips.length === 0
-      ? 'there is no trip record!'
-      : trips.map((trip, k) => <TripCard profile={profiles.filter( profile => {
-        return (
-          profile.username.includes(trip.user)
-    );
-})
-} trip={trip} key={k} />);
-
+ 
       const pageCount = Math.ceil(trips.filter(
         trip => {
           return (
