@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import TripCard from './TripCard';
 import ReactPaginate from "react-paginate";
-import { Amplify } from 'aws-amplify';
 //2.
-import awsmobile from '../aws-exports';
 //3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
+import awsmobile from '../aws-exports';
+import { Amplify } from 'aws-amplify';
 
+Amplify.configure(awsmobile);
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const img777 = "/src/img/bg3.jpg"
@@ -34,7 +35,6 @@ const url2 = "http://35.171.2.96:3100/profiles"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 
-Amplify.configure(awsmobile)
 
 
 function ShowTripList() {

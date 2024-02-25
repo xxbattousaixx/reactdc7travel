@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Dashboard from './Dashboard';
-import { Amplify } from 'aws-amplify';
 //2.
 import { useSpring, animated } from '@react-spring/web'
 
-import awsExports from '../aws-exports';
+
 //3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
@@ -13,7 +12,6 @@ import '../App.css';
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 
-Amplify.configure(awsExports)
 
 
 function Login() {

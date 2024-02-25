@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TripCard2 from './TripCard2';
 import ReactPaginate from "react-paginate";
-import { Amplify } from 'aws-amplify';
 //2.
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+//3.
+//4.
+
+
+import { Amplify } from 'aws-amplify';
+
+
 import awsmobile from '../aws-exports';
 //3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-//4.
-Amplify.configure(awsmobile)
 
-
+Amplify.configure(awsmobile);
 
 
 const PER_PAGE = 6;
@@ -31,25 +36,22 @@ const url2 = "http://35.171.2.96:3100/profiles"
 //     console.log('Make sure that the CA cert file is named ca.pem', err);
 // }
 
+async function getUserInfo() {
+  const user = await Auth.currentAuthenticatedUser();
+  setUserInfo(user.attributes);
+}
 
+function Dashboard(props) {
 
-function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
-  if (!isPassedToWithAuthenticator) {
-    throw new Error(`isPassedToWithAuthenticator was not provided`);
-  }
   const [trips, setTrips] = useState([]);
   const [profiles, setProfiles] = useState([]);
+  const [userInfo, setUserInfo] = useState("");
 
   const [searchField, setSearchField] = useState("");
   const [searchShow, setSearchShow] = useState(true); 
-  const [userInfo, setUserInfo] = useState("");
 
   const [profile, setProfile] = useState({});
 
-  // async function getUserInfo() {
-  //   const user = await Auth.currentAuthenticatedUser();
-  //   setUserInfo(user.attributes);
-  // }
   
   const handleChange = e => {
     setSearchField(e.target.value);
@@ -57,8 +59,9 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
       setSearchShow(true);
     }
   };
-    
-   
+
+
+  
   
     // getUserInfo().then(result=>
     //   setUserInfo(result) );
@@ -116,14 +119,23 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
       
       });
 
+  //  async function getUserInfo() {
+    
+  //   setUserInfo(user.attributes);
+  // }
   
-  const { id } = useParams();
-
- 
-
-  // getUserInfo();
 
 
+
+
+
+
+
+
+
+  // setUserInfo(getCurrentUser());
+
+  
   
     instance.get(url)
         .then((res) => {
@@ -135,11 +147,14 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
           console.log('Error from ShowTripList');
         });
 
-
+      useEffect(() => {
+        getUserInfo();
+    
         instance2.get(url2)
         .then((res) => {
     
         setProfiles(res.data);
+
             for(var i = 0; i < res.data.length; i++)
       {
       if(res.data[i].username === userInfo.email)
@@ -154,7 +169,7 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
           console.log('Error from ShowProfileList');
         });
   
-  
+      }, []);
   
   
 
@@ -210,10 +225,10 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
   } trip={trip} key={k} />);
   
  return(
+  <Authenticator>
+  {({ signOut, user }) => (
 
-  
 
-  
         <div >
 
 <div className='row'>
@@ -298,16 +313,11 @@ function Dashboard({ isPassedToWithAuthenticator, signOut, user }) {
 
 
         </div>
-
-)}
-
-//6.
-export default withAuthenticator(Dashboard, {
-  socialProviders: ['apple', 'facebook', 'google']
-});
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+      
+    )}
+    </Authenticator>
+     
+    );
+  }
+  
+  export default Dashboard;

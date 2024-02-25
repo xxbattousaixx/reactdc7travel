@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Amplify } from 'aws-amplify';
 //2.
 
-import awsExports from '../aws-exports';
+import awsmobile from '../aws-exports';
 //3.
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -25,7 +25,7 @@ const url = "http://35.171.2.96:3100/trips";
 // });
 
 
-Amplify.configure(awsExports);
+Amplify.configure(awsmobile);
 
 
 function ShowPublicTrip(props) {
@@ -47,12 +47,12 @@ function ShowPublicTrip(props) {
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName
   // const img = 'http://localhost:3100/images/'+trip.fileName
 
-  // const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`${url}/${id}`, {httpsAgent:httpsAgent})
+      .get(`${url}/${id}`)
       .then((res) => {
         setTrip(res.data);
       })
@@ -124,6 +124,8 @@ function ShowPublicTrip(props) {
   );
   return (<div>
     <Authenticator>
+    {({ signOut, user }) => (
+
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
       backgroundSize:"cover",
@@ -199,7 +201,11 @@ function ShowPublicTrip(props) {
         </div>
       <br/>
       <br/>
-    </div></Authenticator></div>
+    </div>
+    )}
+  </Authenticator>
+</div>
+   
   );
 }
 

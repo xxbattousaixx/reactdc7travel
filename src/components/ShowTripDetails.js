@@ -4,18 +4,19 @@ import '../App.css';
 import axios from 'axios';
 
 
+
 import { Amplify } from 'aws-amplify';
 //2.
 
 import awsmobile from '../aws-exports';
 //3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-
+//4.
 
 const url = "http://35.171.2.96:3100/trips";
 // const url = "http://localhost:3100/trips";
@@ -29,7 +30,7 @@ const url = "http://35.171.2.96:3100/trips";
 Amplify.configure(awsmobile);
 
 
-function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
+const ShowTripDetails= (props) => {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -40,8 +41,11 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
+ 
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
   }
 
   const [trip, setTrip] = useState({});
@@ -52,15 +56,20 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+
     axios
       .get(`${url}/${id}`)
       .then((res) => {
+  getUserInfo();
+
         setTrip(res.data);
       })
       .catch((err) => {
         console.log('Error from ShowTripDetails');
       });
-  }, [id]);
+  }, []);
+ 
 
   const onDeleteClick = (id) => {
     axios
@@ -124,6 +133,9 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
     </div>
   );
   return (<div>
+      <Authenticator>
+    {({ signOut, user }) => (
+
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
       backgroundSize:"cover",
@@ -176,40 +188,42 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
             <p className='lead text-center'>View Trip's Info</p>
             <hr /> <br />
           </div>
-          <div className='col-md-6 m-auto'><div class="containero">
-  <div class="cardo cardo0">
-    <div class="border">
+       <div className='row'>  
+        <div className='col-md-4 m-auto'><div className="containero">
+  <div className="cardo cardo0" style={{backgroundImage:"url(" + require(img) + ")"}} >
+    <div className="border">
       <h2>Al Pacino</h2>
-      <div class="icons">
-        <i class="fa fa-codepen" aria-hidden="true"></i>
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-        <i class="fa fa-dribbble" aria-hidden="true"></i>
-        <i class="fa fa-twitter" aria-hidden="true"></i>
-        <i class="fa fa-facebook" aria-hidden="true"></i>
+      <div className="icons">
+        <i className="fa fa-codepen" aria-hidden="true"></i>
+        <i className="fa fa-instagram" aria-hidden="true"></i>
+        <i className="fa fa-dribbble" aria-hidden="true"></i>
+        <i className="fa fa-twitter" aria-hidden="true"></i>
+        <i className="fa fa-facebook" aria-hidden="true"></i>
       </div>
     </div>
   </div>
-  {/* <div class="cardo cardo1">
-    <div class="border">
+  
+  {/* <div className="cardo cardo1">
+    <div className="border">
       <h2>Ben Stiller</h2>
-      <div class="icons">
-        <i class="fa fa-codepen" aria-hidden="true"></i>
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-        <i class="fa fa-dribbble" aria-hidden="true"></i>
-        <i class="fa fa-twitter" aria-hidden="true"></i>
-        <i class="fa fa-facebook" aria-hidden="true"></i>
+      <div className="icons">
+        <i className="fa fa-codepen" aria-hidden="true"></i>
+        <i className="fa fa-instagram" aria-hidden="true"></i>
+        <i className="fa fa-dribbble" aria-hidden="true"></i>
+        <i className="fa fa-twitter" aria-hidden="true"></i>
+        <i className="fa fa-facebook" aria-hidden="true"></i>
       </div>
     </div>
   </div>
-  <div class="cardo cardo2">
-    <div class="border">
+  <div className="cardo cardo2">
+    <div className="border">
       <h2>Patrick Stewart</h2>
-      <div class="icons">
-        <i class="fa fa-codepen" aria-hidden="true"></i>
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-        <i class="fa fa-dribbble" aria-hidden="true"></i>
-        <i class="fa fa-twitter" aria-hidden="true"></i>
-        <i class="fa fa-facebook" aria-hidden="true"></i>
+      <div className="icons">
+        <i className="fa fa-codepen" aria-hidden="true"></i>
+        <i className="fa fa-instagram" aria-hidden="true"></i>
+        <i className="fa fa-dribbble" aria-hidden="true"></i>
+        <i className="fa fa-twitter" aria-hidden="true"></i>
+        <i className="fa fa-facebook" aria-hidden="true"></i>
       </div>
     </div>
   </div> */}
@@ -220,27 +234,27 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
 </div>
 <div className='col-md-6 m-auto'>
 
-<div class="cardy-container">
-  <div class="cardy">
-    <h3>Hover me</h3><br/>
+<div className="cardy-container">
+  <div className="cardy">
+    <h3>Your Trip's Info</h3><br/>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores sapiente non asperiores deleniti, quos eos placeat corrupti id consequatur ullam accusantium, nesciunt aut fugiat at ipsam harum eveniet dolore.</p>
-    <div class="layers">
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>   
+    <div className="layers">
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>   
     </div>
   </div> 
 </div>
 </div>
-
-          <div className='col-md-6 m-auto'>
+</div>
+          <div className='col-md-4 m-auto'>
             <button
               type='button'
               className='btn btn1 btn-outline-danger btn-lg btn-block'
@@ -262,14 +276,10 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
         </div>
       <br/>
       <br/>
-    </div></div>
+    </div>    )}
+  </Authenticator>
+</div>
+   
   );
 }
-
-export default withAuthenticator(ShowTripDetails); 
- export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+export default ShowTripDetails; 

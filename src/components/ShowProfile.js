@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Profiler } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
@@ -44,10 +44,7 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
 
   const [profile, setProfile] = useState({});
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+ 
 
   
   const img = 'http://35.171.2.96:3100/images/'+profile.fileName
@@ -66,24 +63,24 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
  
 
   const ProfileItem = (
-    <div class="bodybody">
-      <div class="minip">
-  <div class="mg">
-    <div class="clr"></div>
-    <div class="group">
-      <span>membergroup</span>
+    <div className="bodybody">
+      <div className="minip">
+  <div className="mg">
+    <div className="clr">BIO: {profile.bio}</div>
+    <div className="group">
+      <span style={{color:'red', fontSize:'9px'}}>{profile.username}</span>
     </div>
   </div>
-  <div class="av" style="background-image: url('https://pbs.twimg.com/media/DjfSp1BVAAAiEyV.jpg');"></div>
-  <div class="info">
-    <name>jinkyu do</name>
+         <img src={img} className="av" alt="Creator" />
+  <div className="info">
+    {/* <name>Hello World!!</name> */}
     <deets>
-      369 › he/him<br/>
-      soccer player
+      AGE:{profile.age} <br/> GEN:{profile.gender}<br/>
+      LOCATION:{profile.location}
     </deets>
   </div>
-  <a class="plot" title="plot with jinkyu" href="/">
-    view plots →
+  <a className="plot" title="plot with jinkyu" href={`/edit-profile/${profile._id}`}>
+    EDIT PROFILE →
   </a>
 </div>
       {/* <table className='table table-hover table-dark'>
@@ -133,6 +130,7 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
       </table> */}
     </div>
   );
+  const { id } = useParams();
 
   useEffect(() => {
     instance

@@ -27,12 +27,12 @@
   transform: rotateY(30deg) rotateX(15deg);
   transform-style: preserve-3d;
   transition: transform 1s;
-  
-  .cardy:hover {
-    transform: rotateY(-30deg) rotateX(-15deg);
-  }
+ 
 }
-
+ 
+.cardy:hover {
+  transform: rotateY(-30deg) rotateX(-15deg);
+}
 .layers {
   position: absolute;
   left: 0; top: 0;
@@ -658,6 +658,7 @@ code {
     grid-template-rows .6s linear;
 }
 .minip .mg .clr {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   grid-area: clr;
   background: var(--green);
 }
@@ -683,6 +684,7 @@ code {
 }
 
 .minip .av {
+  background-image: url('https://pbs.twimg.com/media/DjfSp1BVAAAiEyV.jpg');
   width: 200px;
   height: 350px;
   position: absolute;
@@ -696,6 +698,8 @@ code {
     height .6s linear;
 }
 .minip:hover .av {
+  background-image: url('https://pbs.twimg.com/media/DjfSp1BVAAAiEyV.jpg');
+
   width: 250px;
   height: 400px;
   transition:
@@ -719,6 +723,9 @@ code {
     bottom .6s linear;
 }
 .bodybody{
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
   margin: 100px;
   padding: 0px;
   background: var(--beige); 
@@ -744,14 +751,14 @@ code {
   transition:
     bottom .6s linear;
 }
-.minip .info name {
+.minip .info .name {
   display: block;
   font: 200 25px/30px var(--display);
   text-indent: -25px;
   letter-spacing: 1px;
   margin: 0px 0px 10px 25px;
 }
-.minip .info deets {
+.minip .info .deets {
   font: 10px/15px var(--mono);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -764,7 +771,6 @@ code {
   min-height: 600px;
   min-width: 1000px;;
   display: flex;
-  justify-content: space-around;
   align-items: center;
   margin: 0 auto;
 }

@@ -32,7 +32,7 @@ const url = "http://35.171.2.96:3100/profiles";
 //   key: fs.readFileSync("./key.pem"),
 //   passphrase: "sayonara"
 // })
-Amplify.configure(awsmobile);
+
 
 function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
   const [open, toggle] = useState(false)

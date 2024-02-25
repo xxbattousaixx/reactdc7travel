@@ -1,14 +1,13 @@
 import React, { useState, useEffect, Profiler } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 
 import { Amplify } from 'aws-amplify';
 //2.
 
-import awsExports from '../aws-exports';
+import awsmobile from '../aws-exports';
 //3.
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -27,7 +26,7 @@ const url = "http://35.171.2.96:3100/profiles";
 // });
 
 
-Amplify.configure(awsExports);
+Amplify.configure(awsmobile);
 
 
 const Profile = (props) => {
@@ -62,7 +61,7 @@ fileName:''  });
   }
 
   
-  const img = 'http://35.171.2.96:3100/images/'+profile.fileName
+  const img = 'http://35.171.2.96:3100/images/'+profile[0].fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
 

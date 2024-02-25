@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useNavigate } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
 
 import awsmobile from '../aws-exports';
