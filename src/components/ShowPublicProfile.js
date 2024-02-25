@@ -151,9 +151,9 @@ function ShowPublicProfile(props) {
             <Link to='/' className='btn btn1 btn-outline-warning float-left'>
               Show All Trips
             </Link>
-            <Link to={`/show-profile/${profile._id}`} className='btn btn1 btn-outline-warning float-right'>
+            {/* <Link to={`/show-profile/${profile._id}`} className='btn btn1 btn-outline-warning float-right'>
               My profile
-            </Link>
+            </Link> */}
           </div>
           </div>
           <br />

@@ -163,6 +163,9 @@ console.log(trip.photo);
 
 
     const CreateTrip = (props) => {
+
+
+
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -263,7 +266,7 @@ console.log(trip.photo);
   
 
       }, []);
-      instance2.get(url2, {httpsAgent:httpsAgent})
+      instance2.get(url2)
     .then((res) => {
     
         for(var i = 0; i < res.data.length; i++)

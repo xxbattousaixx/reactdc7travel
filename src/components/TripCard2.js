@@ -24,7 +24,7 @@ const TripCard2 = (props) => {
                 src={img}
                 alt='travel pic'
                 width='100%'
-                height='100%' />
+                height='200vh' />
             </Link>
     
          <div style={{color:'#CBB279'}}>To: {trip.location}</div>

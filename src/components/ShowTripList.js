@@ -7,13 +7,9 @@ import TripCard from './TripCard';
 import ReactPaginate from "react-paginate";
 //2.
 //3.
-import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
-import awsmobile from '../aws-exports';
-import { Amplify } from 'aws-amplify';
 
-Amplify.configure(awsmobile);
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 const img777 = "/src/img/bg3.jpg"

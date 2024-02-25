@@ -133,7 +133,6 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
     </div>
   );
   const { id } = useParams();
-
   useEffect(() => {
     instance
       .get(`${url}/${id}`)

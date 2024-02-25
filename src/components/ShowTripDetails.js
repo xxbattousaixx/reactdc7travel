@@ -43,10 +43,6 @@ const ShowTripDetails= (props) => {
   )
  
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
 
   const [trip, setTrip] = useState({});
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName
@@ -61,7 +57,6 @@ const ShowTripDetails= (props) => {
     axios
       .get(`${url}/${id}`)
       .then((res) => {
-  getUserInfo();
 
         setTrip(res.data);
       })

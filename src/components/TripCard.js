@@ -6,7 +6,7 @@ const TripCard = (props) => {
    const trip = props.trip;
   const profile = props.profile;
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName;
-  const img2 = 'http://35.171.2.96:3100/images/'+profile[0].fileName;
+  const img2 = 'http://35.171.2.96:3100/images/'+profile.fileName;
 
 
 
