@@ -135,21 +135,21 @@ function Dashboard(props) {
 
   // setUserInfo(getCurrentUser());
 
-  
+  useEffect(() => {
+
   
     instance.get(url)
         .then((res) => {
-
+getUserInfo();
           setTrips(res.data.reverse());
           // console.log(res);
         })
         .catch((err) => {
           console.log('Error from ShowTripList');
         });
+      }, []);
 
-      useEffect(() => {
-        getUserInfo();
-    
+
         instance2.get(url2)
         .then((res) => {
     
@@ -169,7 +169,6 @@ function Dashboard(props) {
           console.log('Error from ShowProfileList');
         });
   
-      }, []);
   
   
 

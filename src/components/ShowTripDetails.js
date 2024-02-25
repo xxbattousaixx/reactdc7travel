@@ -190,7 +190,7 @@ const ShowTripDetails= (props) => {
           </div>
        <div className='row'>  
         <div className='col-md-4 m-auto'><div className="containero">
-  <div className="cardo cardo0" style={{backgroundImage:"url(" + require(img) + ")"}} >
+  <div className="cardo cardo0"  >
     <div className="border">
       <h2>Al Pacino</h2>
       <div className="icons">

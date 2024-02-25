@@ -44,13 +44,15 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
 
   const [profile, setProfile] = useState({});
 
- 
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
+  }
 
   
   const img = 'http://35.171.2.96:3100/images/'+profile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
-  // const { id } = useParams();
 
 
   const instance = axios.create(

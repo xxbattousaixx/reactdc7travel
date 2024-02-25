@@ -5,7 +5,7 @@ import { Amplify } from 'aws-amplify';
 
 import awsmobile from '../aws-exports';
 //3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 //4.
 import './styles.module.css';
@@ -40,10 +40,129 @@ const instance2 = axios.create(
 
 });
 
-function CreateTrip({ isPassedToWithAuthenticator, signOut, user }) {
-  if (!isPassedToWithAuthenticator) {
-    throw new Error(`isPassedToWithAuthenticator was not provided`);
+const CreateTrip = (props) => {
+  const [open, toggle] = useState(false)
+  const [{ freq, factor, scale, opacity }] = useSpring(
+    () => ({
+      reverse: open,
+      from: { factor: 10, opacity: 0, scale: 0.9, freq: '0.0175, 0.0' },
+      to: { factor: 150, opacity: 1, scale: 1, freq: '0.0, 0.0' },
+      config: { duration: 3000 },
+    }),
+    [open]
+  )
+
+  const [userInfo, setUserInfo] = useState("");
+
+  async function getUserInfo() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUserInfo(user.attributes);
   }
+
+  const navigate = useNavigate();
+  // Define the state with useState hook
+
+
+  const [profile, setProfile] = useState({});
+
+  const [trip, setTrip] = useState({
+    location: '',
+    user: '',
+    userid: '',
+
+    date: '',
+    notes: '',
+    quality: '',
+    value: '',
+    departing: '',
+  photo:'',
+fileName:''  });
+
+  const onChange = (e) => {
+    setTrip({ ...trip, [e.target.name]: e.target.value });
+  };
+  const handlePhoto = (e) => {
+    setTrip({ ...trip, photo: e.target.files[0] });
+console.log(trip.photo);
+
+  };
+
+  const onSubmit = (e) => {
+    
+    e.preventDefault();
+  const formData = new FormData();
+  formData.append('location',trip.location);
+  formData.append('user',userInfo.email);
+  formData.append('userid',profile._id);
+
+  formData.append('date',trip.date);
+  formData.append('notes',trip.notes);
+  formData.append('quality',trip.quality);
+  formData.append('value',trip.value);
+  formData.append('departing',trip.departing);
+  formData.append('photo',trip.photo);
+  formData.append('fileName',trip.fileName);
+
+
+  const instance = axios.create(
+    {  baseURL: url,
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+      'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded, '
+    } });
+    instance.post(url, formData, {httpsAgent:httpsAgent})
+      .then((res) => {
+        setTrip({
+          location: '',
+          user: '',
+          userid: '',
+
+          date: '',
+          notes: '',
+          quality: '',
+          value: '',
+          photo:'',
+          departing:'',
+          fileName:''
+               });
+
+          // Push to /
+          navigate('/dashboard');
+        })
+        .catch((err) => {
+          console.log('Error in CreateBook!');
+        });
+  }
+  useEffect(() => {
+    getUserInfo();
+    
+    instance2.get(url2, {httpsAgent:httpsAgent})
+    .then((res) => {
+    
+        for(var i = 0; i < res.data.length; i++)
+  {
+  if(res.data[i].username === userInfo.email)
+  {
+  setProfile(res.data[i]);
+  }
+  };
+  
+    })
+    .catch((err) => {
+      console.log('Error from ShowProfileList');
+    });
+
+      }, [id]);
+  
+ 
+
+   
+    
+
+
+
+    const CreateTrip = (props) => {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -141,7 +260,10 @@ console.log(trip.photo);
   useEffect(() => {
     getUserInfo();
     
-    instance2.get(url2, {httpsAgent:httpsAgent})
+  
+
+      }, []);
+      instance2.get(url2, {httpsAgent:httpsAgent})
     .then((res) => {
     
         for(var i = 0; i < res.data.length; i++)
@@ -156,12 +278,10 @@ console.log(trip.photo);
     .catch((err) => {
       console.log('Error from ShowProfileList');
     });
+  return (<div>
+    <Authenticator>
+    {({ signOut, user }) => (
 
-      }, []);
-  
-  return (
-    <div>
-    
 
 
 <div className='CreateTrip' style={{
@@ -303,15 +423,10 @@ console.log(trip.photo);
           </div>
         </div>
     </div>
-
+  )}
+  </Authenticator>
 </div>
    
-    );
-};
-export default withAuthenticator(CreateTrip);
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+  );
+}}
+export default CreateTrip;
