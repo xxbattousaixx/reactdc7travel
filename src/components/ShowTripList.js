@@ -38,7 +38,7 @@ function ShowTripList() {
   const [trips, setTrips] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [trip, setTrip] = useState({});
-  const [profile, setProfile] = useState({});
+  const [inprofile, setInprofile] = useState({});
 const [searchField, setSearchField] = useState("");
 const [searchShow, setSearchShow] = useState(true); 
 
@@ -80,7 +80,6 @@ instance.get(url)
 .catch((err) => {
   console.log('Error from ShowTripList');
 });
-}, []);
 
 
     instance2.get(url2)
@@ -91,6 +90,7 @@ instance.get(url)
       console.log('Error from ShowProfileList');
     });
     
+  }, []);
 
 
 //  const tripList =
@@ -137,7 +137,7 @@ function searchList() {
     }
   )
   .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard     profile={profiles.filter( profile => {
+  .map((trip, k) => <TripCard     inprofile={profiles.filter( profile => {
     return (
       profile.username.includes(trip.user)
 );

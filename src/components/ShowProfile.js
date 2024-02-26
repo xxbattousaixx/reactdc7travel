@@ -68,22 +68,22 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
     <div className="bodybody">
       <div className="minip">
   <div className="mg">
-    <div className="clr">BIO: {profile.bio}</div>
+    <div className="clr" style={{color:'gold', fontSize:'1rem', fontWeight:'bold'}}><br/>  AGE:{profile.age} <br/><br/> GEN:{profile.gender}<br/><br/>
+      LOCATION:{profile.location}</div>
     <div className="group">
-      <span style={{color:'red', fontSize:'9px'}}>{profile.username}</span>
+      <span style={{color:'red', fontSize:'10px'}}>{profile.bio}</span>
     </div>
   </div>
          <img src={img} className="av" alt="Creator" />
   <div className="info">
     {/* <name>Hello World!!</name> */}
-    <deets>
-      AGE:{profile.age} <br/> GEN:{profile.gender}<br/>
-      LOCATION:{profile.location}
-    </deets>
+    <div className='deets' style={{fontSize:'9px', fontWeight:'italic'}}>
+  {profile.username}
+    </div>
   </div>
-  <a className="plot" title="plot with jinkyu" href={`/edit-profile/${profile._id}`}>
+  {/* <a className="plot" title="plot with jinkyu" href={`/edit-profile/${profile._id}`}>
     EDIT PROFILE →
-  </a>
+  </a> */}
 </div>
       {/* <table className='table table-hover table-dark'>
         <tbody>

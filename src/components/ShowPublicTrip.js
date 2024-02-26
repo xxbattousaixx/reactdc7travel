@@ -28,7 +28,7 @@ const url = "http://35.171.2.96:3100/trips";
 Amplify.configure(awsmobile);
 
 
-const ShowPublicTrip=(props)=> {
+const ShowPublicTrip=()=> {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({

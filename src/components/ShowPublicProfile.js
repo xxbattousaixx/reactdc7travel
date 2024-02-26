@@ -41,7 +41,7 @@ function ShowPublicProfile(props) {
  
   const [userInfo, setUserInfo] = useState("");
 
-  const [profile, setProfile] = useState({});
+  const [pprofile, setPProfile] = useState({});
 
   // async function getUserInfo() {
   //   const user = await Auth.currentAuthenticatedUser();
@@ -49,7 +49,7 @@ function ShowPublicProfile(props) {
   // }
 
   
-  const img = 'http://35.171.2.96:3100/images/'+profile.fileName
+  const img = 'http://35.171.2.96:3100/images/'+pprofile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
   const { id } = useParams();
@@ -64,7 +64,7 @@ function ShowPublicProfile(props) {
   } });
  
 
-  const ProfileItem = (
+const ProfileItem = (
     <>
 <div className="cardi">
         <div className="cardi-img">
@@ -73,17 +73,17 @@ function ShowPublicProfile(props) {
       />
         </div>
         <div className="desci">
-            <h6 className="primary-text">{profile.username}</h6>
-            <h6 className="secondary-text">{profile.location}</h6>
+            <h6 className="primary-text">{pprofile.username}</h6>
+            <h6 className="secondary-text">{pprofile.location}</h6>
         </div>
-        <div style={{fontFamily:'Lucida Handwriting'}}className="buttoni primary-text">{profile.bio}</div>
+        <div style={{fontFamily:'Lucida Handwriting'}}className="buttoni primary-text">{pprofile.bio}</div>
         <div className="details">
             <div className="rating">
-                <h6 className="primary-text"> {profile.age} </h6>
+                <h6 className="primary-text"> {pprofile.age} </h6>
                 <h6 className="secondary-text"> Age </h6>
             </div>
             <div className="activity">
-                <h6 className="primary-text"> {profile.gender} </h6>
+                <h6 className="primary-text"> {pprofile.gender} </h6>
                 <h6 className="secondary-text"> Gender </h6>
             </div>
         </div>
@@ -97,7 +97,7 @@ function ShowPublicProfile(props) {
     instance
       .get(`${url}/${id}`)
       .then((res) => {
-        setProfile(res.data);
+        setPProfile(res.data);
       })
       .catch((err) => {
         console.log('Error from ShowTripDetails');
