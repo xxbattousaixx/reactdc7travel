@@ -5,9 +5,9 @@ import logo from '/src/img/dc7logo.png';
 const TripCard2 = (props) => {
   
   const trip = props.trip;
-  const myprofile = props.myprofile;
+  const profile = props.profile;
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName;
-  const img2 = 'http://35.171.2.96:3100/images/'+myprofile[0].fileName;
+  const img2 = 'http://35.171.2.96:3100/images/'+profile[0].fileName;
 
 
   return (

@@ -48,7 +48,7 @@ const Dashboard=({ signOut, user })=> {
   const [trips, setTrips] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [trip, setTrip] = useState({});
-  const [myprofile, setMyProfile] = useState({});
+  const [profile, setProfile] = useState({});
   const [activeprofile, setActiveprofile] = useState({});
 
 const [searchField, setSearchField] = useState("");
@@ -101,7 +101,7 @@ instance.get(url)
 .catch((err) => {
   console.log('Error from ShowTripList');
 });
-
+}, []);
 
 
     instance2.get(url2)
@@ -128,7 +128,7 @@ instance.get(url)
     .catch((err) => {
       console.log('Error from ShowTripList');
     });
-  }, []);
+   
 //  const tripList =
 //     trips.length === 0
 //       ? 'there is no trip record!'
@@ -174,7 +174,7 @@ function searchList() {
     }
   )
   .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard2  myprofile={profiles.filter( profile => {
+  .map((trip, k) => <TripCard2  profile={profiles.filter( profile => {
     return (
       profile.username.includes(trip.user)
 );
@@ -269,7 +269,7 @@ setCurrentPage(selectedPage);
  <hr/>
  <div className='row'>
  <div className='col-md-8'>
-         <h3 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {activeprofile.username}</b></h3></div>
+         <h2 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {activeprofile.username}</b></h2></div>
          <div className='col-md-4'>
              <input 
            className="pa3 bb btn1 br3 grow b--none bg-lightest-blue ma3"

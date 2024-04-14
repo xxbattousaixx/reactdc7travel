@@ -25,8 +25,8 @@ const App = () => {
     <Router>
         <Routes>
       
-          <Route   path='/' element={<ShowTripList />}/>
-          <Route  path='/create-trip' element={<CreateTrip />}/>
+          <Route exact  path='/' element={<ShowTripList />}/>
+          <Route exact path='/create-trip' element={<CreateTrip />}/>
           <Route  path='/create-profile' element={<Profile />}/>
           <Route  path='/edit-profile/:id' element={<UpdateProfileInfo/>}/>
 

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate} from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
 
-import { Amplify } from 'aws-amplify';
 
+import { Amplify } from 'aws-amplify';
+//2.
 
 import awsmobile from '../aws-exports';
 //3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-//4.
 //4.
 
 const url = "http://35.171.2.96:3100/trips";
@@ -30,7 +30,7 @@ const url = "http://35.171.2.96:3100/trips";
 Amplify.configure(awsmobile);
 
 
-function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
+const ShowTripDetails= (props) => {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -42,42 +42,28 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
     [open]
   )
  
-  const { id } = useParams();
 
-  const [trips, setTrips] = useState([]);
 
   const [trip, setTrip] = useState({});
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName
   // const img = 'http://localhost:3100/images/'+trip.fileName
-  // const [userInfo, setUserInfo] = useState("");
 
-
-  // async function getUserInfo() {
-  //   const user = await Auth.currentAuthenticatedUser();
-  //   setUserInfo(user.attributes);
-  // }
+  const { id } = useParams();
   const navigate = useNavigate();
-  const instance = axios.create(
-    { baseURL: url, 
-    headers: {
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-      'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
-    } });
+
   useEffect(() => {
 
 
-    instance
+    axios
       .get(`${url}/${id}`)
       .then((res) => {
 
-        setTrips(res.data);
-
+        setTrip(res.data);
       })
       .catch((err) => {
         console.log('Error from ShowTripDetails');
       });
-  }, [id]);
+  }, []);
  
 
   const onDeleteClick = (id) => {
@@ -142,7 +128,8 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
     </div>
   );
   return (<div>
-          
+      <Authenticator>
+    {({ signOut, user }) => (
 
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
@@ -198,7 +185,7 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
           </div>
        <div className='row'>  
         <div className='col-md-4 m-auto'><div className="containero">
-  <div className="cardo cardo0" style={{width:'100%', height:'100%', backgroundImage:"url(" + require(img) + ")"}} >
+  <div className="cardo cardo0"  >
     <div className="border">
       <h2>Al Pacino</h2>
       <div className="icons">
@@ -284,16 +271,10 @@ function ShowTripDetails({ isPassedToWithAuthenticator, signOut, user }) {
         </div>
       <br/>
       <br/>
-    </div>    
-     
+    </div>    )}
+  </Authenticator>
 </div>
    
   );
 }
-export default withAuthenticator(ShowTripDetails); 
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+export default ShowTripDetails; 

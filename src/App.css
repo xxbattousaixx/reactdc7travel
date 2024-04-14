@@ -626,8 +626,8 @@ code {
   background: #ee6204;
 }
 .minip {
-  width: 40%;
-  height: 100vh;
+  width: 300px;
+  height: 450px;
   margin: auto;
   background: var(--white);
   position: relative;
@@ -666,7 +666,7 @@ code {
   font: 10px/10px var(--mono);
   text-transform: uppercase;
   letter-spacing: 1px;
-  writing-mode:vertical-rl;
+  writing-mode: vertical-lr;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -681,9 +681,8 @@ code {
   transform: rotate(270deg);
   transition:
     transform .6s linear;
-  
 }
-.group{display:none}
+
 .minip .av {
   background-image: url('https://pbs.twimg.com/media/DjfSp1BVAAAiEyV.jpg');
   width: 200px;
