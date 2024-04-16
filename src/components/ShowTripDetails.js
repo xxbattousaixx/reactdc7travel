@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
+import { Img } from 'react-image';
 export const setAuthToken = token => {
   if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -311,6 +312,7 @@ const ShowTripDetails=(props)=> {
           <div className='col-md-8 m-auto center'>
 {TripItem}
 </div>
+
 <div className='row'>
 <div className='col-md-6 m-auto'>
             <button

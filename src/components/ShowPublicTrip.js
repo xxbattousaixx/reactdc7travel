@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
+import { Img } from 'react-image';
 
-
-//3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
@@ -158,7 +157,7 @@ const ShowPublicTrip=(props)=> {
        </div>
       </div>
         <div className='row'>
-          <div className='col-md-10 m-auto'>
+          <div className='col-md-12 m-auto'>
             <Link to='/' className='btn btn1 btn-outline-warning float-left'>
               Show All Trips
             </Link>
@@ -169,7 +168,7 @@ const ShowPublicTrip=(props)=> {
             <p className='lead text-center'>View Trip's Info</p>
             <hr /> <br />
           </div>
-          <div className='col-md-10 m-auto'>{TripItem}</div>
+          <div className='col-md-8 m-auto center'>{TripItem}</div>
           <div className='col-md-6 m-auto'>
             {/* <button
               type='button'

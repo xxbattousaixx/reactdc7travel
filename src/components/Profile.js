@@ -146,8 +146,7 @@ instance.post(url, formData)
        </div>
 <div className='col-md-8'>
             <h4 className='text-center' style={{color:'#FFC000'}}> 
-            <div onClick={()=>window.scrollTo({ top: 400, behavior:"smooth" })}>
-              <div className='container' onClick={() => toggle(!open)}>
+              <div className='container contain7' onClick={() => toggle(!open)}>
       <animated.svg className='svg' style={{ scale, opacity }} viewBox="0 0 1278 446">
         <defs>
           <filter id="water">
@@ -168,7 +167,7 @@ instance.post(url, formData)
             fill="#FFC000"
           />
         </g>
-      </animated.svg></div></div>
+      </animated.svg></div>
     </h4>
     </div>
     <div className='col-md-2'>

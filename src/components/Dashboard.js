@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import TripCard2 from './TripCard2';
 import ReactPaginate from "react-paginate";
-//2.
+import { Img } from 'react-image';
 export const setAuthToken = token => {
   if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -56,8 +56,7 @@ const Dashboard=(props)=> {
   const { logout } = useAuth();
   const {id} = useParams();
   const handleLogout = () => {
-    logout();
-  };
+    logout();}
   const { user } = useAuth();
   const [trips, setTrips] = useState([]);
   const [profiles2, setProfiles2] = useState([]);
@@ -125,7 +124,9 @@ instance.get(url)
     {
 setActiveprofile(res.data[i]);
 setProfile(res.data[i]);
+break;
     }else{
+      console.log('no match')
       setActiveprofile(null);
       setProfile(null);
             
@@ -254,8 +255,7 @@ setCurrentPage(selectedPage);
        </div>
 <div className='col-md-8'>
             <h4 className='text-center' style={{color:'#FFC000'}}> 
-            <div onClick={()=>window.scrollTo({ top: 400, behavior:"smooth" })}>
-              <div className='container' onClick={() => toggle(!open)}>
+              <div className='container contain7' onClick={() => toggle(!open)}>
       <animated.svg className='svg' style={{ scale, opacity }} viewBox="0 0 1278 446">
         <defs>
           <filter id="water">
@@ -276,7 +276,7 @@ setCurrentPage(selectedPage);
             fill="#FFC000"
           />
         </g>
-      </animated.svg></div></div>
+      </animated.svg></div>
     </h4>
     </div>
     <div className='col-md-2'>
@@ -285,8 +285,10 @@ setCurrentPage(selectedPage);
 
  
          <div >
- 
- <div className='row m-auto'>
+<div className='shrink'>
+ <div style={{backgroundColor:'red', border:'5px solid black'}}>
+
+ <div className='row contain8'>
  
  <div className='col-md-4 '>
  { activeprofile
@@ -331,11 +333,12 @@ setCurrentPage(selectedPage);
  
  </div>
  </div>
- 
+
+ </div></div>
  <hr/>
  <div className='row'>
  <div className='col-md-8'>
-         <h3 style={{color:'grey', fontsize:'3rem'}}><b>Hello, {user.username}</b></h3></div>
+         <h3 style={{color:'red', fontWeight:'bold', fontsize:'6rem'}}><b>Hello, {user.username}</b></h3></div>
          <div className='col-md-4'>
              <input 
            className="pa3 bb btn1 br3 grow b--none bg-lightest-blue ma3"
@@ -347,7 +350,7 @@ setCurrentPage(selectedPage);
  
        
              <hr />
-            <b>Edit added trips by clicking their picture:</b>
+            <b style={{fontWeight:'bolder', backgroundColor:'black', color:'orange'}}>Edit added trips by clicking their picture:</b>
  <br/>
          {searchList()}
          <div></div>

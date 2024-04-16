@@ -1,32 +1,47 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
+  const [is2FAVerified, setIs2FAVerified] = useState(false);
   const navigate = useNavigate();
 
-  // call this function when you want to authenticate the user
   const login = async (data) => {
     setUser(data);
-    navigate("/dashboard")
+    setIs2FAVerified(true);
+
+    // Navigate to 2FA verification page
+    navigate("/dashboard");
+    return true;
   };
 
-  // call this function to sign out logged in user
   const logout = () => {
     setUser(null);
+    setIs2FAVerified(false);
     navigate("/", { replace: true });
   };
 
-  const value = useMemo(
-    () => ({
-      user,
-      login,
-      logout,
-    }),
-    [user]
-  );
+  const verify2FACode = async (code) => {
+    // Mock verification logic
+    if (code === "0000") {
+      setIs2FAVerified(true);
+      navigate("/dashboard"); // Navigate to a protected route after successful 2FA
+      return true;
+    }
+    return false;
+  };
+
+  const value = {
+    user,
+    is2FAVerified,
+    login,
+    logout,
+    verify2FACode,
+  };
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

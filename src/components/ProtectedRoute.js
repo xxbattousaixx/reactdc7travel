@@ -2,10 +2,16 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, is2FAVerified } = useAuth();
+
   if (!user) {
-    // user is not authenticated
     return <Navigate to="/login" />;
   }
+  if (!is2FAVerified) {
+    return <Navigate to="/verify-2fa" />;
+  }
+
   return children;
 };
+
+export default ProtectedRoute;
