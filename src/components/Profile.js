@@ -2,21 +2,20 @@ import React, { useState, useEffect, Profiler } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
 
-
-import { Amplify } from 'aws-amplify';
-//2.
-
-import awsmobile from '../aws-exports';
-//3.
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
-
+import {useAuth} from '../hooks/useAuth'
 const url = "http://35.171.2.96:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
@@ -26,19 +25,20 @@ const url = "http://35.171.2.96:3100/profiles";
 // });
 
 
-Amplify.configure(awsmobile);
 
 
 const Profile = (props) => {
-  const [userInfo, setUserInfo] = useState("");
   const [profile, setProfile] = useState({
+    userid:'',
     location: '',
+    active: '',
     age: '',
     bio: '',
     gender: '',
     username: '',
   photo:'',
 fileName:''  });
+const {user} = useAuth();
 
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
@@ -53,15 +53,14 @@ fileName:''  });
   // if (!open){
   //   window.scrollTo({ top: 0, behavior:"smooth"});
   // }
- 
 
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+
+  // async function getUserInfo() {
+  //   const user = await Auth.currentAuthenticatedUser();
+  //   setUserInfo(user.attributes);
+  // }
 
   
-  const img = 'http://35.171.2.96:3100/images/'+profile[0].fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
 
@@ -82,14 +81,18 @@ console.log(profile.photo);
     e.preventDefault();
 
   const formData = new FormData();
-  formData.append('username',userInfo.email);
+  formData.append('username',user.username);
+  formData.append('active',true);
+  formData.append('userid',profile._id);
+  
   formData.append('age',profile.age);
   formData.append('bio',profile.bio);
   formData.append('gender',profile.gender);
   formData.append('location',profile.location);
   formData.append('photo',profile.photo);
 formData.append('fileName',profile.fileName);
-console.log(profile.photo);
+
+
 
   const instance = axios.create(
     {  baseURL: url,
@@ -103,6 +106,7 @@ instance.post(url, formData)
       .then((res) => {
         setProfile({
           userid:'',
+          active:'',
             location: '',
             username: '',
             bio: '',
@@ -111,6 +115,9 @@ instance.post(url, formData)
           photo:'',
           fileName:''
                });
+               user.active = true;
+               user.id= profile._id;
+               
                navigate('/dashboard');
 
             })
@@ -118,13 +125,12 @@ instance.post(url, formData)
               console.log('Error in CreateBook!');
             });
       }
-      useEffect(() => {
-        getUserInfo();
-          }, []);
+      // useEffect(() => {
+      //   getUserInfo();
+      //     }, []);
   return (
     <div>
-    <Authenticator>
-    {({ signOut, user }) => (
+ 
 
 
 
@@ -170,12 +176,12 @@ instance.post(url, formData)
       </div>
         <br/>
         <div className='row'>
-          <div className='col-md-8 m-auto'>
+          {/* <div className='col-md-8 m-auto'>
             <br />
             <Link to='/dashboard' className='btn btn-outline-warning float-left'>
               Show Dashboard
             </Link>
-          </div>
+          </div> */}
           <div className='col-md-8 m-auto'>
             <h1 style={{color:'#FFC000'}} className='display-4 text-center'>Complete your profile.</h1>
             <p className='lead text-center'>Add any information you would like visible.</p>
@@ -247,8 +253,7 @@ instance.post(url, formData)
         </div>
     </div>
 
-    )}
-  </Authenticator>
+
 </div>
    
   );

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-
-
-
-import { Amplify } from 'aws-amplify';
-//2.
-
-import awsmobile from '../aws-exports';
-//3.
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import { useAuth } from '../hooks/useAuth';
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
+import logo from '/src/img/dc7logo.png';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
+//4.
 //4.
 
 const url = "http://35.171.2.96:3100/trips";
@@ -27,10 +27,8 @@ const url = "http://35.171.2.96:3100/trips";
 // });
 
 
-Amplify.configure(awsmobile);
 
-
-const ShowTripDetails= (props) => {
+const ShowTripDetails=(props)=> {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -41,20 +39,40 @@ const ShowTripDetails= (props) => {
     }),
     [open]
   )
- 
-
+  const { id } = useParams();
 
   const [trip, setTrip] = useState({});
+
   const img = 'http://35.171.2.96:3100/images/'+trip.fileName
+
   // const img = 'http://localhost:3100/images/'+trip.fileName
+  // const [userInfo, setUserInfo] = useState("");
 
-  const { id } = useParams();
+
+  // async function getUserInfo() {
+  //   const user = await Auth.currentAuthenticatedUser();
+  //   setUserInfo(user.attributes);
+  // }
   const navigate = useNavigate();
-
+  const instance = axios.create(
+    { baseURL: url, 
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+      'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+    } });
+    // const instance2 = axios.create(
+    //   { baseURL: url, 
+    //   headers: {
+    //     'Access-Control-Allow-Origin' : '*',
+    //     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+    //     'Content-Type': 'multipart/form-data, application/x-www-form-urlencoded'
+    //   } });
+      
   useEffect(() => {
 
 
-    axios
+    instance
       .get(`${url}/${id}`)
       .then((res) => {
 
@@ -63,8 +81,33 @@ const ShowTripDetails= (props) => {
       .catch((err) => {
         console.log('Error from ShowTripDetails');
       });
-  }, []);
+
+
+  
+
+//   instance2
+//   .get(url)
+//   .then((res) => {
+// console.log(res.data);
+// setProfiles(res.data);
+// // res.data.filter(
+// //   prof => {
+// //     return (
+// //       prof.username.includes(user.username)
+// //     );
+// //   }
+// // )
+
+  
+//   })
+//   .catch((err) => {
+//     console.log('Error from ShowTripDetails');
+//   });
+
+}, [id]);
+
  
+  
 
   const onDeleteClick = (id) => {
     axios
@@ -127,12 +170,11 @@ const ShowTripDetails= (props) => {
       </table>
     </div>
   );
-  return (<div>
-      <Authenticator>
-    {({ signOut, user }) => (
+  return (<>
+          
 
     <div className='ShowTripDetails' style={{
-      backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
+      backgroundImage: "url(" + require("/src/img/bg33.jpg") + ")",
       backgroundSize:"cover",
       backgroundRepeat:"no-repeat",
       backgroundPosition:"center",
@@ -173,19 +215,27 @@ const ShowTripDetails= (props) => {
       </div>
         <div className='row'>
           <div className='col-md-10 m-auto'>
-            <Link to='/dashboard' className='btn btn1 btn-outline-warning float-left'>
-              Show Trip List
+       
+            
+            <Link to='/' className='btn btn1 btn-outline-warning float-left'>
+              Show My Trips 
+            </Link>
+
+            <Link to='/dashboard' className='btn btn1 btn-outline-warning float-right'>
+              Show All Trips 
             </Link>
           </div>
           <br />
           <div className='col-md-8 m-auto'>
             <h1 className='display-4 text-center' style={{color:'#FFC000'}}>Trip's Record</h1>
-            <p className='lead text-center'>View Trip's Info</p>
+            <p className='lead text-center'>View Trip Info</p>
             <hr /> <br />
           </div>
-       <div className='row'>  
-        <div className='col-md-4 m-auto'><div className="containero">
-  <div className="cardo cardo0"  >
+          </div>
+       
+          
+          {/* <div className="containero">
+  <div className="cardo cardo0" backgroundImage={img} >
     <div className="border">
       <h2>Al Pacino</h2>
       <div className="icons">
@@ -197,7 +247,7 @@ const ShowTripDetails= (props) => {
       </div>
     </div>
   </div>
-  
+   */}
   {/* <div className="cardo cardo1">
     <div className="border">
       <h2>Ben Stiller</h2>
@@ -222,12 +272,9 @@ const ShowTripDetails= (props) => {
       </div>
     </div>
   </div> */}
-</div>
 
-{/* {TripItem} */}
 
-</div>
-<div className='col-md-6 m-auto'>
+{/* <div className='col-md-6 m-auto'>
 
 <div className="cardy-container">
   <div className="cardy">
@@ -259,6 +306,22 @@ const ShowTripDetails= (props) => {
             >
               Delete Trip
             </button>
+          </div> */}
+
+          <div className='col-md-8 m-auto center'>
+{TripItem}
+</div>
+<div className='row'>
+<div className='col-md-6 m-auto'>
+            <button
+              type='button'
+              className='btn btn1 btn-outline-danger btn-lg btn-block'
+              onClick={() => {
+                onDeleteClick(trip._id);
+              }}
+            >
+              Delete Trip
+            </button>
           </div>
           <div className='col-md-6 m-auto'>
             <Link
@@ -268,13 +331,14 @@ const ShowTripDetails= (props) => {
               Edit Trip
             </Link>
           </div>
+          </div>
+          <br/>
+      <br/>
         </div>
-      <br/>
-      <br/>
-    </div>    )}
-  </Authenticator>
-</div>
+    
+
+</>
    
   );
 }
-export default ShowTripDetails; 
+export default (ShowTripDetails); 

@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
 
-
-import { Amplify } from 'aws-amplify';
-
-
-import awsmobile from '../aws-exports';
 //3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import { useAuth } from "../hooks/useAuth";
 import './styles.module.css';
+
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
@@ -25,10 +27,9 @@ const url = "http://35.171.2.96:3100/profiles";
 //   ca: require('../../src/ca.pem')
 // });
 
-Amplify.configure(awsmobile);
 
+const ShowProfile=(props) => {
 
-function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -40,14 +41,14 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
     [open]
   )
   
-  const [userInfo, setUserInfo] = useState("");
+
+  
+  const { id } = useParams();
+  const { user } = useAuth();
+
+  const [profiles, setProfiles] = useState([]);
 
   const [profile, setProfile] = useState({});
-
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
 
   
   const img = 'http://35.171.2.96:3100/images/'+profile.fileName
@@ -65,74 +66,85 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
  
 
   const ProfileItem = (
-    <div className="bodybody">
-      <div className="minip">
-  <div className="mg">
-    <div className="clr">BIO: {profile.bio}</div>
-    <div className="group">
-      <span style={{color:'red', fontSize:'9px'}}>{profile.username}</span>
-    </div>
-  </div>
-         <img src={img} className="av" alt="Creator" />
-  <div className="info">
-    {/* <name>Hello World!!</name> */}
-    <deets>
-      AGE:{profile.age} <br/> GEN:{profile.gender}<br/>
-      LOCATION:{profile.location}
-    </deets>
-  </div>
-  <a className="plot" title="plot with jinkyu" href={`/edit-profile/${profile._id}`}>
-    EDIT PROFILE →
-  </a>
+<>   
+       <div className='row'>  
+        <div className='col-md-5 m-auto'>
+      
+<div className='body8'>
+    <article className='article8'>
+  <figure className='figure8'><img className='img8' src={img} alt=""/></figure>
+  <h2 className='h28'>{profile.username}</h2>
+  <div className="center" style={{color:'gold', fontSize:'2rem', fontWeight:'bold', fontStyle:'italic', textTransform:'none'}}>Username:  &nbsp;&nbsp; <a style={{color:'lightblue'}}> {profile.username}</a></div>
+</article>
+
+<h1 className='h18'></h1>
 </div>
-      {/* <table className='table table-hover table-dark'>
-        <tbody>
-          <tr>
-            <th scope='row'>1</th>
-            <td>User Id#</td>
-            <td>{profile._id}</td>
-          </tr>
-          <tr>
-            <th scope='row'>2</th>
-            <td>Username</td>
-            <td>{profile.username}</td>
-          </tr>
-          <tr>
-            <th scope='row'>3</th>
-            <td>Age</td>
-            <td>{profile.age}</td>
-          </tr>
-          <tr>
-            <th scope='row'>4</th>
-            <td>Gender</td>
-            <td>{profile.gender}</td>
-          </tr>
-          <tr>
-            <th scope='row'>5</th>
-            <td>Location</td>
-            <td>{profile.location}</td>
-          </tr>
-          <tr>
-            <th scope='row'>6</th>
-            <td>Bio</td>
-            <td>{profile.bio}</td>
-          </tr>
-          <tr>
-            <th scope='row'>7</th>
-            <td>Photo</td>
-            <td> <img
-            className='img7'
-        src={img}
-        alt='travel pic'
-        width={300}
-        height={250}
-      /></td>
-          </tr>
-        </tbody>
-      </table> */}
+    <div className='col-md-2 m-auto'></div>
+  {/* <div className="cardo cardo1">
+    <div className="border">
+      <h2>Ben Stiller</h2>
+      <div className="icons">
+        <i className="fa fa-codepen" aria-hidden="true"></i>
+        <i className="fa fa-instagram" aria-hidden="true"></i>
+        <i className="fa fa-dribbble" aria-hidden="true"></i>
+        <i className="fa fa-twitter" aria-hidden="true"></i>
+        <i className="fa fa-facebook" aria-hidden="true"></i>
+      </div>
     </div>
+  </div>
+  <div className="cardo cardo2">
+    <div className="border">
+      <h2>Patrick Stewart</h2>
+      <div className="icons">
+        <i className="fa fa-codepen" aria-hidden="true"></i>
+        <i className="fa fa-instagram" aria-hidden="true"></i>
+        <i className="fa fa-dribbble" aria-hidden="true"></i>
+        <i className="fa fa-twitter" aria-hidden="true"></i>
+        <i className="fa fa-facebook" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div> */}
+
+
+{/* {TripItem} */}
+
+</div>
+
+
+<div className='col-md-5 m-auto float-right'>
+<div className="cardy-container">
+  <div className="cardy">
+    <h3>Your Profile Info</h3><br/>
+    <div className='colorgreen'>
+    <p>BIO: {profile.bio} </p>
+    <br/>
+    <br/>
+    <p>A: {profile.age} </p>
+    <p>S: {profile.gender} </p>
+    <p>L: {profile.location} </p>
+    <br/>
+    </div>
+    <div className="layers">
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>
+      <div className="layer"></div>   
+    </div>
+  </div> 
+</div>
+</div>
+
+</div>
+
+
+</>
   );
-  const { id } = useParams();
   useEffect(() => {
     instance
       .get(`${url}/${id}`)
@@ -147,7 +159,7 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
 
   return (<div>
     <div className='ShowTripDetails' style={{
-      backgroundImage: "url(" + require("/src/img/bg1.jpg") + ")",
+      backgroundImage: "url(" + require("/src/img/bgizzle.jpeg") + ")",
       backgroundSize:"cover",
       backgroundRepeat:"no-repeat",
       backgroundPosition:"center",
@@ -195,8 +207,9 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
               Show All Trips
             </Link>
           </div>
+         
+         
           </div>
-          <br />
 
         <div className='row'>
 
@@ -206,15 +219,15 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
             <hr /> <br />
           </div>
           </div>
-          <br />
 
         <div className='row'>
           <div className='col-md-10 m-auto'>{ProfileItem}</div>
           </div>
           <br />
+          <br />
 
         <div className='row'>
-          <div className='col-md-12 m-auto'>
+          <div className='col-md-8 center m-auto'>
             <Link
               to={`/edit-profile/${profile._id}`}
               className='btn btn1 btn-outline-info btn-lg btn-block'
@@ -229,10 +242,4 @@ function ShowProfile({ isPassedToWithAuthenticator, signOut, user }) {
   );
 }
 
-export default withAuthenticator(ShowProfile);
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+export default ShowProfile;

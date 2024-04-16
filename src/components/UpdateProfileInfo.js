@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import { Amplify } from 'aws-amplify';
-
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-
-import awsmobile from '../aws-exports';
-Amplify.configure(awsmobile);
-//4.
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
+import { useAuth } from '../hooks/useAuth';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
@@ -34,7 +34,9 @@ const url = "http://35.171.2.96:3100/profiles";
 // })
 
 
-function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
+const UpdateProfileInfo=(props)=> {
+
+  const navigate = useNavigate();
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -45,17 +47,18 @@ function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
     }),
     [open]
   )
+  const { user } = useAuth();
 
-  const [userInfo, setUserInfo] = useState("");
   const {id}=useParams();
-  async function getUserInfo() {
-    const user = await Auth.currentAuthenticatedUser();
-    setUserInfo(user.attributes);
-  }
+  // async function getUserInfo() {
+  //   const user = await Auth.currentAuthenticatedUser();
+  //   setUserInfo(user.attributes);
+  // }
 
   
   const [profile, setProfile] = useState({
     location: '',
+    active:'',
     username: '',
     gender: '',
     age: '',
@@ -74,7 +77,7 @@ function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
       'Content-Type': 'multipart/form-data'
   } });
   useEffect(() => {
-    getUserInfo();
+    // getUserInfo();
 
 
       instance
@@ -83,6 +86,7 @@ function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
 
         setProfile({
           location: res.data.location,
+          active: res.data.active,
           age: res.data.age,
           bio: res.data.bio,
           gender: res.data.gender,
@@ -109,7 +113,8 @@ function UpdateProfileInfo({ isPassedToWithAuthenticator, signOut, user }) {
   const onSubmit = (e) => {
     e.preventDefault();
   const formData = new FormData();
-  formData.append('username',userInfo.email);
+  formData.append('username',user.username);
+
   formData.append('age',profile.age);
   formData.append('bio',profile.bio);
   formData.append('gender',profile.gender);
@@ -125,6 +130,7 @@ formData.append('fileName',profile.fileName);
       .then((res) => {
         setProfile({
             location: '',
+            active:'',
             username: '',
             bio: '',
             gender: '',
@@ -132,7 +138,7 @@ formData.append('fileName',profile.fileName);
           photo:'',
           fileName:''
                });
-              //  navigate('/dashboard')
+               navigate('/dashboard')
       })
       .catch((err) => {
         console.log('Error in UpdateProfileInfo!');
@@ -188,8 +194,8 @@ formData.append('fileName',profile.fileName);
         <div className='row'>
           <div className='col-md-8 m-auto'>
             <br />
-            <Link to={`/show-profile/${profile._id}`} className='btn btn-outline-warning float-left'>
-              My profile
+            <Link to={`/`} className='btn btn-outline-warning float-left'>
+              Home
             </Link>
           </div>
           <div className='col-md-8 m-auto'>
@@ -282,10 +288,5 @@ formData.append('fileName',profile.fileName);
   );
 }
 
-export default withAuthenticator(UpdateProfileInfo);
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+export default (UpdateProfileInfo);
+

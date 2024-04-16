@@ -1,21 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Dashboard from './Dashboard';
 //2.
+import PropTypes from 'prop-types';
 import { useSpring, animated } from '@react-spring/web'
+import { useNavigate, useLocation} from "react-router-dom";
 
+import axios from 'axios';
 
 //3.
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
-import '../App.css';
+import '../Login.css';
 
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 
+import { useAuth } from "../hooks/useAuth";
 
+async function loginUser(credentials) {
+  return fetch('http://35.171.2.96:3100/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+export default function Login({ setToken }) {
+//   let prism = document.querySelector(".rec-prism");
 
-function Login() {
-  
+// function showSignup(){
+//   prism.style.transform = "translateZ(-100px) rotateY( -90deg)";
+// }
+// function showLogin(){
+//   prism.style.transform = "translateZ(-100px)";
+// }
+// function showForgotPassword(){
+//   prism.style.transform = "translateZ(-100px) rotateY( -180deg)";
+// }
+
+// function showSubscribe(){
+//   prism.style.transform = "translateZ(-100px) rotateX( -90deg)";
+// }
+
+// function showContactUs(){
+//   prism.style.transform = "translateZ(-100px) rotateY( 90deg)";
+// }
+
+// function showThankYou(){
+//   prism.style.transform = "translateZ(-100px) rotateX( 90deg)";
+// }
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
+  const { auth, setAuth } = useAuth();
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+
+  const API = axios.create({
+    baseURL: "http://35.171.2.96:3100/auth",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -27,16 +76,70 @@ function Login() {
     [open]
   )
 
-  return (<div>
+    const [username, setUsername] = useState("");
+
+    //register
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await API.post("/register", {
+          username,
+          password
+        }).then((res) => {
+          if (res?.data.username) {
+            const role = res?.data.role;
+            setAuth({ role: `${role}`, username: `${username}` });
+            setUsername("");
+            setPassword("");
+            navigate(from, { replace: true });
+          } else {
+            console.log("incorrect submission");
+            setError(res.message);
+          }
+        });
+      } catch (err) {
+        if (!err?.response) {
+          setError("no server response");
+        } else {
+          setError("registration failed");
+        }
+      }
+    };
+
+    //login
+
+
+    const { login } = useAuth();
+    const handleLogin = async (e) => {
+     try{ e.preventDefault();
+      // Here you would usually send a request to your backend to authenticate the user
+      const token = await loginUser({
+        username,
+        password
+      });
+      setToken(token);
+      } catch (err) {
+        if (!err?.response) {
+          setError("no server response");
+        } else {
+          setError("login failed");
+        }
+      }
+      await login({ username });
+     
+    };
+   
+  return (<>
     
     <div className='Login' style={{
-      backgroundImage: "url(" + require("/src/img/bg3.jpg") + ")",
+      backgroundImage: "url(" + require("/src/img/bg3.jpeg") + ")",
       backgroundSize:"cover",
       backgroundRepeat:"no-repeat",
       backgroundPosition:"center",
     }}>       
     
     <div className="vert"></div>
+
           <div className='row'>
 <div className='col-md-2'>
        </div>
@@ -71,11 +174,237 @@ function Login() {
        </div>
       </div>
 
-      <Dashboard/>
-    
+ 
+
+{/* 
+      <div className='row'>
+<div className='col-md-2'>
+       </div>
+<div className='col-md-8'>
+      <ul class="nav">
+  <li onClick={showLogin()}>Login</li>
+  <li onClick={showSignup()}>Sign up</li>
+  <li onClick={showForgotPassword()}>Forgot password</li>
+  <li onClick={showSubscribe()}>Subscribe</li>
+  <li onClick={showContactUs()}>Contact us</li>
+</ul>
+<div class="wrapper">
+  <div class="rec-prism">
+    <div class="face face-top">
+      <div class="content">
+        <h2>Subscribe</h2>
+        <small>Enter your email so we can send you the latest updates!</small>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email"/>
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" onclick="showThankYou()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-front">
+      <div class="content">
+        <h2>Sign in</h2>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="username" placeholder="username"/>
+            <label>username</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="password" name="password" placeholder="password" autocomplete="new-password"/>
+            <label>password</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" onclick="showThankYou()"/>
+          </div>
+          <span class="psw" onclick="showForgotPassword()">Forgot Password?   </span>
+          <span class="signup" onclick="showSignup()">Not a user?  Sign up</span>
+        </form>
+      </div>
+    </div>
+    <div class="face face-back">
+      <div class="content">
+        <h2>Forgot your password?</h2>
+        <small>Enter your email so we can send you a reset link for your password</small>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email"/>
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" onclick="showThankYou()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-right">
+      <div class="content">
+        <h2>Sign up</h2>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email"/>
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="password" name="password" placeholder="password" autocomplete="new-password"/>
+            <label>password</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="password" name="password2" placeholder="password" autocomplete="new-password"/>
+            <label>re-enter password</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" onclick="showThankYou()"/>
+          </div>
+          <span class="singin" onclick="showLogin()">Already a user?  Sign in</span>
+        </form>
+      </div>
+    </div>
+    <div class="face face-left">
+      <div class="content">
+        <h2>Contact us</h2>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-wrapper">
+            <input type="text" name="name" placeholder="name"/>
+            <label>Name</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="text" name="email" placeholder="email"/>
+            <label>e-mail</label>
+          </div>
+          <div class="field-wrapper">
+            <textarea placeholder="your message"></textarea>
+            <label>your message</label>
+          </div>
+          <div class="field-wrapper">
+            <input type="submit" onclick="showThankYou()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="face face-bottom">
+      <div class="content">
+        <div class="thank-you-msg">
+          Thank you!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div className='col-md-2'>
+       </div>
+</div> */}
+
+
+      <div className='row center'>
+      <div className='col-md-3'>
+</div>
+<div className='col-md-6'>
+      {/* <div className="loging">
+        <div></div>
+      <form  className="table table-hover table-dark" onSubmit={handleLogin}>
+        <div>
+          <label style={{color:'gold', fontSize:'2rem'}} htmlFor="username">Username:</label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label style={{color:'gold', fontSize:'2rem'}}  htmlFor="password">Password:</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <button className="btn" type="submit">Login</button>
+        <br/>
+      <br/><br/>
+      <br/>
+      </form>
+      <br/>
+      <br/>
+    </div> */}
+
+    <div className="bodies">
+     <div class="main">  	
+		<input            className="ainput"
+type="checkbox" id="chk" aria-hidden="true"/>
+
+			<div class="signup">
+				<form onSubmit={handleSubmit}> 
+					<label  for="chk" className="alabel" aria-hidden="true">Sign up</label>
+					<input id="username"
+            value={username}
+            className="ainput"
+
+            onChange={(e) => setUsername(e.target.value)} type="username" name="username" placeholder="username" required=""/>
+					<input id="password"
+            type="password"
+            className="ainput"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} name="pswd" placeholder="Password" required=""/>
+					<button data-toggle="modal" data-target="#exampleModal"  className="abutton" >Sign up</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have now registered successfully, please Log In!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+				</form>
+			</div>
+
+			<div class="login">
+				<form onSubmit={handleLogin}>
+					<label className="alabel" for="chk" aria-hidden="true">Login</label>
+					<input id="username"
+            value={username}
+            className="ainput"
+
+            onChange={(e) => setUsername(e.target.value)} type="username" name="username" placeholder="username" required=""/>
+					<input type="password"
+            className="ainput"
+
+value={password}
+            onChange={(e) => setPassword(e.target.value)} name="pswd" placeholder="Password" required=""/>
+					<button className="abutton">Login</button>
+				</form>
+			</div>
+	</div>
+</div>
+
       </div>
       </div>
+      </div>
+      <div className='col-md-3'>
+</div>
+    </>
   );
 }
 
-export default Login;
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
+};

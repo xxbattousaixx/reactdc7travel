@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
 
 import TripCard from './TripCard';
 import ReactPaginate from "react-paginate";
@@ -33,12 +40,11 @@ const url2 = "http://35.171.2.96:3100/profiles"
 
 
 
-function ShowTripList() {
-
+function ShowTripList(props) {
   const [trips, setTrips] = useState([]);
-  const [profiles, setProfiles] = useState([]);
-  const [trip, setTrip] = useState({});
-  const [profile, setProfile] = useState({});
+
+  const [trips1, setTrips1] = useState([]);
+  const [profiles1, setProfiles1] = useState([]);
 const [searchField, setSearchField] = useState("");
 const [searchShow, setSearchShow] = useState(true); 
 
@@ -74,23 +80,24 @@ useEffect(() => {
 
 instance.get(url)
 .then((res) => {
-  setTrips(res.data.reverse());
+  setTrips1(res.data.reverse());
+  setTrips(res.data);
   // console.log(res);
 })
 .catch((err) => {
   console.log('Error from ShowTripList');
 });
-}, []);
 
 
     instance2.get(url2)
     .then((res) => {
-    setProfiles(res.data);
+    setProfiles1(res.data);
     })
     .catch((err) => {
       console.log('Error from ShowProfileList');
     });
     
+  }, []);
 
 
 //  const tripList =
@@ -137,7 +144,7 @@ function searchList() {
     }
   )
   .slice(offset, offset + PER_PAGE)
-  .map((trip, k) => <TripCard     profile={profiles.filter( profile => {
+  .map((trip, k) => <TripCard     inprofile={profiles1.filter( profile => {
     return (
       profile.username.includes(trip.user)
 );
@@ -239,7 +246,7 @@ function searchList() {
               to='/dashboard'
               className='btn btn1 btn-outline-warning'
             >
-              My Trips
+              My Trips / Login 
             </Link></nav>
             </div>
 

@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import { Amplify } from 'aws-amplify';
-
-//2.
-import awsmobile from '../aws-exports';
-//3.
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-
-//4.
-Amplify.configure(awsmobile)
+export const setAuthToken = token => {
+  if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  else
+      delete axios.defaults.headers.common["Authorization"];
+}
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
@@ -34,7 +31,7 @@ const url = "http://35.171.2.96:3100/trips";
 //   passphrase: "sayonara"
 // })
 
-function UpdateTripInfo({ isPassedToWithAuthenticator, signOut, user }) {
+const UpdateTripInfo =(props)=> {
   const [open, toggle] = useState(false)
   const [{ freq, factor, scale, opacity }] = useSpring(
     () => ({
@@ -320,10 +317,5 @@ console.log(trip);
       )}
    
 
-export default withAuthenticator(UpdateTripInfo);
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };}
+export default (UpdateTripInfo);
+

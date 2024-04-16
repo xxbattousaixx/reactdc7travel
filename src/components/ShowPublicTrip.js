@@ -4,12 +4,7 @@ import '../App.css';
 import axios from 'axios';
 
 
-import { Amplify } from 'aws-amplify';
-//2.
-
-import awsmobile from '../aws-exports';
 //3.
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
@@ -25,7 +20,6 @@ const url = "http://35.171.2.96:3100/trips";
 // });
 
 
-Amplify.configure(awsmobile);
 
 
 const ShowPublicTrip=(props)=> {
@@ -39,13 +33,11 @@ const ShowPublicTrip=(props)=> {
     }),
     [open]
   )
-  if (!open){
-    window.scrollTo({ top: 0, behavior:"smooth"});
-  }
 
-  const [trip, setTrip] = useState({});
-  const img = 'http://35.171.2.96:3100/images/'+trip.fileName
-  // const img = 'http://localhost:3100/images/'+trip.fileName
+
+  const [tripa, setTripa] = useState({});
+  const img = 'http://35.171.2.96:3100/images/'+tripa.fileName
+  // const img = 'http://localhost:3100/images/'+tripa.fileName
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -54,7 +46,7 @@ const ShowPublicTrip=(props)=> {
     axios
       .get(`${url}/${id}`)
       .then((res) => {
-        setTrip(res.data);
+        setTripa(res.data);
       })
       .catch((err) => {
         console.log('Error from ShowTripDetails');
@@ -79,32 +71,32 @@ const ShowPublicTrip=(props)=> {
           <tr>
             <th scope='row'>1</th>
             <td>Location</td>
-            <td>{trip.location}</td>
+            <td>{tripa.location}</td>
           </tr>
           <tr>
             <th scope='row'>2</th>
             <td>Date</td>
-            <td>{trip.date}</td>
+            <td>{tripa.date}</td>
           </tr>
           <tr>
             <th scope='row'>3</th>
             <td>Notes</td>
-            <td>{trip.notes}</td>
+            <td>{tripa.notes}</td>
           </tr>
           <tr>
             <th scope='row'>4</th>
             <td>Quality rating</td>
-            <td>{trip.quality}</td>
+            <td>{tripa.quality}</td>
           </tr>
           <tr>
             <th scope='row'>5</th>
             <td>Value rating</td>
-            <td>{trip.value}</td>
+            <td>{tripa.value}</td>
           </tr>
           <tr>
             <th scope='row'>6</th>
             <td>Departing from</td>
-            <td>{trip.departing}</td>
+            <td>{tripa.departing}</td>
           </tr>
           <tr>
             <th scope='row'>7</th>
@@ -123,8 +115,7 @@ const ShowPublicTrip=(props)=> {
     </div>
   );
   return (<div>
-    <Authenticator>
-    {({ signOut, user }) => (
+    
 
     <div className='ShowTripDetails' style={{
       backgroundImage: "url(" + require("/src/img/bg4.jpg") + ")",
@@ -202,8 +193,6 @@ const ShowPublicTrip=(props)=> {
       <br/>
       <br/>
     </div>
-    )}
-  </Authenticator>
 </div>
    
   );
