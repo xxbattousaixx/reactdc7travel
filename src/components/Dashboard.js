@@ -118,7 +118,7 @@ instance.get(url)
     .then((res) => {
       for(var i = 0; i < res.data.length; i++)
       {
-      if(res.data[i].username === 'dcarrassi@outlook.com')
+      if(res.data[i].username === activeprofile.username)
       {
       setActiveprofile(res.data[i]);
       }
