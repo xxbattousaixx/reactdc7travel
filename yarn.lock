@@ -30,9 +30,9 @@
     leven "^3.1.0"
 
 "@aws-amplify/analytics@7.1.0":
-  version "7.0.28-unstable.2a7b3ac.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/analytics/-/analytics-7.0.28-unstable.2a7b3ac.0.tgz#53984bc8f6e496b055aaf163ee9d789c60e1ec1a"
-  integrity sha512-Jd9yPxw4Z42vzd6ziqvj/O8qVW/nyhYaPQ3qdnb4T5rV8KZ9b0DnfpWZqnYCG9kQpJgtKli6ud/1V+RQM50ysg==
+  version "7.0.27-unstable.68a9f28.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/analytics/-/analytics-7.0.27-unstable.68a9f28.0.tgz#1c2d8d8d6886c623358bcb89e9e1cb57d328e4d5"
+  integrity sha512-zW+auLUaXWEgbqIl1r2hoQo160+88fJEFhGeg33s/2X8NjBWd4tqwth2Ni6zlFe6vnNpQ9rrIiEv2WBZu1bo5A==
   dependencies:
     "@aws-sdk/client-firehose" "3.398.0"
     "@aws-sdk/client-kinesis" "3.398.0"
@@ -40,10 +40,10 @@
     "@smithy/util-utf8" "2.0.0"
     tslib "^2.5.0"
 
-"@aws-amplify/api-graphql@4.0.28":
-  version "4.0.28"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api-graphql/-/api-graphql-4.0.28.tgz#1e7c0c2969fc21186bbd0057abf42e1110b36787"
-  integrity sha512-A+ZjaLQGEs21IULQ3B07OG1/sMRxR9JIVirO2nGm2jcEUaoWzUngxEhIt55YGbBPWmUmCYjXm1Dzdxxsh5pC2g==
+"@aws-amplify/api-graphql@4.0.27":
+  version "4.0.27"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api-graphql/-/api-graphql-4.0.27.tgz#de4db355bbf33dbe21542032b344ab8d75c26de0"
+  integrity sha512-hOtC0UUyHVfLqjM77xbHJ2L4QidcsBQWZhPsxcMsDnBeBw9Hrih1C+8EybCHvbvLVuwqo0GtzoxmyJSmtBUlzQ==
   dependencies:
     "@aws-amplify/api-rest" "4.0.27"
     "@aws-amplify/core" "6.0.27"
@@ -61,12 +61,12 @@
   dependencies:
     tslib "^2.5.0"
 
-"@aws-amplify/api@6.0.28", "@aws-amplify/api@6.1.0":
-  version "6.0.28"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-6.0.28.tgz#fa93d7b6417add061df7cb9540c3e3b66314ca8a"
-  integrity sha512-QjKrNyFnt8avxgHMgF8in+bgpmSmnNpunTd5oTiA23cEKkcpZ1Dm4RvNjuqGWV3IxlfEbvI/0awUrBnmY8q69A==
+"@aws-amplify/api@6.0.27", "@aws-amplify/api@6.1.0":
+  version "6.0.27"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-6.0.27.tgz#e4352a055105011fc14b83688242c2991d0ef433"
+  integrity sha512-yverdC93OpzDbvaMlKTGGVYrdoAKtKe6x/8RVe5PvDTNZBXJUlRnUYMqFjj5P7zu5Z2ZhFfFnemTKmwudcbaDA==
   dependencies:
-    "@aws-amplify/api-graphql" "4.0.28"
+    "@aws-amplify/api-graphql" "4.0.27"
     "@aws-amplify/api-rest" "4.0.27"
     tslib "^2.5.0"
 
@@ -86,24 +86,10 @@
     rimraf "^3.0.2"
     tar-stream "^2.2.0"
 
-"@aws-amplify/core@6.0.27":
+"@aws-amplify/core@6.0.27", "@aws-amplify/core@6.1.0":
   version "6.0.27"
   resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-6.0.27.tgz#92cb99be3ccc91a56171dae8b76c5a5edc700037"
   integrity sha512-S3IF2s6Qo+PGOXkWt0BiWwCHajImBJUhfcLi65D63mBi92gIL07310u5EZj+2RC4NzO/eSVNt3FNGR7EYCLAng==
-  dependencies:
-    "@aws-crypto/sha256-js" "5.2.0"
-    "@aws-sdk/types" "3.398.0"
-    "@smithy/util-hex-encoding" "2.0.0"
-    "@types/uuid" "^9.0.0"
-    js-cookie "^3.0.5"
-    rxjs "^7.8.1"
-    tslib "^2.5.0"
-    uuid "^9.0.0"
-
-"@aws-amplify/core@6.1.0":
-  version "6.0.28-unstable.390c159.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-6.0.28-unstable.390c159.0.tgz#2a47033f8979dcbeb8ed35b1c6c64faeaffc4a99"
-  integrity sha512-DHvQWdp/vcW99o4Ts389godwyqdMBqLid8ouaDZBdUvIPYYshER3F1mAykvMV+No3pFWrd+JoJCxJbZptPMbyw==
   dependencies:
     "@aws-crypto/sha256-js" "5.2.0"
     "@aws-sdk/types" "3.398.0"
@@ -123,11 +109,11 @@
     rxjs "^7.8.1"
 
 "@aws-amplify/datastore@5.1.0":
-  version "5.0.28"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/datastore/-/datastore-5.0.28.tgz#4889729180ccd13d4a5b76b9029ec2327f253035"
-  integrity sha512-A51yUQZk/oZlor1mofyPfqotfA41agRZUFVTSJS0oMEsjzadDbJ1IqbVzKstiM9XhMjVVUn1hEytgZZFAu0OPA==
+  version "5.0.27"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/datastore/-/datastore-5.0.27.tgz#c3579ca30b3c63e1bdca809d4bc1b11ddfd9413f"
+  integrity sha512-n6s1uxFY5JS0ZMa+9uoO12/ykXmiF5P9uAPzIOUycRuz8ZFZmOnN5/sZWFzcCGe9mYsm88qJd9oCO4EK5Wot/g==
   dependencies:
-    "@aws-amplify/api" "6.0.28"
+    "@aws-amplify/api" "6.0.27"
     buffer "4.9.2"
     idb "5.0.6"
     immer "9.0.6"
@@ -135,9 +121,9 @@
     ulid "^2.3.0"
 
 "@aws-amplify/notifications@2.1.0":
-  version "2.0.28-unstable.2a7b3ac.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/notifications/-/notifications-2.0.28-unstable.2a7b3ac.0.tgz#536410b85ccf295ca85c05b679a167329de6a574"
-  integrity sha512-VC6UHYqWfFaVLGAgUfKabah3Cqzam/B8geuk3TAF79dDs26dkmLMc+yKKtxBlwCfYIH71Qz4fEpeiLzn4NhetQ==
+  version "2.0.27-unstable.68a9f28.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/notifications/-/notifications-2.0.27-unstable.68a9f28.0.tgz#68c729b9fd3941978f02e2c48e3d46a7d6a90af3"
+  integrity sha512-xCtLftKApxhk6KtF/XCAT458O7dy6BBJRRocmCqwcR5a57s0cqhqFr5qYKGldeyFEcG7Zc2k4FCAv/Fb76GPBQ==
   dependencies:
     lodash "^4.17.21"
     tslib "^2.5.0"
@@ -7333,7 +7319,7 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
-html-webpack-plugin@^5.5.0, html-webpack-plugin@^5.6.0:
+html-webpack-plugin@^5.5.0, html-webpack-plugin@^7.6.0:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-5.6.0.tgz#50a8fa6709245608cb00e811eacecb8e0d7b7ea0"
   integrity sha512-iwaY4wzbe48AfKLZ/Cc8k0L+FKG6oSNRaZ8x5A/T/IVDGyXcbHncM9TdDa93wn0FsSm82FhTKW7f3vS61thXAw==
@@ -10377,11 +10363,6 @@ react-hook-form@^7.43.5:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.51.3.tgz#7486dd2d52280b6b28048c099a98d2545931cab3"
   integrity sha512-cvJ/wbHdhYx8aviSWh28w9ImjmVsb5Y05n1+FW786vEZQJV5STNM0pW6ujS+oiBecb0ARBxJFyAnXj9+GHXACQ==
 
-react-image@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/react-image/-/react-image-4.1.0.tgz#92f2d4a809a178b3bf69acd7bad7da7aa5e7364c"
-  integrity sha512-qwPNlelQe9Zy14K2pGWSwoL+vHsAwmJKS6gkotekDgRpcnRuzXNap00GfibD3eEPYu3WCPlyIUUNzcyHOrLHjw==
-
 react-is@^16.13.1, react-is@^16.6.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -13176,7 +13157,6 @@ workbox-window@6.6.1:
     workbox-core "6.6.1"
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
-  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==

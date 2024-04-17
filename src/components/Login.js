@@ -4,7 +4,6 @@ import Dashboard from './Dashboard';
 import PropTypes from 'prop-types';
 import { useSpring, animated } from '@react-spring/web'
 import { useNavigate, useLocation} from "react-router-dom";
-import { Img } from 'react-image';
 
 import axios from 'axios';
 

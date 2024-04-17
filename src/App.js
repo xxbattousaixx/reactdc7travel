@@ -8,8 +8,6 @@ import ShowTripDetails from './components/ShowTripDetails.js';
 import ShowPublicTrip from './components/ShowPublicTrip.js';
 import ShowPublicProfile from './components/ShowPublicProfile.js';
 import Dashboard from './components/Dashboard.js';
-import Verify2FA from './components/Verify2FA.js';
-
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
 
@@ -51,7 +49,6 @@ const App = () => {
           <Route  path='/show-profile/:id' element={<ProtectedRoute><ShowProfile /></ProtectedRoute>}/>
           <Route  path='/show-profileinfo/:id' element={<ShowPublicProfile/>}/>
 
-          <Route path="/verify-2fa" element={<Verify2FA />} />
 
           <Route  path='/show-trip/:id' element={<ProtectedRoute><ShowTripDetails /></ProtectedRoute>}/>
           <Route  path='/show-tripinfo/:id' element={<ShowPublicTrip />}/>
