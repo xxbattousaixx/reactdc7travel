@@ -18,7 +18,7 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 //4.
 
-const url = "http://35.171.2.96:3100/trips";
+const url = "http://34.207.167.146:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 // const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
@@ -43,7 +43,7 @@ const ShowTripDetails=(props)=> {
 
   const [trip, setTrip] = useState({});
 
-  const img = 'http://35.171.2.96:3100/images/'+trip.fileName
+  const img = 'http://34.207.167.146:3100/images/'+trip.fileName
 
   // const img = 'http://localhost:3100/images/'+trip.fileName
   // const [userInfo, setUserInfo] = useState("");

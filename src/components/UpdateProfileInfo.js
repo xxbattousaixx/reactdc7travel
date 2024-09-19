@@ -14,7 +14,7 @@ import './styles.module.css';
 import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
-const url = "http://35.171.2.96:3100/profiles";
+const url = "http://34.207.167.146:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
 

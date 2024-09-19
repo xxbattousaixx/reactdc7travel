@@ -7,8 +7,8 @@ const TripCard = (props) => {
   
    const trip = props.trip;
   const inprofile = props.inprofile;
-  const img = 'http://35.171.2.96:3100/images/'+trip.fileName;
-  const img2 = 'http://35.171.2.96:3100/images/'+inprofile[0]?.fileName;
+  const img = 'http://34.207.167.146:3100/images/'+trip.fileName;
+  const img2 = 'http://34.207.167.146:3100/images/'+inprofile[0]?.fileName;
 
 
 
@@ -50,15 +50,13 @@ const TripCard = (props) => {
           <p>{trip.quality}</p>
         </div>
       </div>
-      <div className='creator'>
-        <div className='wrapper'>
-          <img src={img2} alt="Creator" />
+      
+      <div className='creator row'>
+        <div className='wrapper' >
+          <img  src={img2} width='45ww'  alt="Creator"  />
         </div>
-        <Link to={`/show-profileinfo/${trip.userid}`}>   Posted by: {trip.user}</Link>
-
-        
+        <Link className='ml-2'  style={{fontSize:'12px'}}  to={`/show-profileinfo/${trip.userid}`}>   Posted by: {trip.user}</Link>        
       </div>
-
     </div>
   </div>
 

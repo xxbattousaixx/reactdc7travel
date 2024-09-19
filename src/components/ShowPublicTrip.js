@@ -11,7 +11,7 @@ import { useSpring, animated } from '@react-spring/web'
 const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
-const url = "http://35.171.2.96:3100/trips";
+const url = "http://34.207.167.146:3100/trips";
 // const url = "http://localhost:3100/trips";
 
 // const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
@@ -36,7 +36,7 @@ const ShowPublicTrip=(props)=> {
 
 
   const [tripa, setTripa] = useState({});
-  const img = 'http://35.171.2.96:3100/images/'+tripa.fileName
+  const img = 'http://34.207.167.146:3100/images/'+tripa.fileName
   // const img = 'http://localhost:3100/images/'+tripa.fileName
 
   const { id } = useParams();

@@ -18,7 +18,7 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 import { useAuth } from "../hooks/useAuth";
 
 async function loginUser(credentials) {
-  return fetch('http://35.171.2.96:3100/auth/login', {
+  return fetch('http://34.207.167.146:3100/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export default function Login({ setToken }) {
   const [error, setError] = useState("");
 
   const API = axios.create({
-    baseURL: "http://35.171.2.96:3100/auth",
+    baseURL: "http://34.207.167.146:3100/auth",
     headers: {
       'Content-Type': 'application/json',
     },

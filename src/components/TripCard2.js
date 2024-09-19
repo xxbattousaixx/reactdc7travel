@@ -6,8 +6,8 @@ const TripCard2 = (props) => {
   
   const trip = props.trip;
   const myprofile = props.myprofile;
-  const img = 'http://35.171.2.96:3100/images/'+trip.fileName;
-  const img2 = 'http://35.171.2.96:3100/images/'+myprofile[0]?.fileName;
+  const img = 'http://34.207.167.146:3100/images/'+trip.fileName;
+  const img2 = 'http://34.207.167.146:3100/images/'+myprofile[0]?.fileName;
 
 
   return (
@@ -35,24 +35,22 @@ const TripCard2 = (props) => {
     <hr />
 
           <div className='tokenInfo'>
-            <div className="price">
+            <div className="price" style={{color:'white'}}>
               <ins>◘Value</ins>
               <p>{trip.value}</p>
             </div>
-            <div className="duration">
+            <div className="duration" style={{color:'white'}}>
               <ins>◷Quality</ins>
               <p>{trip.quality}</p>
             </div>
           </div>
-          <div className='creator'>
+          <div className='creator row'>
             <div className='wrapper'>
-              <img src={img2} alt="Creator" />
+              <img src={img2} width="45vw" alt="Creator" />
             </div>
-            <Link to={`/show-profileinfo/${trip.userid}`}>   Posted by: {trip.user}</Link>
-
+            <Link className='ml-2' style={{fontSize:'12px'}} to={`/show-profileinfo/${trip.userid}`}>   Posted by: {trip.user}</Link>
             
           </div>
-    
         </div>
       </div>
     

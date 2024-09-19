@@ -30,9 +30,9 @@ const AnimFeDisplacementMap = animated('feDisplacementMap')
 
 
 const PER_PAGE = 6;
-const url = "http://35.171.2.96:3100/trips"
-const url2 = "http://35.171.2.96:3100/profiles"
-const url3 = "http://35.171.2.96:3100/profiles"
+const url = "http://34.207.167.146:3100/trips"
+const url2 = "http://34.207.167.146:3100/profiles"
+const url3 = "http://34.207.167.146:3100/profiles"
 
 
 // const url = "http://localhost:3100/trips";

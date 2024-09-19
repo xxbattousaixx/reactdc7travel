@@ -19,7 +19,7 @@ const AnimFeTurbulence = animated('feTurbulence')
 const AnimFeDisplacementMap = animated('feDisplacementMap')
 //4.
 
-const url = "http://35.171.2.96:3100/profiles";
+const url = "http://34.207.167.146:3100/profiles";
 // const url = "http://localhost:3100/profiles";
 
 // const httpsAgent = new https.Agent({ rejectUnauthorized: false, 
@@ -51,7 +51,7 @@ const ShowProfile=(props) => {
   const [profile, setProfile] = useState({});
 
   
-  const img = 'http://35.171.2.96:3100/images/'+profile.fileName
+  const img = 'http://34.207.167.146:3100/images/'+profile.fileName
   // const img = 'http://localhost:3100/images/'+profile.fileName
 
 
